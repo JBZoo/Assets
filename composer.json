@@ -1,9 +1,9 @@
 {
     "name"              : "jbzoo/assets",
     "type"              : "library",
-    "description"       : "",
+    "description"       : "Manage any asset files (js, css, less) and their depending + compressing and merging",
     "license"           : "MIT",
-    "keywords"          : ["skeleton", "travis", "phpunit", "composer", "github", "jbzoo", "packagist"],
+    "keywords"          : ["javascript", "js", "css", "less", "assets", "compress"],
     "minimum-stability" : "stable",
     "authors"           : [
         {
