@@ -168,7 +168,8 @@ class Manager
      */
     public function build()
     {
-        $output = $assets = [];
+        $assets = [];
+        $output = ['css' => [], 'js' => []];
         foreach (array_keys($this->_queued) as $name) {
             $this->resolveDependencies($this->_collection->get($name), $assets);
         }
@@ -180,7 +181,7 @@ class Manager
             /** @var Asset $asset */
             $asset = $i;
             list($type, $source) = $asset->load();
-            if ($source && !Arr::in($source, (array) $output[$type])) {
+            if ($source && !Arr::in($source, $output[$type])) {
                 $output[$type][] = $source;
             }
         }
