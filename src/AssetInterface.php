@@ -16,10 +16,38 @@
 namespace JBZoo\Assets;
 
 /**
- * Class Exception
+ * Interface AssetInterface
  *
  * @package JBZoo\Assets
  */
-class Exception extends \Exception
+interface AssetInterface
 {
+
+    /**
+     * Gets the name.
+     *
+     * @return string
+     */
+    public function getName();
+
+    /**
+     * Gets the source.
+     *
+     * @return string
+     */
+    public function getSource();
+
+    /**
+     * Gets the dependencies.
+     *
+     * @return array
+     */
+    public function getDependencies();
+
+    /**
+     * Gets the type.
+     *
+     * @return string
+     */
+    public function getOptions();
 }

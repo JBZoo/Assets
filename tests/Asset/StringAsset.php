@@ -10,21 +10,22 @@
  * @license   MIT
  * @copyright Copyright (C) JBZoo.com,  All rights reserved.
  * @link      https://github.com/JBZoo/Assets
+ * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace JBZoo\Assets;
+namespace Custom\Assets;
+
+use JBZoo\Assets\Asset;
 
 /**
- * Class Assets
- * @package JBZoo\Assets
+ * Class StringAsset
+ *
+ * @package Custom\Assets
  */
-class Package
+class StringAsset extends Asset
 {
-    /**
-     * @return string
-     */
-    public function doSomeStreetMagic()
+
+    public function load()
     {
-        return 'street magic';
     }
 }
