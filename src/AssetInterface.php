@@ -47,7 +47,7 @@ interface AssetInterface
     /**
      * Gets the type.
      *
-     * @return string
+     * @return array
      */
     public function getOptions();
 }

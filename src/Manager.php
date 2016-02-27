@@ -129,7 +129,7 @@ class Manager
     /**
      * Resolves asset dependencies.
      *
-     * @param AssetInterface $asset
+     * @param AssetInterface $asset|null
      * @param AssetInterface[] $resolved
      * @param AssetInterface[] $unresolved
      * @return AssetInterface[]

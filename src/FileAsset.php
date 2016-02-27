@@ -69,7 +69,8 @@ class FileAsset extends Asset
         $assetExt = $this->getExt();
 
         if (!Arr::in($assetExt, $this->_allowed)) {
-            throw new Exception(sprintf('Invalid asset ext "%s", allowed is "%s"', $assetExt, $this->_allowed));
+            $allowed = implode(' ', $this->_allowed);
+            throw new Exception(sprintf('Invalid asset ext "%s", allowed is "%s"', $assetExt, $allowed));
         }
 
         if (!self::isExternal($this->_source)) {
