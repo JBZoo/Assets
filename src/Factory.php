@@ -50,8 +50,10 @@ class Factory
      * @var array
      */
     protected $_default = [
-        'debug'   => false,
-        'combine' => false,
+        'debug'      => false,
+        'combine'    => false,
+        'minify_css' => false,
+        'minify_js'  => false,
     ];
 
     /**

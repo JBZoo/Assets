@@ -15,17 +15,21 @@
 
 namespace Custom\Assets;
 
-use JBZoo\Assets\Asset;
+use JBZoo\Assets\Filter\FilterAbstract;
 
 /**
- * Class StringAsset
+ * Class CustomFilter
  *
  * @package Custom\Assets
  */
-class StringAsset extends Asset
+class CustomFilter extends FilterAbstract
 {
 
-    public function load()
+    /**
+     * @return null
+     */
+    public function process()
     {
+        return null;
     }
 }

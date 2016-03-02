@@ -164,9 +164,10 @@ class Manager
     /**
      * Build assets.
      *
+     * @param array $filters
      * @return array
      */
-    public function build()
+    public function build(array $filters = [])
     {
         $assets = [];
         $output = ['css' => [], 'js' => []];
@@ -180,8 +181,9 @@ class Manager
         foreach ($assets as $i) {
             /** @var Asset $asset */
             $asset = $i;
-            list($type, $source) = $asset->load();
-            if ($source && !Arr::in($source, $output[$type])) {
+            list($type, $source) = $asset->load($filters);
+
+            if ($source && !Arr::in($source, (array) $output[$type])) {
                 $output[$type][] = $source;
             }
         }

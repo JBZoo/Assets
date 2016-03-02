@@ -23,6 +23,8 @@ namespace JBZoo\Assets;
 interface AssetInterface
 {
 
+    public function getParams();
+
     /**
      * Gets the name.
      *

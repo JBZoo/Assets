@@ -1,1 +1,9 @@
 /** styles */
+body {
+    background: red;
+}
+
+.lang {
+    text-align: right;
+    padding-top: 12px;
+}

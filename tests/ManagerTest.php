@@ -15,6 +15,7 @@
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\Utils\FS;
 use JBZoo\Utils\Url;
 use JBZoo\Path\Path;
 use JBZoo\Assets\Factory;
@@ -246,6 +247,100 @@ class ManagerTest extends PHPUnit
         $this->assertRegExp('/.*assets\/js\/jquery\.js\?[0-9]/', $assets['js'][0]);
         isSame('http://demo.jbzoo.com/assets/js/all.js', $assets['js'][1]);
         isSame('//yastatic.net/es5-shims/0.0.2/es5-shims.min.js', $assets['js'][2]);
+    }
+
+    /**
+     * @return void
+     */
+    public function testBuildWithCssFilterCompress()
+    {
+        $cacheDir = __DIR__ . '/cache';
+        $factory = new Factory(__DIR__, [
+            'cache_path' => $cacheDir,
+            'debug'      => true,
+            'minify_css' => true,
+        ]);
+
+        if (!file_exists($cacheDir)) {
+            mkdir($cacheDir, 0755);
+        }
+
+        $manager = new Manager($factory);
+
+        $manager
+            ->add('custom', 'assets/css/custom.css')
+            ->add('styles', 'assets/css/styles.css', 'custom');
+
+        $result = $manager->build(['CssCompressor']);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //  Check file 1.
+        $path1       = FS::clean(str_replace(Url::root(), __DIR__, $result['css'][0]));
+        list($path1) = explode('?', $path1);
+        $strCount    = explode(PHP_EOL, file_get_contents($path1));
+
+        isSame(3, count($strCount));
+        isTrue(file_exists($path1));
+        isSame(2, count($result['css']));
+        isSame($strCount[2], '.container{padding-top:20px;padding-bottom:20px}.t3-sl-2{padding:0 15px}');
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //  Check file 2.
+        $path1       = FS::clean(str_replace(Url::root(), __DIR__, $result['css'][1]));
+        list($path1) = explode('?', $path1);
+        $strCount    = explode(PHP_EOL, file_get_contents($path1));
+
+        isSame(3, count($strCount));
+        isTrue(file_exists($path1));
+        isSame(2, count($result['css']));
+        isSame($strCount[2], 'body{background:red}.lang{text-align:right;padding-top:12px}');
+
+        $this->_removeCache();
+    }
+
+    /**
+     * @return void
+     */
+    public function testBuildNoCompressCss()
+    {
+        $this->manager->add('custom', 'assets/css/custom.css');
+        $result = $this->manager->build(['CssCompressor']);
+
+        isSame(1, count($result['css']));
+        isTrue(strpos($result['css'][0], 'custom.css'));
+    }
+
+    /**
+     * @return void
+     * @expectedException \JBZoo\Assets\Exception
+     */
+    public function testBuildNoCompressAndNoExistsCss()
+    {
+        $this->manager->add('custom', 'assets/css/no-exists.css');
+        $this->manager->build(['CssCompressor']);
+    }
+
+    /**
+     * @return void
+     */
+    public function testBuildNoCompressAndNotAssertFile()
+    {
+        $cacheDir = __DIR__ . '/cache';
+        $factory = new Factory(__DIR__, [
+            'cache_path' => $cacheDir,
+            'debug'      => true,
+            'minify_css' => true,
+        ]);
+
+        $factory->register('Custom', 'Custom\Assets\CustomAsset');
+
+        $manager = new Manager($factory);
+        $manager->add('jquery', 'assets/js/jquery.js', null, 'custom');
+
+        $build = $manager->build(['CssCompressor']);
+
+        //  Empty because CustomAsset is not FileAsset. See JBZoo\Assets\Filter\CssCompressor
+        isSame([], $build['js']);
     }
 
     /**

@@ -147,13 +147,13 @@ class FactoryTest extends PHPUnit
      */
     public function testRegisterCustomTypeByString()
     {
-        $this->factory->register('String', 'Custom\Assets\StringAsset');
-        $asset = $this->factory->create('custom_name', 'my/custom/path.js', null, 'STRING');
-        isClass('Custom\Assets\StringAsset', $asset);
+        $this->factory->register('Custom', 'Custom\Assets\CustomAsset');
+        $asset = $this->factory->create('custom_name', 'my/custom/path.js', null, 'CUSTOM');
+        isClass('Custom\Assets\CustomAsset', $asset);
         isSame('custom_name', $asset->getName());
         isSame([], $asset->getDependencies());
         isSame('my/custom/path.js', $asset->getSource());
-        isSame(['type' => 'string'], $asset->getOptions());
+        isSame(['type' => 'custom'], $asset->getOptions());
     }
 
     /**
@@ -161,12 +161,12 @@ class FactoryTest extends PHPUnit
      */
     public function testRegisterCustomTypeByArray()
     {
-        $this->factory->register('String', 'Custom\Assets\StringAsset');
-        $asset = $this->factory->create('custom_name', 'my/custom/path.js', null, ['type' => 'string']);
-        isClass('Custom\Assets\StringAsset', $asset);
+        $this->factory->register('Custom', 'Custom\Assets\CustomAsset');
+        $asset = $this->factory->create('custom_name', 'my/custom/path.js', null, ['type' => 'custom']);
+        isClass('Custom\Assets\CustomAsset', $asset);
         isSame('custom_name', $asset->getName());
         isSame([], $asset->getDependencies());
         isSame('my/custom/path.js', $asset->getSource());
-        isSame(['type' => 'string'], $asset->getOptions());
+        isSame(['type' => 'custom'], $asset->getOptions());
     }
 }

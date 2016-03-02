@@ -20,6 +20,8 @@ use JBZoo\Utils\Url;
 use JBZoo\Utils\Arr;
 use JBZoo\Path\Path;
 use JBZoo\Less\Less;
+use JBZoo\Assets\Filter\FilterManager;
+use JBZoo\Assets\Filter\FilterAbstract;
 
 /**
  * Class FileAsset
@@ -49,22 +51,13 @@ class FileAsset extends Asset
     }
 
     /**
-     * Get current url.
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return Url::root() . FS::clean('/' . $this->_source, '/');
-    }
-
-    /**
      * Load file by type.
      *
+     * @param array $filters
      * @return array
      * @throws Exception
      */
-    public function load()
+    public function load(array $filters = [])
     {
         $assetExt = $this->getExt();
 
@@ -75,10 +68,46 @@ class FileAsset extends Asset
 
         if (!self::isExternal($this->_source)) {
             list($assetExt, $path) = $this->_findSource();
+
+            $fManager = new FilterManager();
+
+            if (count($filters)) {
+                foreach ($filters as $name) {
+                    /** @var FilterAbstract $filter */
+                    $filter  = $fManager->get($name);
+                    $filter->setAsset($this);
+                    $path = $filter->process();
+                }
+            }
+
             return [$assetExt, $this->_timestamp($path)];
         }
 
         return [$assetExt, $this->_source];
+    }
+
+
+    /**
+     * @param $path
+     * @return null|string
+     */
+    public function getContent($path)
+    {
+        if (is_file($path)) {
+            return file_get_contents($path);
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets full source file path.
+     *
+     * @return string
+     */
+    public function getFullPath()
+    {
+        return FS::clean($this->_root . '/' . $this->_source, '/');
     }
 
     /**
@@ -90,7 +119,7 @@ class FileAsset extends Asset
     {
         $ext    = $this->getExt();
         $jbPath = Path::getInstance();
-        $path   = FS::clean($this->_root . '/' . $this->_source, '/');
+        $path   = $this->getFullPath();
 
         if ($jbPath->isVirtual($this->_source)) {
             $path = $jbPath->get($this->_source);
@@ -143,7 +172,8 @@ class FileAsset extends Asset
     protected function _timestamp($path)
     {
         if (Fs::isFile($path)) {
-            return $this->getUrl() . '?' . @filemtime($path);
+            $relative = FS::getRelative($path, $this->_root, '/');
+            return Url::root() . '/' . $relative . '?' . @filemtime($path);
         }
 
         return false;

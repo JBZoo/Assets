@@ -76,6 +76,14 @@ abstract class Asset implements AssetInterface
     }
 
     /**
+     * @return Data
+     */
+    public function getParams()
+    {
+        return $this->_params;
+    }
+
+    /**
      * Gets the name.
      *
      * @return string
@@ -116,7 +124,8 @@ abstract class Asset implements AssetInterface
     }
 
     /**
+     * @param array $filters
      * @return mixed
      */
-    abstract public function load();
+    abstract public function load(array $filters = []);
 }
