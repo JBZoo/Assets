@@ -45,6 +45,7 @@ class ManagerTest extends PHPUnit
      * Setup test data.
      *
      * @return void
+     * @SuppressWarnings(PHPMD.Superglobals)
      */
     public function setUp()
     {
@@ -58,7 +59,7 @@ class ManagerTest extends PHPUnit
 
         $this->factory = new Factory(__DIR__, [
             'cache_path' => $cachePath,
-            'debug' => true,
+            'debug'      => true,
         ]);
 
         $this->manager = new Manager($this->factory);
@@ -227,11 +228,12 @@ class ManagerTest extends PHPUnit
 
     /**
      * @return void
+     * @SuppressWarnings(PHPMD.Superglobals)
      */
     public function testLoadByHttpsProtocol()
     {
-        $_SERVER['HTTPS'] = 'on';
-        $_SERVER['SERVER_PORT'] = 443;
+        $_SERVER['HTTPS']             = 'on';
+        $_SERVER['SERVER_PORT']       = 443;
         $_SERVER['X-FORWARDED-PROTO'] = 'https';
 
         isTrue(Url::isHttps());
@@ -255,7 +257,7 @@ class ManagerTest extends PHPUnit
     public function testBuildWithCssFilterCompress()
     {
         $cacheDir = __DIR__ . '/cache';
-        $factory = new Factory(__DIR__, [
+        $factory  = new Factory(__DIR__, [
             'cache_path' => $cacheDir,
             'debug'      => true,
             'minify_css' => true,
@@ -275,9 +277,9 @@ class ManagerTest extends PHPUnit
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //  Check file 1.
-        $path1       = FS::clean(str_replace(Url::root(), __DIR__, $result['css'][0]));
+        $path1 = FS::clean(str_replace(Url::root(), __DIR__, $result['css'][0]));
         list($path1) = explode('?', $path1);
-        $strCount    = explode(PHP_EOL, file_get_contents($path1));
+        $strCount = explode(PHP_EOL, file_get_contents($path1));
 
         isSame(3, count($strCount));
         isTrue(file_exists($path1));
@@ -286,9 +288,9 @@ class ManagerTest extends PHPUnit
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //  Check file 2.
-        $path1       = FS::clean(str_replace(Url::root(), __DIR__, $result['css'][1]));
+        $path1 = FS::clean(str_replace(Url::root(), __DIR__, $result['css'][1]));
         list($path1) = explode('?', $path1);
-        $strCount    = explode(PHP_EOL, file_get_contents($path1));
+        $strCount = explode(PHP_EOL, file_get_contents($path1));
 
         isSame(3, count($strCount));
         isTrue(file_exists($path1));
@@ -326,7 +328,7 @@ class ManagerTest extends PHPUnit
     public function testBuildNoCompressAndNotAssertFile()
     {
         $cacheDir = __DIR__ . '/cache';
-        $factory = new Factory(__DIR__, [
+        $factory  = new Factory(__DIR__, [
             'cache_path' => $cacheDir,
             'debug'      => true,
             'minify_css' => true,
@@ -348,7 +350,7 @@ class ManagerTest extends PHPUnit
      */
     protected function _removeCache()
     {
-        $fs = new Filesystem();
+        $fs        = new Filesystem();
         $cachePath = __DIR__ . '/cache';
         $fs->remove($cachePath);
     }
