@@ -15,13 +15,13 @@
 
 namespace Custom\Assets;
 
-use JBZoo\Assets\Filter\FilterAbstract;
+use JBZoo\Assets\Filter\Filter;
 
 /**
  * Class CustomFilter
  * @package Custom\Assets
  */
-class CustomFilter extends FilterAbstract
+class CustomFilter extends Filter
 {
     /**
      * @return null

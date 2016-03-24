@@ -15,6 +15,7 @@
 
 namespace JBZoo\Assets;
 
+use JBZoo\Assets\Asset\Asset;
 use JBZoo\Utils\Arr;
 
 /**
@@ -128,12 +129,12 @@ class Manager
     /**
      * Resolves asset dependencies.
      *
-     * @param AssetInterface|null $asset
-     * @param AssetInterface[]    $resolved
-     * @param AssetInterface[]    $unresolved
-     * @return AssetInterface[]
+     * @param Asset|null $asset
+     * @param Asset[]    $resolved
+     * @param Asset[]    $unresolved
+     * @return Asset[]
      */
-    public function resolveDependencies(AssetInterface $asset, &$resolved = [], &$unresolved = [])
+    public function resolveDependencies(Asset $asset, &$resolved = [], &$unresolved = [])
     {
         $unresolved[$asset->getName()] = $asset;
 
@@ -177,11 +178,9 @@ class Manager
         $collection = new Collection($assets);
         $assets     = $collection->getAssets();
 
-        foreach ($assets as $i) {
-            /** @var Asset $asset */
-            $asset = $i;
+        /** @var Asset $asset */
+        foreach ($assets as $asset) {
             list($type, $source) = $asset->load($filters);
-
             if ($source && !Arr::in($source, (array)$output[$type])) {
                 $output[$type][] = $source;
             }

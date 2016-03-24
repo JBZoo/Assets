@@ -15,6 +15,8 @@
 
 namespace JBZoo\Assets;
 
+use JBZoo\Assets\Asset\Asset;
+use JBZoo\Assets\Asset\File;
 use JBZoo\Data\Data;
 use JBZoo\Path\Path;
 use JBZoo\Utils\Arr;
@@ -22,7 +24,6 @@ use JBZoo\Utils\Str;
 
 /**
  * Class Factory
- *
  * @package JBZoo\Assets
  */
 class Factory
@@ -33,7 +34,7 @@ class Factory
      * @var array
      */
     protected $_types = [
-        'file' => 'JBZoo\Assets\FileAsset',
+        'file' => 'JBZoo\Assets\Asset\File',
     ];
 
     /**
@@ -84,7 +85,7 @@ class Factory
      * @param string|array $dependencies
      * @param string|array $options
      * @throws \InvalidArgumentException
-     * @return AssetInterface
+     * @return Asset
      */
     public function create($name, $source, $dependencies = [], $options = [])
     {
@@ -146,7 +147,7 @@ class Factory
         }
 
         if (!Arr::key('type', $options)) {
-            $options['type'] = FileAsset::ASSET_TYPE_FILE;
+            $options['type'] = File::ASSET_TYPE_FILE;
         }
 
         $options['type'] = Str::low($options['type']);

@@ -15,9 +15,9 @@
 
 namespace Custom\Assets;
 
+use JBZoo\Assets\Asset\File;
 use JBZoo\Utils\FS;
-use JBZoo\Assets\Asset;
-use JBZoo\Assets\FileAsset;
+use JBZoo\Assets\Asset\Asset;
 use JBZoo\Assets\Filter\FilterAbstract;
 use JBZoo\Assets\Filter\FilterManager;
 
@@ -35,7 +35,7 @@ class CustomAsset extends Asset
     {
         $assetExt = FS::clean($this->_root . '/' . $this->_source, '/');
 
-        if (!FileAsset::isExternal($this->_source)) {
+        if (!File::isExternal($this->_source)) {
             $fManager = new FilterManager();
 
             $path = $this->_source;

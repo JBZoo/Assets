@@ -13,22 +13,22 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace JBZoo\Assets;
+namespace JBZoo\Assets\Asset;
 
+use JBZoo\Assets\Exception;
+use JBZoo\Assets\Filter\Filter;
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Url;
 use JBZoo\Utils\Arr;
 use JBZoo\Path\Path;
 use JBZoo\Less\Less;
 use JBZoo\Assets\Filter\FilterManager;
-use JBZoo\Assets\Filter\FilterAbstract;
 
 /**
- * Class FileAsset
- *
- * @package JBZoo\Assets
+ * Class File
+ * @package JBZoo\Assets\Asset
  */
-class FileAsset extends Asset
+class File extends Asset
 {
 
     const ASSET_TYPE_FILE = 'file';
@@ -73,7 +73,7 @@ class FileAsset extends Asset
 
             if (count($filters)) {
                 foreach ($filters as $name) {
-                    /** @var FilterAbstract $filter */
+                    /** @var Filter $filter */
                     $filter = $fManager->get($name);
                     $filter->setAsset($this);
                     $path = $filter->process();
@@ -171,9 +171,9 @@ class FileAsset extends Asset
      */
     protected function _timestamp($path)
     {
-        if (Fs::isFile($path)) {
+        if (FS::isFile($path)) {
             $relative = FS::getRelative($path, $this->_root, '/');
-            return Url::root() . '/' . $relative . '?' . @filemtime($path);
+            return Url::root() . '/' . $relative . '?' . filemtime($path);
         }
 
         return false;

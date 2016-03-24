@@ -15,24 +15,32 @@
 
 namespace JBZoo\Assets\Filter;
 
-use JBZoo\Assets\Asset;
+use JBZoo\Assets\Asset\Asset;
 
 /**
- * Interface FilterInterface
+ * Class Filter
  *
  * @package JBZoo\Assets\Filter
  */
-interface FilterInterface
+abstract class Filter
 {
+    /**
+     * @var Asset
+     */
+    protected $_asset;
 
     /**
      * @param Asset $asset
-     * @return void
+     * @return $this
      */
-    public function setAsset(Asset $asset);
+    public function setAsset(Asset $asset)
+    {
+        $this->_asset = $asset;
+        return $this;
+    }
 
     /**
      * @return mixed
      */
-    public function process();
+    abstract public function process();
 }

@@ -62,7 +62,7 @@ class FactoryTest extends PHPUnit
     {
         $asset = $this->_factory->create('test', 'path/to/my-file.css');
 
-        isClass('JBZoo\Assets\FileAsset', $asset);
+        isClass('JBZoo\Assets\Asset\Asset', $asset);
         isSame('test', $asset->getName());
         isSame('path/to/my-file.css', $asset->getSource());
         isSame([], $asset->getDependencies());
@@ -73,7 +73,7 @@ class FactoryTest extends PHPUnit
     {
         $asset = $this->_factory->create('test', '\path\to/my-file.css', 'uikit');
 
-        isClass('JBZoo\Assets\FileAsset', $asset);
+        isClass('JBZoo\Assets\Asset\Asset', $asset);
         isSame('test', $asset->getName());
         isSame('\path\to/my-file.css', $asset->getSource());
         isSame(['uikit'], $asset->getDependencies());
@@ -84,14 +84,14 @@ class FactoryTest extends PHPUnit
     {
         $asset = $this->_factory->create('test', '\path\to/my-file.css', 'uikit', ['type' => 'FilE']);
 
-        isClass('JBZoo\Assets\FileAsset', $asset);
+        isClass('JBZoo\Assets\Asset\Asset', $asset);
     }
 
     public function testCreateByDependenciesIsArray()
     {
         $asset = $this->_factory->create('test', '\path\to/my-file.css', ['uikit', 'jquery-ui']);
 
-        isClass('JBZoo\Assets\FileAsset', $asset);
+        isClass('JBZoo\Assets\Asset\Asset', $asset);
         isSame('test', $asset->getName());
         isSame('\path\to/my-file.css', $asset->getSource());
         isSame(['uikit', 'jquery-ui'], $asset->getDependencies());

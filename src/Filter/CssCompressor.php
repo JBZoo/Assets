@@ -15,10 +15,10 @@
 
 namespace JBZoo\Assets\Filter;
 
+use JBZoo\Assets\Asset\File;
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Str;
 use JBZoo\Assets\Exception;
-use JBZoo\Assets\FileAsset;
 
 /**
  * Class CssCompressor
@@ -27,7 +27,6 @@ use JBZoo\Assets\FileAsset;
  */
 class CssCompressor extends CompressorAbstract
 {
-
     /**
      * Filter process.
      *
@@ -36,8 +35,8 @@ class CssCompressor extends CompressorAbstract
      */
     public function process()
     {
-        if (($this->_asset instanceof FileAsset)) {
-            /** @var FileAsset $file */
+        if (($this->_asset instanceof File)) {
+            /** @var File $file */
             $file = $this->_asset;
             $full = $file->getFullPath();
 
@@ -57,7 +56,7 @@ class CssCompressor extends CompressorAbstract
      */
     protected function _getFilePath($path)
     {
-        /** @var FileAsset $file */
+        /** @var File $file */
         $file   = $this->_asset;
         $ext    = $file->getExt();
         $params = $file->getParams();

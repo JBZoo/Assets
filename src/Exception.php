@@ -17,7 +17,6 @@ namespace JBZoo\Assets;
 
 /**
  * Class Exception
- *
  * @package JBZoo\Assets
  */
 class Exception extends \Exception

@@ -15,7 +15,6 @@
 
 namespace JBZoo\Assets\Filter;
 
-use JBZoo\Data\Data;
 use JBZoo\Utils\Arr;
 
 /**
@@ -39,7 +38,7 @@ class FilterManager
      * Get filter by name.
      *
      * @param $name
-     * @return bool|FilterAbstract
+     * @return bool|Filter
      */
     public function get($name)
     {

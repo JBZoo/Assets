@@ -15,6 +15,7 @@
 
 namespace JBZoo\Assets;
 
+use JBZoo\Assets\Asset\Asset;
 use JBZoo\Utils\Arr;
 
 /**
@@ -45,10 +46,10 @@ class Collection implements \Countable
     /**
      * Adds asset to collection.
      *
-     * @param AssetInterface $asset
+     * @param Asset $asset
      * @return $this
      */
-    public function add(AssetInterface $asset)
+    public function add(Asset $asset)
     {
         $this->_assets[$asset->getName()] = $asset;
         return $this;
@@ -58,7 +59,7 @@ class Collection implements \Countable
      * Gets asset from collection.
      *
      * @param $name
-     * @return AssetInterface|null
+     * @return Asset|null
      */
     public function get($name)
     {

@@ -20,7 +20,6 @@ use JBZoo\Utils\Url;
 use JBZoo\Path\Path;
 use JBZoo\Assets\Factory;
 use JBZoo\Assets\Manager;
-use JBZoo\Assets\FileAsset;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -64,7 +63,9 @@ class ManagerTest extends PHPUnit
         $this->_fixtures  = PROJECT_ROOT . '/tests/fixtures';
         $this->_cachePath = PROJECT_ROOT . '/build/cache';
 
-        @mkdir($this->_cachePath, 0777, true);
+        $fs = new Filesystem();
+        $fs->remove($this->_cachePath);
+        $fs->mkdir($this->_cachePath);
 
         $this->_factory = new Factory($this->_fixtures, [
             'cache_path' => $this->_cachePath,
@@ -152,7 +153,6 @@ class ManagerTest extends PHPUnit
 
         isLike('/.*assets\/css\/custom\.css\?[0-9]/', $assets['css'][0]);
         isLike('/.*cache\/tests_fixtures_assets_less_styles_less\.css\?[0-9]/', $assets['css'][1]);
-        $this->_removeCache();
     }
 
     public function testNoFileDuplicate()
@@ -170,7 +170,6 @@ class ManagerTest extends PHPUnit
         isLike('/.*assets\/css\/custom\.css\?[0-9]/', $assets['css'][0]);
         isLike('/.*cache\/tests_fixtures_assets_less_styles_less\.css\?[0-9]/', $assets['css'][1]);
         isLike('/.*assets\/css\/test\.css\?[0-9]/', $assets['css'][2]);
-        $this->_removeCache();
     }
 
     public function testAllegedSequenceAssets()
@@ -276,8 +275,6 @@ class ManagerTest extends PHPUnit
         isTrue(file_exists($path1));
         isSame(2, count($result['css']));
         isSame($strCount[2], 'body{background:red}.lang{text-align:right;padding-top:12px}');
-
-        $this->_removeCache();
     }
 
     public function testBuildNoCompressCss()
@@ -315,11 +312,5 @@ class ManagerTest extends PHPUnit
 
         //  Empty because CustomAsset is not FileAsset. See JBZoo\Assets\Filter\CssCompressor
         isSame([], $build['js']);
-    }
-
-    protected function _removeCache()
-    {
-        $fs = new Filesystem();
-        $fs->remove($this->_cachePath);
     }
 }

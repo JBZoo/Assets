@@ -13,18 +13,16 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace JBZoo\Assets;
+namespace JBZoo\Assets\Asset;
 
 use JBZoo\Data\Data;
 
 /**
  * Class Asset
- *
- * @package JBZoo\Assets
+ * @package JBZoo\Assets\Asset
  */
-abstract class Asset implements AssetInterface
+abstract class Asset
 {
-
     /**
      * @var string
      */
@@ -58,12 +56,12 @@ abstract class Asset implements AssetInterface
     /**
      * AssetAbstract constructor.
      *
-     * @param string       $name
+     * @param string       $root
      * @param Data         $params
+     * @param string       $name
      * @param string       $source
      * @param string|array $dependencies
      * @param string|array $options
-     * @param string       $root
      */
     public function __construct($root, Data $params, $name, $source, $dependencies = [], $options = [])
     {

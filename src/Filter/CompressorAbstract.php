@@ -15,18 +15,17 @@
 
 namespace JBZoo\Assets\Filter;
 
+use JBZoo\Assets\Asset\File;
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Str;
 use JBZoo\Utils\Slug;
-use JBZoo\Assets\FileAsset;
 
 /**
  * Class CompressorAbstract
  * @package JBZoo\Assets\Filter
  */
-abstract class CompressorAbstract extends FilterAbstract
+abstract class CompressorAbstract extends Filter
 {
-
     /**
      * Code compressing.
      *
@@ -56,7 +55,7 @@ abstract class CompressorAbstract extends FilterAbstract
      */
     protected function _getHash()
     {
-        /** @var FileAsset $asset */
+        /** @var File $asset */
         $asset  = $this->_asset;
         $params = $asset->getParams()->getArrayCopy();
 
