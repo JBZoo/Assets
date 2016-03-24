@@ -22,7 +22,6 @@ use JBZoo\Assets\FileAsset;
 
 /**
  * Class CompressorAbstract
- *
  * @package JBZoo\Assets\Filter
  */
 abstract class CompressorAbstract extends FilterAbstract
@@ -84,7 +83,7 @@ abstract class CompressorAbstract extends FilterAbstract
     protected function _getResultFile()
     {
         $params = $this->_asset->getParams();
-        $path = FS::clean($params->get('cache_path') . '/' . $this->_newName(), '/');
+        $path   = FS::clean($params->get('cache_path') . '/' . $this->_newName(), '/');
 
         return $path;
     }

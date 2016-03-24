@@ -27,7 +27,6 @@ use JBZoo\Utils\Str;
  */
 class Factory
 {
-
     /**
      * Map of asset types.
      *
@@ -66,22 +65,22 @@ class Factory
     /**
      * Factory constructor.
      * @param string $root
-     * @param array $params
+     * @param array  $params
      */
     public function __construct($root, array $params = [])
     {
         Path::getInstance()->setRoot($root);
 
-        $this->_root = $root;
-        $params = array_merge($this->_default, $params);
+        $this->_root   = $root;
+        $params        = array_merge($this->_default, $params);
         $this->_params = new Data($params);
     }
 
     /**
      * Create asset instance.
      *
-     * @param string $name
-     * @param string $source
+     * @param string       $name
+     * @param string       $source
      * @param string|array $dependencies
      * @param string|array $options
      * @throws \InvalidArgumentException
@@ -89,9 +88,9 @@ class Factory
      */
     public function create($name, $source, $dependencies = [], $options = [])
     {
-        $dependencies = (array) $dependencies;
-        $options = $this->_normalizeOptions($options);
-        $type = $options['type'];
+        $dependencies = (array)$dependencies;
+        $options      = $this->_normalizeOptions($options);
+        $type         = $options['type'];
 
         if (Arr::key($type, $this->_types)) {
             $class = $this->_types[$type];

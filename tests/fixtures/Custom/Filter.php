@@ -13,15 +13,21 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace JBZoo\PHPUnit;
+namespace Custom\Assets;
+
+use JBZoo\Assets\Filter\FilterAbstract;
 
 /**
- * Class CodestyleTest
- *
- * @package JBZoo\PHPUnit
+ * Class CustomFilter
+ * @package Custom\Assets
  */
-class CodestyleTest extends Codestyle
+class CustomFilter extends FilterAbstract
 {
-    protected $_packageName = "Assets";
-    protected $_packageAuthor = 'Sergey Kalistratov <kalistratov.s.m@gmail.com>';
+    /**
+     * @return null
+     */
+    public function process()
+    {
+        return null;
+    }
 }

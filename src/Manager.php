@@ -24,7 +24,6 @@ use JBZoo\Utils\Arr;
  */
 class Manager
 {
-
     /**
      * @var Factory
      */
@@ -54,8 +53,8 @@ class Manager
     /**
      * Adds a registered asset or a new asset to the queue.
      *
-     * @param string $name
-     * @param string|null $source
+     * @param string       $name
+     * @param string|null  $source
      * @param string|array $dependencies
      * @param string|array $options
      * @return $this
@@ -79,9 +78,9 @@ class Manager
     /**
      * Registers an asset.
      *
-     * @param string $name
-     * @param null|string $source
-     * @param array $dependencies
+     * @param string       $name
+     * @param null|string  $source
+     * @param array        $dependencies
      * @param string|array $options
      * @return $this
      */
@@ -130,8 +129,8 @@ class Manager
      * Resolves asset dependencies.
      *
      * @param AssetInterface|null $asset
-     * @param AssetInterface[] $resolved
-     * @param AssetInterface[] $unresolved
+     * @param AssetInterface[]    $resolved
+     * @param AssetInterface[]    $unresolved
      * @return AssetInterface[]
      */
     public function resolveDependencies(AssetInterface $asset, &$resolved = [], &$unresolved = [])
@@ -176,14 +175,14 @@ class Manager
         }
 
         $collection = new Collection($assets);
-        $assets = $collection->getAssets();
+        $assets     = $collection->getAssets();
 
         foreach ($assets as $i) {
             /** @var Asset $asset */
             $asset = $i;
             list($type, $source) = $asset->load($filters);
 
-            if ($source && !Arr::in($source, (array) $output[$type])) {
+            if ($source && !Arr::in($source, (array)$output[$type])) {
                 $output[$type][] = $source;
             }
         }

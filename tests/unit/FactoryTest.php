@@ -19,43 +19,33 @@ use JBZoo\Assets\Factory;
 
 /**
  * Class FactoryTest
- *
  * @package JBZoo\PHPUnit
  */
 class FactoryTest extends PHPUnit
 {
-
     /**
-     * @var \JBZoo\Assets\Factory
+     * @var Factory
      */
-    protected $factory;
+    protected $_factory;
 
     /**
-     * Setup test data.
-     *
-     * @return void
+     * Setup test data
      */
     public function setUp()
     {
         parent::setUp();
-        $this->factory = new Factory(__DIR__);
+        $this->_factory = new Factory(__DIR__);
     }
 
-    /**
-     * @return void
-     */
     public function testDefaultParams()
     {
-        $params = $this->factory->params();
+        $params = $this->_factory->params();
 
         isClass('JBZoo\Data\Data', $params);
         isFalse($params->get('debug'));
         isFalse($params->get('combine'));
     }
 
-    /**
-     * @return void
-     */
     public function testReloadParams()
     {
         $factory = new Factory(__DIR__, [
@@ -68,12 +58,10 @@ class FactoryTest extends PHPUnit
         isTrue($params->get('combine'));
     }
 
-    /**
-     * @return void
-     */
     public function testCreateSimpleAsset()
     {
-        $asset = $this->factory->create('test', 'path/to/my-file.css');
+        $asset = $this->_factory->create('test', 'path/to/my-file.css');
+
         isClass('JBZoo\Assets\FileAsset', $asset);
         isSame('test', $asset->getName());
         isSame('path/to/my-file.css', $asset->getSource());
@@ -81,12 +69,10 @@ class FactoryTest extends PHPUnit
         isSame(['type' => 'file'], $asset->getOptions());
     }
 
-    /**
-     * @return void
-     */
     public function testCreateByDependenciesIsString()
     {
-        $asset = $this->factory->create('test', '\path\to/my-file.css', 'uikit');
+        $asset = $this->_factory->create('test', '\path\to/my-file.css', 'uikit');
+
         isClass('JBZoo\Assets\FileAsset', $asset);
         isSame('test', $asset->getName());
         isSame('\path\to/my-file.css', $asset->getSource());
@@ -94,21 +80,17 @@ class FactoryTest extends PHPUnit
         isSame(['type' => 'file'], $asset->getOptions());
     }
 
-    /**
-     * @return void
-     */
     public function testCreateNotCurrentTypeName()
     {
-        $asset = $this->factory->create('test', '\path\to/my-file.css', 'uikit', ['type' => 'FilE']);
+        $asset = $this->_factory->create('test', '\path\to/my-file.css', 'uikit', ['type' => 'FilE']);
+
         isClass('JBZoo\Assets\FileAsset', $asset);
     }
 
-    /**
-     * @return void
-     */
     public function testCreateByDependenciesIsArray()
     {
-        $asset = $this->factory->create('test', '\path\to/my-file.css', ['uikit', 'jquery-ui']);
+        $asset = $this->_factory->create('test', '\path\to/my-file.css', ['uikit', 'jquery-ui']);
+
         isClass('JBZoo\Assets\FileAsset', $asset);
         isSame('test', $asset->getName());
         isSame('\path\to/my-file.css', $asset->getSource());
@@ -118,37 +100,30 @@ class FactoryTest extends PHPUnit
 
     /**
      * @expectedException \InvalidArgumentException
-     * @return void
      */
     public function testCreateInvalidArgumentByOptionsString()
     {
-        $this->factory->create('test', '\path\to/my-file.css', ['uikit', 'jquery-ui'], 'no-exits');
+        $this->_factory->create('test', '\path\to/my-file.css', ['uikit', 'jquery-ui'], 'no-exits');
     }
 
     /**
      * @expectedException \InvalidArgumentException
-     * @return void
      */
     public function testCreateInvalidArgumentByOptionsArray()
     {
-        $this->factory->create('test', '\path\to/my-file.css', ['uikit', 'jquery-ui'], ['type' => 'no-exits']);
+        $this->_factory->create('test', '\path\to/my-file.css', ['uikit', 'jquery-ui'], ['type' => 'no-exits']);
     }
 
-    /**
-     * @return void
-     */
     public function testGetRoot()
     {
-        isSame(__DIR__, $this->factory->getRoot());
+        isSame(__DIR__, $this->_factory->getRoot());
     }
 
-    /**
-     * @return void
-     */
     public function testRegisterCustomTypeByString()
     {
-        $this->factory->register('Custom', 'Custom\Assets\CustomAsset');
-        $asset = $this->factory->create('custom_name', 'my/custom/path.js', null, 'CUSTOM');
+        $this->_factory->register('Custom', 'Custom\Assets\CustomAsset');
+        $asset = $this->_factory->create('custom_name', 'my/custom/path.js', null, 'CUSTOM');
+
         isClass('Custom\Assets\CustomAsset', $asset);
         isSame('custom_name', $asset->getName());
         isSame([], $asset->getDependencies());
@@ -156,13 +131,11 @@ class FactoryTest extends PHPUnit
         isSame(['type' => 'custom'], $asset->getOptions());
     }
 
-    /**
-     * @return void
-     */
     public function testRegisterCustomTypeByArray()
     {
-        $this->factory->register('Custom', 'Custom\Assets\CustomAsset');
-        $asset = $this->factory->create('custom_name', 'my/custom/path.js', null, ['type' => 'custom']);
+        $this->_factory->register('Custom', 'Custom\Assets\CustomAsset');
+        $asset = $this->_factory->create('custom_name', 'my/custom/path.js', null, ['type' => 'custom']);
+
         isClass('Custom\Assets\CustomAsset', $asset);
         isSame('custom_name', $asset->getName());
         isSame([], $asset->getDependencies());

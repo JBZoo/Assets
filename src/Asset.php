@@ -58,12 +58,12 @@ abstract class Asset implements AssetInterface
     /**
      * AssetAbstract constructor.
      *
-     * @param string $name
-     * @param Data $params
-     * @param string $source
+     * @param string       $name
+     * @param Data         $params
+     * @param string       $source
      * @param string|array $dependencies
      * @param string|array $options
-     * @param string $root
+     * @param string       $root
      */
     public function __construct($root, Data $params, $name, $source, $dependencies = [], $options = [])
     {
@@ -71,8 +71,8 @@ abstract class Asset implements AssetInterface
         $this->_root         = $root;
         $this->_source       = $source;
         $this->_params       = $params;
-        $this->_options      = (array) $options;
-        $this->_dependencies = (array) $dependencies;
+        $this->_options      = (array)$options;
+        $this->_dependencies = (array)$dependencies;
     }
 
     /**

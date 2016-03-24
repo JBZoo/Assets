@@ -81,7 +81,7 @@ class Collection implements \Countable
      */
     public function remove($name)
     {
-        $names = (array) $name;
+        $names = (array)$name;
         foreach ($names as $name) {
             if (Arr::key($name, $this->_assets)) {
                 unset($this->_assets[$name]);

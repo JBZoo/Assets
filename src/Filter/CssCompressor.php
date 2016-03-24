@@ -87,7 +87,7 @@ class CssCompressor extends CompressorAbstract
      */
     protected function _compress($code)
     {
-        $code = (string) $code;
+        $code = (string)$code;
 
         // remove comments
         $code = preg_replace('#/\*[^*]*\*+([^/][^*]*\*+)*/#ius', '', $code);

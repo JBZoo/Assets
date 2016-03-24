@@ -74,7 +74,7 @@ class FileAsset extends Asset
             if (count($filters)) {
                 foreach ($filters as $name) {
                     /** @var FilterAbstract $filter */
-                    $filter  = $fManager->get($name);
+                    $filter = $fManager->get($name);
                     $filter->setAsset($this);
                     $path = $filter->process();
                 }
@@ -122,13 +122,13 @@ class FileAsset extends Asset
         $path   = $this->getFullPath();
 
         if ($jbPath->isVirtual($this->_source)) {
-            $path = $jbPath->get($this->_source);
+            $path          = $jbPath->get($this->_source);
             $this->_source = $jbPath->url($this->_source, false);
         }
 
         if ($ext === 'less') {
-            $ext  = 'css';
-            $path = $this->_lessProcess($path);
+            $ext           = 'css';
+            $path          = $this->_lessProcess($path);
             $this->_source = FS::getRelative($path, $this->_root);
         }
 
@@ -159,7 +159,7 @@ class FileAsset extends Asset
      */
     protected function _lessProcess($path)
     {
-        $less = new Less((array) $this->_params);
+        $less = new Less((array)$this->_params);
         return $less->compile($path);
     }
 

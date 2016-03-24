@@ -23,12 +23,14 @@ use JBZoo\Assets\Filter\FilterManager;
 
 /**
  * Class CustomAsset
- *
  * @package Custom\Assets
  */
 class CustomAsset extends Asset
 {
-
+    /**
+     * @param array $filters
+     * @return array
+     */
     public function load(array $filters = [])
     {
         $assetExt = FS::clean($this->_root . '/' . $this->_source, '/');
@@ -40,7 +42,7 @@ class CustomAsset extends Asset
             if (count($filters)) {
                 foreach ($filters as $name) {
                     /** @var FilterAbstract $filter */
-                    $filter  = $fManager->get($name);
+                    $filter = $fManager->get($name);
                     $filter->setAsset($this);
                     $path = $filter->process();
                 }

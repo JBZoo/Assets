@@ -25,27 +25,33 @@ use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class ManagerTest
- *
  * @package JBZoo\PHPUnit
+ * @SuppressWarnings(PHPMD.Superglobals)
  */
 class ManagerTest extends PHPUnit
 {
-
     /**
      * @var Manager
      */
-    protected $manager;
+    protected $_manager;
 
     /**
      * @var Factory
      */
-    protected $factory;
+    protected $_factory;
 
     /**
-     * Setup test data.
-     *
-     * @return void
-     * @SuppressWarnings(PHPMD.Superglobals)
+     * @var string
+     */
+    protected $_fixtures;
+
+    /**
+     * @var string
+     */
+    protected $_cachePath;
+
+    /**
+     * Setup test data
      */
     public function setUp()
     {
@@ -55,26 +61,27 @@ class ManagerTest extends PHPUnit
         $_SERVER['SERVER_PORT'] = 80;
         $_SERVER['REQUEST_URI'] = '/request';
 
-        $cachePath = __DIR__ . '/cache';
+        $this->_fixtures  = PROJECT_ROOT . '/tests/fixtures';
+        $this->_cachePath = PROJECT_ROOT . '/build/cache';
 
-        $this->factory = new Factory(__DIR__, [
-            'cache_path' => $cachePath,
+        @mkdir($this->_cachePath, 0777, true);
+
+        $this->_factory = new Factory($this->_fixtures, [
+            'cache_path' => $this->_cachePath,
             'debug'      => true,
         ]);
 
-        $this->manager = new Manager($this->factory);
+        $this->_manager = new Manager($this->_factory);
+
     }
 
-    /**
-     * @return void
-     */
     public function testRegisterLocalAssets()
     {
-        $this->manager
+        $this->_manager
             ->add('custom', 'assets/css/custom.css')
             ->register('bootstrap', 'assets/css/libs/bootstrap.css')
             ->add('bootstrap');
-        $collection = $this->manager->collection();
+        $collection = $this->_manager->collection();
 
         /** @var FileAsset $asset */
         $asset = $collection->get('bootstrap');
@@ -84,40 +91,34 @@ class ManagerTest extends PHPUnit
         isSame(2, $collection->count());
     }
 
-    /**
-     * @return void
-     */
     public function testUnRegisterAssets()
     {
-        $this->manager
+        $this->_manager
             ->add('custom', 'assets/css/custom.css')
             ->register('styles', 'assets/css/styles.css')
             ->register('template', 'assets/css/template.css')
             ->register('bootstrap', 'assets/css/libs/bootstrap.css');
-        $collection = $this->manager->collection();
+        $collection = $this->_manager->collection();
 
         isSame(4, $collection->count());
 
-        $this->manager->unRegister('styles');
+        $this->_manager->unRegister('styles');
 
         isSame(3, $collection->count());
         isNull($collection->get('styles'));
     }
 
-    /**
-     * @return void
-     */
     public function testBuildFilesAsset()
     {
         $path = Path::getInstance();
-        $path->setRoot(__DIR__);
+        $path->setRoot($this->_fixtures);
 
         $path->add([
-            __DIR__ . '/assets_virt',
-            __DIR__ . '/assets',
+            $this->_fixtures . '/assets_virt',
+            $this->_fixtures . '/assets',
         ], 'assets');
 
-        $this->manager
+        $this->_manager
             ->register('bootstrap', 'assets:css/libs/bootstrap.css')
             ->add('test_script', 'assets/js/scripts.js', 'jquery')
             ->add('no_exits', 'assets/js/no_exits.js')
@@ -126,98 +127,87 @@ class ManagerTest extends PHPUnit
             ->add('jb_demo', 'http://demo.jbzoo.com/assets/js/all.js')
             ->add('custom', 'assets/css/custom.css', ['bootstrap', 'test_styles']);
 
-        $assets = $this->manager->build();
+        $assets = $this->_manager->build();
 
         isSame(2, count($assets));
         isSame(3, count($assets['js']));
         isSame(3, count($assets['css']));
 
-        $this->assertRegExp('/.*assets\/js\/jquery\.js\?[0-9]/', $assets['js'][0]);
-        $this->assertRegExp('/.*assets\/js\/scripts\.js\?[0-9]/', $assets['js'][1]);
+        isLike('/.*assets\/js\/jquery\.js\?[0-9]/', $assets['js'][0]);
+        isLike('/.*assets\/js\/scripts\.js\?[0-9]/', $assets['js'][1]);
 
-        $this->assertRegExp('/.*assets\/css\/libs\/bootstrap\.css\?[0-9]/', $assets['css'][0]);
-        $this->assertRegExp('/.*assets\/css\/styles\.css\?[0-9]/', $assets['css'][1]);
-        $this->assertRegExp('/.*assets\/css\/custom\.css\?[0-9]/', $assets['css'][2]);
+        isLike('/.*assets\/css\/libs\/bootstrap\.css\?[0-9]/', $assets['css'][0]);
+        isLike('/.*assets\/css\/styles\.css\?[0-9]/', $assets['css'][1]);
+        isLike('/.*assets\/css\/custom\.css\?[0-9]/', $assets['css'][2]);
     }
 
-    /**
-     * @return void
-     */
     public function testBuildByLessDependCss()
     {
-        $this->manager
+        $this->_manager
             ->register('styles', 'assets/css/custom.css')
             ->add('custom', 'assets/less/styles.less', 'styles');
 
-        $assets = $this->manager->build();
+        $assets = $this->_manager->build();
         isSame(2, count($assets['css']));
 
-        $this->assertRegExp('/.*assets\/css\/custom\.css\?[0-9]/', $assets['css'][0]);
-        $this->assertRegExp('/.*cache\/tests_assets_less_styles_less\.css\?[0-9]/', $assets['css'][1]);
+        isLike('/.*assets\/css\/custom\.css\?[0-9]/', $assets['css'][0]);
+        isLike('/.*cache\/tests_fixtures_assets_less_styles_less\.css\?[0-9]/', $assets['css'][1]);
         $this->_removeCache();
     }
 
-    /**
-     * @return void
-     */
     public function testNoFileDuplicate()
     {
-        $this->manager
+        $this->_manager
             ->register('styles', 'assets/css/custom.css')
             ->add('test', 'assets/css/test.css', ['styles', 'custom'])
             ->add('custom', 'assets/less/styles.less', 'styles')
             ->add('duplicate', 'assets/less/styles.less', 'styles')
             ->add('custom');
 
-        $assets = $this->manager->build();
+        $assets = $this->_manager->build();
 
         isSame(3, count($assets['css']));
-        $this->assertRegExp('/.*assets\/css\/custom\.css\?[0-9]/', $assets['css'][0]);
-        $this->assertRegExp('/.*cache\/tests_assets_less_styles_less\.css\?[0-9]/', $assets['css'][1]);
-        $this->assertRegExp('/.*assets\/css\/test\.css\?[0-9]/', $assets['css'][2]);
+        isLike('/.*assets\/css\/custom\.css\?[0-9]/', $assets['css'][0]);
+        isLike('/.*cache\/tests_fixtures_assets_less_styles_less\.css\?[0-9]/', $assets['css'][1]);
+        isLike('/.*assets\/css\/test\.css\?[0-9]/', $assets['css'][2]);
         $this->_removeCache();
     }
 
-    /**
-     * @return void
-     */
     public function testAllegedSequenceAssets()
     {
-        $this->manager
+        $this->_manager
             ->add('styles', 'assets/css/styles.css')
             ->register('bootstrap', 'assets/css/libs/bootstrap.css')
             ->add('uikit', 'assets/css/libs/uikit.css', 'bootstrap')
             ->add('test', 'assets/css/test.css', ['styles', 'custom'])
             ->add('custom', 'assets/css/custom.css', ['bootstrap']);
 
-        $assets = $this->manager->build();
+        $assets = $this->_manager->build();
 
         isSame(5, count($assets['css']));
-        $this->assertRegExp('/.*assets\/css\/styles\.css\?[0-9]/', $assets['css'][0]);
-        $this->assertRegExp('/.*assets\/css\/libs\/bootstrap\.css\?[0-9]/', $assets['css'][1]);
-        $this->assertRegExp('/.*assets\/css\/libs\/uikit\.css\?[0-9]/', $assets['css'][2]);
-        $this->assertRegExp('/.*assets\/css\/custom\.css\?[0-9]/', $assets['css'][3]);
-        $this->assertRegExp('/.*assets\/css\/test\.css\?[0-9]/', $assets['css'][4]);
+        isLike('/.*assets\/css\/styles\.css\?[0-9]/', $assets['css'][0]);
+        isLike('/.*assets\/css\/libs\/bootstrap\.css\?[0-9]/', $assets['css'][1]);
+        isLike('/.*assets\/css\/libs\/uikit\.css\?[0-9]/', $assets['css'][2]);
+        isLike('/.*assets\/css\/custom\.css\?[0-9]/', $assets['css'][3]);
+        isLike('/.*assets\/css\/test\.css\?[0-9]/', $assets['css'][4]);
     }
 
     /**
-     * @return void
      * @expectedException \JBZoo\Assets\Exception
      */
     public function testNotAllowedAssetExtension()
     {
-        $this->manager
+        $this->_manager
             ->add('styles', 'assets/css/styles.php')
             ->build();
     }
 
     /**
-     * @return void
      * @expectedException \RuntimeException
      */
     public function testCircularAssetDependency()
     {
-        $this->manager
+        $this->_manager
             ->add('styles', 'assets/css/styles.css', 'test')
             ->register('bootstrap', 'assets/css/libs/bootstrap.css')
             ->add('uikit', 'assets/css/libs/uikit.css', 'bootstrap')
@@ -226,10 +216,6 @@ class ManagerTest extends PHPUnit
             ->build();
     }
 
-    /**
-     * @return void
-     * @SuppressWarnings(PHPMD.Superglobals)
-     */
     public function testLoadByHttpsProtocol()
     {
         $_SERVER['HTTPS']             = 'on';
@@ -238,34 +224,27 @@ class ManagerTest extends PHPUnit
 
         isTrue(Url::isHttps());
 
-        $this->manager
+        $this->_manager
             ->add('demo', 'http://demo.jbzoo.com/assets/js/all.js', 'jquery')
             ->add('yandex', '//yastatic.net/es5-shims/0.0.2/es5-shims.min.js')
             ->add('jquery', 'assets/js/jquery.js');
 
-        $assets = $this->manager->build();
+        $assets = $this->_manager->build();
 
         isSame(3, count($assets['js']));
-        $this->assertRegExp('/.*assets\/js\/jquery\.js\?[0-9]/', $assets['js'][0]);
+        isLike('/.*assets\/js\/jquery\.js\?[0-9]/', $assets['js'][0]);
         isSame('http://demo.jbzoo.com/assets/js/all.js', $assets['js'][1]);
         isSame('//yastatic.net/es5-shims/0.0.2/es5-shims.min.js', $assets['js'][2]);
     }
 
-    /**
-     * @return void
-     */
     public function testBuildWithCssFilterCompress()
     {
-        $cacheDir = __DIR__ . '/cache';
-        $factory  = new Factory(__DIR__, [
-            'cache_path' => $cacheDir,
+        skip();
+        $factory = new Factory($this->_fixtures, [
+            'cache_path' => $this->_cachePath,
             'debug'      => true,
             'minify_css' => true,
         ]);
-
-        if (!file_exists($cacheDir)) {
-            mkdir($cacheDir, 0755);
-        }
 
         $manager = new Manager($factory);
 
@@ -277,7 +256,8 @@ class ManagerTest extends PHPUnit
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //  Check file 1.
-        $path1 = FS::clean(str_replace(Url::root(), __DIR__, $result['css'][0]));
+        $path1 = FS::clean(str_replace(Url::root(), $this->_fixtures, $result['css'][0]));
+        dump($result['css'][0]);
         list($path1) = explode('?', $path1);
         $strCount = explode(PHP_EOL, file_get_contents($path1));
 
@@ -288,7 +268,7 @@ class ManagerTest extends PHPUnit
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //  Check file 2.
-        $path1 = FS::clean(str_replace(Url::root(), __DIR__, $result['css'][1]));
+        $path1 = FS::clean(str_replace(Url::root(), $this->_fixtures, $result['css'][1]));
         list($path1) = explode('?', $path1);
         $strCount = explode(PHP_EOL, file_get_contents($path1));
 
@@ -300,36 +280,28 @@ class ManagerTest extends PHPUnit
         $this->_removeCache();
     }
 
-    /**
-     * @return void
-     */
     public function testBuildNoCompressCss()
     {
-        $this->manager->add('custom', 'assets/css/custom.css');
-        $result = $this->manager->build(['CssCompressor']);
+        $this->_manager->add('custom', 'assets/css/custom.css');
+        $result = $this->_manager->build(['CssCompressor']);
 
         isSame(1, count($result['css']));
         isTrue(strpos($result['css'][0], 'custom.css'));
     }
 
     /**
-     * @return void
      * @expectedException \JBZoo\Assets\Exception
      */
     public function testBuildNoCompressAndNoExistsCss()
     {
-        $this->manager->add('custom', 'assets/css/no-exists.css');
-        $this->manager->build(['CssCompressor']);
+        $this->_manager->add('custom', 'assets/css/no-exists.css');
+        $this->_manager->build(['CssCompressor']);
     }
 
-    /**
-     * @return void
-     */
     public function testBuildNoCompressAndNotAssertFile()
     {
-        $cacheDir = __DIR__ . '/cache';
-        $factory  = new Factory(__DIR__, [
-            'cache_path' => $cacheDir,
+        $factory = new Factory(__DIR__, [
+            'cache_path' => $this->_cachePath,
             'debug'      => true,
             'minify_css' => true,
         ]);
@@ -345,13 +317,9 @@ class ManagerTest extends PHPUnit
         isSame([], $build['js']);
     }
 
-    /**
-     * @return void
-     */
     protected function _removeCache()
     {
-        $fs        = new Filesystem();
-        $cachePath = __DIR__ . '/cache';
-        $fs->remove($cachePath);
+        $fs = new Filesystem();
+        $fs->remove($this->_cachePath);
     }
 }

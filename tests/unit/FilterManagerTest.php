@@ -19,24 +19,16 @@ use JBZoo\Assets\Filter\FilterManager;
 
 /**
  * Class FilterManagerTest
- *
  * @package JBZoo\PHPUnit
  */
 class FilterManagerTest extends PHPUnit
 {
-
-    /**
-     * @return void
-     */
     public function testGetFilter()
     {
         $filters = new FilterManager();
         isClass('JBZoo\Assets\Filter\CssCompressor', $filters->get('CssCompressor'));
     }
 
-    /**
-     * @return void
-     */
     public function testGetCustomFilter()
     {
         $filters = new FilterManager();
@@ -44,9 +36,6 @@ class FilterManagerTest extends PHPUnit
         isClass('Custom\Assets\CustomFilter', $filters->get('CustomFilter'));
     }
 
-    /**
-     * @return void
-     */
     public function testGetNoExist()
     {
         $filters = new FilterManager();
