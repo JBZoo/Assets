@@ -15,131 +15,124 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Assets\Factory;
+use JBZoo\Assets\Asset\Asset;
+use JBZoo\Assets\Manager;
+use JBZoo\Path\Path;
+use JBZoo\Utils\FS;
 
 /**
  * Class FactoryTest
  * @package JBZoo\PHPUnit
  */
-class FactoryTest extends PHPUnit
+class FactoryTest extends PHPUnitAssets
 {
-    /**
-     * @var Factory
-     */
-    protected $_factory;
-
-    /**
-     * Setup test data
-     */
-    public function setUp()
-    {
-        parent::setUp();
-        $this->_factory = new Factory(__DIR__);
-    }
-
     public function testDefaultParams()
     {
-        $params = $this->_factory->params();
+        $params = $this->_manager->getParams();
 
         isClass('JBZoo\Data\Data', $params);
         isFalse($params->get('debug'));
-        isFalse($params->get('combine'));
+        isSame([], $params->get('less'));
+
+        isSame([
+            'debug' => false,
+            'less'  => [],
+        ], $params->getArrayCopy());
     }
 
     public function testReloadParams()
     {
-        $factory = new Factory(__DIR__, [
-            'debug'   => true,
-            'combine' => true,
+        $manager = new Manager(new Path(), [
+            'debug'       => true,
+            'some_option' => 123456,
         ]);
 
-        $params = $factory->params();
+        $params = $manager->getParams();
         isTrue($params->get('debug'));
-        isTrue($params->get('combine'));
+        isSame(123456, $params->get('some_option'));
     }
 
-    public function testCreateSimpleAsset()
+    /**
+     * @expectedException \JBZoo\Assets\Exception
+     */
+    public function testCreateUndefinedAssetType()
+    {
+        $this->_factory->create('test', 'path/to/my-file.undefined');
+    }
+
+    public function testCreateDifferentTypes()
+    {
+        // CSS File
+        $asset = $this->_factory->create('test', 'file.css');
+        isClass('JBZoo\Assets\Asset\Asset', $asset);
+        isClass('JBZoo\Assets\Asset\File', $asset);
+        isClass('JBZoo\Assets\Asset\CssFile', $asset);
+
+        // JS File
+        $asset = $this->_factory->create('test', 'http://site.com/script.js?version=1');
+        isClass('JBZoo\Assets\Asset\Asset', $asset);
+        isClass('JBZoo\Assets\Asset\File', $asset);
+        isClass('JBZoo\Assets\Asset\JsFile', $asset);
+
+        // Less File
+        $asset = $this->_factory->create('test', 'file.less');
+        isClass('JBZoo\Assets\Asset\Asset', $asset);
+        isClass('JBZoo\Assets\Asset\File', $asset);
+        isClass('JBZoo\Assets\Asset\LessFile', $asset);
+
+        // JS Custom Code
+        $asset = $this->_factory->create('test', 'alert(1);', [], ['type' => Asset::TYPE_JS_CODE]);
+        isClass('JBZoo\Assets\Asset\Asset', $asset);
+        isClass('JBZoo\Assets\Asset\JsCode', $asset);
+
+        // CSS Custom Code
+        $asset = $this->_factory->create('test', 'div{display:block;}', [], ['type' => Asset::TYPE_CSS_CODE]);
+        isClass('JBZoo\Assets\Asset\Asset', $asset);
+        isClass('JBZoo\Assets\Asset\CssCode', $asset);
+    }
+
+    public function testCreateSimpleAssets()
     {
         $asset = $this->_factory->create('test', 'path/to/my-file.css');
 
-        isClass('JBZoo\Assets\Asset\Asset', $asset);
-        isSame('test', $asset->getName());
+        isSame('test', $asset->getAlias());
         isSame('path/to/my-file.css', $asset->getSource());
         isSame([], $asset->getDependencies());
-        isSame(['type' => 'file'], $asset->getOptions());
+        isSame([], $asset->getOptions()->getArrayCopy());
     }
+
 
     public function testCreateByDependenciesIsString()
     {
-        $asset = $this->_factory->create('test', '\path\to/my-file.css', 'uikit');
+        $asset = $this->_factory->create('test', '\path\to/my-file.JS', 'uikit');
 
-        isClass('JBZoo\Assets\Asset\Asset', $asset);
-        isSame('test', $asset->getName());
-        isSame('\path\to/my-file.css', $asset->getSource());
+        isSame('test', $asset->getAlias());
+        isSame('\path\to/my-file.JS', $asset->getSource());
         isSame(['uikit'], $asset->getDependencies());
-        isSame(['type' => 'file'], $asset->getOptions());
-    }
-
-    public function testCreateNotCurrentTypeName()
-    {
-        $asset = $this->_factory->create('test', '\path\to/my-file.css', 'uikit', ['type' => 'FilE']);
-
-        isClass('JBZoo\Assets\Asset\Asset', $asset);
+        isSame([], $asset->getOptions()->getArrayCopy());
     }
 
     public function testCreateByDependenciesIsArray()
     {
         $asset = $this->_factory->create('test', '\path\to/my-file.css', ['uikit', 'jquery-ui']);
 
-        isClass('JBZoo\Assets\Asset\Asset', $asset);
-        isSame('test', $asset->getName());
+        isSame('test', $asset->getAlias());
         isSame('\path\to/my-file.css', $asset->getSource());
         isSame(['uikit', 'jquery-ui'], $asset->getDependencies());
-        isSame(['type' => 'file'], $asset->getOptions());
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testCreateInvalidArgumentByOptionsString()
-    {
-        $this->_factory->create('test', '\path\to/my-file.css', ['uikit', 'jquery-ui'], 'no-exits');
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testCreateInvalidArgumentByOptionsArray()
-    {
-        $this->_factory->create('test', '\path\to/my-file.css', ['uikit', 'jquery-ui'], ['type' => 'no-exits']);
+        isSame([], $asset->getOptions()->getArrayCopy());
     }
 
     public function testGetRoot()
     {
-        isSame(__DIR__, $this->_factory->getRoot());
-    }
+        $dir = __DIR__;
 
-    public function testRegisterCustomTypeByString()
-    {
-        $this->_factory->register('Custom', 'Custom\Assets\CustomAsset');
-        $asset = $this->_factory->create('custom_name', 'my/custom/path.js', null, 'CUSTOM');
+        $path = new Path();
+        $path->setRoot($dir);
+        $manager = new Manager($path);
 
-        isClass('Custom\Assets\CustomAsset', $asset);
-        isSame('custom_name', $asset->getName());
-        isSame([], $asset->getDependencies());
-        isSame('my/custom/path.js', $asset->getSource());
-        isSame(['type' => 'custom'], $asset->getOptions());
-    }
-
-    public function testRegisterCustomTypeByArray()
-    {
-        $this->_factory->register('Custom', 'Custom\Assets\CustomAsset');
-        $asset = $this->_factory->create('custom_name', 'my/custom/path.js', null, ['type' => 'custom']);
-
-        isClass('Custom\Assets\CustomAsset', $asset);
-        isSame('custom_name', $asset->getName());
-        isSame([], $asset->getDependencies());
-        isSame('my/custom/path.js', $asset->getSource());
-        isSame(['type' => 'custom'], $asset->getOptions());
+        isSame(
+            FS::clean($dir),
+            FS::clean($manager->getPath()->getRoot())
+        );
     }
 }

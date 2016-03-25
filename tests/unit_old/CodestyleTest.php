@@ -19,7 +19,8 @@ namespace JBZoo\PHPUnit;
  * Class CodestyleTest
  * @package JBZoo\PHPUnit
  */
-class CodestyleTest extends Codestyle
+class CodestyleTest_old extends Codestyle
 {
-    protected $_packageName = 'Assets';
+    protected $_packageName = "Assets";
+    protected $_packageAuthor = 'Sergey Kalistratov <kalistratov.s.m@gmail.com>';
 }

@@ -13,13 +13,13 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace JBZoo\PHPUnit;
+namespace JBZoo\Assets\Asset;
 
 /**
- * Class CodestyleTest
- * @package JBZoo\PHPUnit
+ * Class JsFile
+ * @package JBZoo\Assets\Asset
  */
-class CodestyleTest extends Codestyle
+class JsFile extends File
 {
-    protected $_packageName = 'Assets';
+    protected $_type = Asset::TYPE_JS_FILE;
 }

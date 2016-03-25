@@ -21,7 +21,7 @@ use JBZoo\Assets\Filter\FilterManager;
  * Class FilterManagerTest
  * @package JBZoo\PHPUnit
  */
-class FilterManagerTest extends PHPUnit
+class FilterManagerTest_old extends PHPUnit
 {
     public function testGetFilter()
     {

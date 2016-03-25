@@ -16,11 +16,8 @@
 namespace JBZoo\Assets;
 
 use JBZoo\Assets\Asset\Asset;
-use JBZoo\Assets\Asset\File;
 use JBZoo\Data\Data;
-use JBZoo\Path\Path;
-use JBZoo\Utils\Arr;
-use JBZoo\Utils\Str;
+use JBZoo\Utils\FS;
 
 /**
  * Class Factory
@@ -29,129 +26,87 @@ use JBZoo\Utils\Str;
 class Factory
 {
     /**
-     * Map of asset types.
-     *
      * @var array
      */
-    protected $_types = [
-        'file' => 'JBZoo\Assets\Asset\File',
+    protected $_customTypes = [
+        Asset::TYPE_CSS_CODE => 'CssCode',
+        Asset::TYPE_JS_CODE  => 'JsCode',
     ];
 
     /**
-     * Path to root directory.
-     *
-     * @var string
+     * @var Manager
      */
-    protected $_root;
-
-    /**
-     * Default params.
-     *
-     * @var array
-     */
-    protected $_default = [
-        'debug'      => false,
-        'combine'    => false,
-        'minify_css' => false,
-        'minify_js'  => false,
-    ];
-
-    /**
-     * Factory params.
-     *
-     * @var Data
-     */
-    protected $_params;
+    protected $_manager;
 
     /**
      * Factory constructor.
-     * @param string $root
-     * @param array  $params
+     * @param Manager $manager
      */
-    public function __construct($root, array $params = [])
+    public function __construct(Manager $manager)
     {
-        Path::getInstance()->setRoot($root);
+        $this->_manager = $manager;
+    }
 
-        $this->_root   = $root;
-        $params        = array_merge($this->_default, $params);
-        $this->_params = new Data($params);
+    /**
+     * @return Manager
+     */
+    public function getManager()
+    {
+        return $this->_manager;
     }
 
     /**
      * Create asset instance.
      *
-     * @param string       $name
-     * @param string       $source
+     * @param string       $alias
+     * @param mixed        $source
      * @param string|array $dependencies
      * @param string|array $options
-     * @throws \InvalidArgumentException
+     * @throws Exception
      * @return Asset
      */
-    public function create($name, $source, $dependencies = [], $options = [])
+    public function create($alias, $source, $dependencies = [], $options = [])
     {
-        $dependencies = (array)$dependencies;
-        $options      = $this->_normalizeOptions($options);
-        $type         = $options['type'];
+        $assetType = isset($options['type']) ? $options['type'] : '';
 
-        if (Arr::key($type, $this->_types)) {
-            $class = $this->_types[$type];
-            return new $class($this->_root, $this->_params, $name, $source, $dependencies, $options);
+        if (isset($this->_customTypes[$assetType])) {
+            $assetType = $this->_customTypes[$assetType];
+
+        } elseif (is_callable($source)) {
+            $assetType = 'Callback';
+
+        } elseif (is_string($source)) {
+
+            $ext = strtolower(FS::ext($source));
+            if ($ext === 'js') {
+                $assetType = 'JsFile';
+
+            } elseif ($ext === 'css') {
+                $assetType = 'CssFile';
+
+            } elseif ($ext === 'less') {
+                $assetType = 'LessFile';
+            }
+
+        } elseif (is_array($source)) {
+            $assetType = 'Collection';
         }
 
-        throw new \InvalidArgumentException('Asset type does not exist or was not determined.');
-    }
-
-    /**
-     * Gets the full root path.
-     *
-     * @return string
-     */
-    public function getRoot()
-    {
-        return $this->_root;
-    }
-
-    /**
-     * Data params.
-     *
-     * @return Data
-     */
-    public function params()
-    {
-        return $this->_params;
-    }
-
-    /**
-     * Registers an asset type.
-     *
-     * @param string $name
-     * @param string $class
-     * @return $this
-     */
-    public function register($name, $class)
-    {
-        $this->_types[Str::low($name)] = $class;
-        return $this;
-    }
-
-    /**
-     * Normalize options.
-     *
-     * @param string|array $options
-     * @return array
-     */
-    protected function _normalizeOptions($options = [])
-    {
-        if (is_string($options)) {
-            $options = ['type' => $options];
+        $className = __NAMESPACE__ . '\\Asset\\' . $assetType;
+        if (class_exists($className)) {
+            $options = is_array($options) ? new Data($options) : $options;
+            return new $className($this->getManager(), $alias, $source, $dependencies, $options);
         }
 
-        if (!Arr::key('type', $options)) {
-            $options['type'] = File::ASSET_TYPE_FILE;
-        }
+        throw new Exception('Undefined asset type');
+    }
 
-        $options['type'] = Str::low($options['type']);
-
-        return $options;
+    /**
+     * @param string $type
+     * @param string $className
+     */
+    public function registerType($type, $className)
+    {
+        $this->_customTypes[$type] = $className;
     }
 }

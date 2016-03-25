@@ -13,34 +13,26 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace JBZoo\Assets\Filter;
-
-use JBZoo\Assets\Asset\Asset;
+namespace JBZoo\Assets\Asset;
 
 /**
- * Class Filter
- *
- * @package JBZoo\Assets\Filter
+ * Class Callback
+ * @package JBZoo\Assets\Asset
  */
-abstract class Filter
+class Callback extends Asset
 {
     /**
-     * @var Asset
+     * @var callable
      */
-    protected $_asset;
+    protected $_source;
 
     /**
-     * @param Asset $asset
-     * @return $this
+     * {@inheritdoc}
      */
-    public function setAsset(Asset $asset)
+    public function load(array $filters = [])
     {
-        $this->_asset = $asset;
-        return $this;
-    }
+        $result = call_user_func_array($this->_source, [$this, $this->_params, $filters]);
 
-    /**
-     * @return mixed
-     */
-    abstract public function process();
+        return [Asset::TYPE_CALLBACK, $result];
+    }
 }

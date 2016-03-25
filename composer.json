@@ -17,16 +17,16 @@
         }
     ],
     "require"           : {
-        "php"         : ">=5.4",
-        "jbzoo/utils" : "^1.6",
-        "jbzoo/path"  : "^1.2",
-        "jbzoo/less"  : "^1.0",
-        "jbzoo/data"  : "^1.3"
+        "php"               : ">=5.4",
+        "jbzoo/utils"       : "^1.6",
+        "jbzoo/path"        : "^1.2",
+        "jbzoo/less"        : "^1.0",
+        "jbzoo/data"        : "^1.3",
+        "oyejorge/less.php" : "^1.7"
     },
     "require-dev"       : {
-        "jbzoo/phpunit"      : "^1.5.6",
-        "symfony/filesystem" : "^2.8",
-        "oyejorge/less.php"  : "^1.7"
+        "jbzoo/phpunit"      : "^1.5.7",
+        "symfony/filesystem" : "^2.8"
     },
     "autoload"          : {
         "psr-4" : {
@@ -35,7 +35,7 @@
     },
     "autoload-dev"      : {
         "classmap" : [
-            "tests/fixtures"
+            "tests"
         ]
     },
     "extra"             : {

@@ -15,7 +15,9 @@
 
 namespace JBZoo\Assets\Asset;
 
+use JBZoo\Assets\Manager;
 use JBZoo\Data\Data;
+use JBZoo\Path\Path;
 
 /**
  * Class Asset
@@ -23,10 +25,18 @@ use JBZoo\Data\Data;
  */
 abstract class Asset
 {
+    const TYPE_JS_FILE    = 'js';
+    const TYPE_JS_CODE    = 'js_code';
+    const TYPE_CSS_FILE   = 'css';
+    const TYPE_CSS_CODE   = 'css_code';
+    const TYPE_LESS_FILE  = 'less';
+    const TYPE_CALLBACK   = 'callback';
+    const TYPE_COLLECTION = 'collection';
+
     /**
      * @var string
      */
-    protected $_name;
+    protected $_alias;
 
     /**
      * @var string
@@ -44,9 +54,9 @@ abstract class Asset
     protected $_options = [];
 
     /**
-     * @var string
+     * @var Path
      */
-    protected $_root;
+    protected $_path;
 
     /**
      * @var Data
@@ -54,31 +64,26 @@ abstract class Asset
     protected $_params;
 
     /**
-     * AssetAbstract constructor.
-     *
-     * @param string       $root
-     * @param Data         $params
-     * @param string       $name
-     * @param string       $source
-     * @param string|array $dependencies
-     * @param string|array $options
+     * @var Manager
      */
-    public function __construct($root, Data $params, $name, $source, $dependencies = [], $options = [])
-    {
-        $this->_name         = $name;
-        $this->_root         = $root;
-        $this->_source       = $source;
-        $this->_params       = $params;
-        $this->_options      = (array)$options;
-        $this->_dependencies = (array)$dependencies;
-    }
+    protected $_manager;
 
     /**
-     * @return Data
+     * Asset constructor
+     *
+     * @param Manager $manager
+     * @param string  $alias
+     * @param mixed   $source
+     * @param array   $dependencies
+     * @param Data    $options
      */
-    public function getParams()
+    public function __construct(Manager $manager, $alias, $source, $dependencies, Data $options)
     {
-        return $this->_params;
+        $this->_manager      = $manager;
+        $this->_alias        = $alias;
+        $this->_source       = $source;
+        $this->_dependencies = (array)$dependencies;
+        $this->_options      = $options;
     }
 
     /**
@@ -86,9 +91,9 @@ abstract class Asset
      *
      * @return string
      */
-    public function getName()
+    public function getAlias()
     {
-        return $this->_name;
+        return $this->_alias;
     }
 
     /**
@@ -114,7 +119,7 @@ abstract class Asset
     /**
      * Gets the type.
      *
-     * @return array
+     * @return Data
      */
     public function getOptions()
     {
@@ -123,7 +128,7 @@ abstract class Asset
 
     /**
      * @param array $filters
-     * @return mixed
+     * @return array
      */
     abstract public function load(array $filters = []);
 }

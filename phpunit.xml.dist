@@ -18,17 +18,17 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          syntaxCheck="true"
-         stopOnError="true"
-         stopOnFailure="true"
-         stopOnIncomplete="true"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
          stopOnSkipped="false"
          stopOnRisky="false"
          verbose="false"
-        >
+>
 
     <testsuites>
         <testsuite name="General">
-            <directory suffix="Test.php">./tests</directory>
+            <directory suffix="Test.php">./tests/unit</directory>
         </testsuite>
     </testsuites>
 

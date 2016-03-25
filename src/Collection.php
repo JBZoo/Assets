@@ -25,7 +25,6 @@ use JBZoo\Utils\Arr;
  */
 class Collection implements \Countable
 {
-
     /**
      * Holds registered assets.
      *
@@ -51,7 +50,7 @@ class Collection implements \Countable
      */
     public function add(Asset $asset)
     {
-        $this->_assets[$asset->getName()] = $asset;
+        $this->_assets[$asset->getAlias()] = $asset;
         return $this;
     }
 
@@ -63,7 +62,7 @@ class Collection implements \Countable
      */
     public function get($name)
     {
-        return (Arr::key($name, $this->_assets)) ? $this->_assets[$name] : null;
+        return Arr::key($name, $this->_assets, true);
     }
 
     /**
@@ -83,6 +82,7 @@ class Collection implements \Countable
     public function remove($name)
     {
         $names = (array)$name;
+
         foreach ($names as $name) {
             if (Arr::key($name, $this->_assets)) {
                 unset($this->_assets[$name]);
