@@ -31,6 +31,7 @@ class Factory
     protected $_customTypes = [
         Asset::TYPE_CSS_CODE => 'CssCode',
         Asset::TYPE_JS_CODE  => 'JsCode',
+        Asset::TYPE_JSX_CODE => 'JsxCode',
     ];
 
     /**
@@ -86,6 +87,9 @@ class Factory
 
             } elseif ($ext === 'less') {
                 $assetType = 'LessFile';
+
+            } elseif ($ext === 'jsx') {
+                $assetType = 'JsxFile';
             }
 
         } elseif (is_array($source)) {
@@ -98,7 +102,7 @@ class Factory
             return new $className($this->getManager(), $alias, $source, $dependencies, $options);
         }
 
-        throw new Exception('Undefined asset type');
+        throw new Exception('Undefined asset type: ' . print_r($source, true));
     }
 
     /**
