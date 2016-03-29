@@ -30,8 +30,10 @@ class ManagerTest extends PHPUnitAssets
         isSame(
             [
                 Asset::TYPE_JS_FILE  => [],
-                Asset::TYPE_CSS_FILE => [],
                 Asset::TYPE_JS_CODE  => [],
+                Asset::TYPE_JSX_FILE => [],
+                Asset::TYPE_JSX_CODE => [],
+                Asset::TYPE_CSS_FILE => [],
                 Asset::TYPE_CSS_CODE => [],
             ],
             $this->_manager->build()
