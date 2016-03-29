@@ -27,6 +27,8 @@ abstract class Asset
 {
     const TYPE_JS_FILE    = 'js';
     const TYPE_JS_CODE    = 'js_code';
+    const TYPE_JSX_FILE   = 'jsx';
+    const TYPE_JSX_CODE   = 'jsx_code';
     const TYPE_CSS_FILE   = 'css';
     const TYPE_CSS_CODE   = 'css_code';
     const TYPE_LESS_FILE  = 'less';
