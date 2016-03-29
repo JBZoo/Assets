@@ -198,8 +198,10 @@ class Manager
         /** @var Asset $asset */
         $result = [
             Asset::TYPE_JS_FILE  => [],
-            Asset::TYPE_CSS_FILE => [],
             Asset::TYPE_JS_CODE  => [],
+            Asset::TYPE_JSX_FILE => [],
+            Asset::TYPE_JSX_CODE => [],
+            Asset::TYPE_CSS_FILE => [],
             Asset::TYPE_CSS_CODE => [],
         ];
         foreach ($assets as $asset) {
