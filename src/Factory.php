@@ -29,9 +29,15 @@ class Factory
      * @var array
      */
     protected $_customTypes = [
-        Asset::TYPE_CSS_CODE => 'CssCode',
-        Asset::TYPE_JS_CODE  => 'JsCode',
-        Asset::TYPE_JSX_CODE => 'JsxCode',
+        Asset::TYPE_CSS_CODE   => 'CssCode',
+        Asset::TYPE_CSS_FILE   => 'CssFile',
+        Asset::TYPE_JS_CODE    => 'JsCode',
+        Asset::TYPE_JS_FILE    => 'JsFile',
+        Asset::TYPE_JSX_CODE   => 'JsxCode',
+        Asset::TYPE_JSX_FILE   => 'JsxFile',
+        Asset::TYPE_LESS_FILE  => 'LessFile',
+        Asset::TYPE_CALLBACK   => 'Callback',
+        Asset::TYPE_COLLECTION => 'Collection',
     ];
 
     /**
@@ -77,8 +83,8 @@ class Factory
             $assetType = 'Callback';
 
         } elseif (is_string($source)) {
-
             $ext = strtolower(FS::ext($source));
+
             if ($ext === 'js') {
                 $assetType = 'JsFile';
 
