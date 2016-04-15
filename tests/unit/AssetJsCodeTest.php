@@ -39,24 +39,26 @@ class AssetJsCodeTest extends PHPUnitAssets
     public function testCreateAssetJsCodeWithTags()
     {
         $jsCode       = 'alert(1);';
-        $jsCodeTagged = ' <script>   ' . PHP_EOL . $jsCode . PHP_EOL . ' </script> ';
+        $draftJsCode  = PHP_EOL . $jsCode . PHP_EOL;
+        $jsCodeTagged = ' <script>' . $draftJsCode . '</script> ';
 
         $asset  = $this->_factory->create('test', $jsCodeTagged, [], ['type' => Asset::TYPE_JS_CODE]);
         $result = $asset->load();
 
         isSame(Asset::TYPE_JS_CODE, $result[0]);
-        isSame($jsCode, $result[1]);
+        isSame($draftJsCode, $result[1]);
     }
 
     public function testCreateAssetJsCodeWithTagsAndAttrs()
     {
         $jsCode       = 'alert(1);';
-        $jsCodeTagged = ' <Script type="text/javascript"> ' . PHP_EOL . $jsCode . PHP_EOL . ' </ScripT> ';
+        $draftJsCode  = ' ' . PHP_EOL . $jsCode . PHP_EOL . ' ';
+        $jsCodeTagged = ' <Script type="text/javascript">' . $draftJsCode . '</ScripT> ';
 
         $asset  = $this->_factory->create('test', $jsCodeTagged, [], ['type' => Asset::TYPE_JS_CODE]);
         $result = $asset->load();
 
         isSame(Asset::TYPE_JS_CODE, $result[0]);
-        isSame($jsCode, $result[1]);
+        isSame($draftJsCode, $result[1]);
     }
 }

@@ -39,24 +39,26 @@ class AssetCssCodeTest extends PHPUnitAssets
     public function testCreateAssetCssCodeWithTags()
     {
         $cssCode       = 'div{color:red;}';
-        $cssCodeTagged = ' <Style>   ' . PHP_EOL . $cssCode . '  ' . PHP_EOL . ' </StylE> ';
+        $draftCssCode  = PHP_EOL . $cssCode . ' ' . PHP_EOL;
+        $cssCodeTagged = ' <Style>' . $draftCssCode . '</StylE> ';
 
         $asset  = $this->_factory->create('test', $cssCodeTagged, [], ['type' => Asset::TYPE_CSS_CODE]);
         $result = $asset->load();
 
         isSame(Asset::TYPE_CSS_CODE, $result[0]);
-        isSame($cssCode, $result[1]);
+        isSame($draftCssCode, $result[1]);
     }
 
     public function testCreateAssetCssCodeWithTagsAndAttrs()
     {
         $cssCode       = 'div{color:red;}';
-        $cssCodeTagged = ' <Style someattr="123">   ' . PHP_EOL . $cssCode . '  ' . PHP_EOL . ' </StylE> ';
+        $draftCssCode  = '   ' . PHP_EOL . $cssCode . ' ' . PHP_EOL . ' ';
+        $cssCodeTagged = ' <Style someattr="123">' . $draftCssCode . '</StylE> ';
 
         $asset  = $this->_factory->create('test', $cssCodeTagged, [], ['type' => Asset::TYPE_CSS_CODE]);
         $result = $asset->load();
 
         isSame(Asset::TYPE_CSS_CODE, $result[0]);
-        isSame($cssCode, $result[1]);
+        isSame($draftCssCode, $result[1]);
     }
 }

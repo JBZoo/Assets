@@ -34,7 +34,7 @@ class CssCode extends Asset
 
         if (stripos($source, '<style') === 0) {
             if (preg_match('#<style.*?>(.*?)</style>#ius', $source, $matches)) {
-                $source = Str::trim($matches[1]);
+                $source = $matches[1];
             }
         }
 

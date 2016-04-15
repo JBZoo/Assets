@@ -34,7 +34,7 @@ class JsCode extends File
 
         if (stripos($source, '<script') === 0) {
             if (preg_match('#<script.*?>(.*?)</script>#ius', $source, $matches)) {
-                $source = Str::trim($matches[1]);
+                $source = $matches[1];
             }
         }
 
