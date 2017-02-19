@@ -65,4 +65,17 @@ class AssetJsFileTest extends PHPUnitAssets
         $result = $asset->load();
         isFalse($result[1]);
     }
+
+    /**
+     * @expectedException \JBZoo\Assets\Exception
+     */
+    public function testCreateUndefinedFileStrictMode()
+    {
+        $this->_manager->setParam('strict_mode', true);
+
+        $vpath = 'assets:js/undefined.js';
+
+        $asset = $this->_factory->create('test', $vpath);
+        $asset->load();
+    }
 }

@@ -15,6 +15,7 @@
 
 namespace JBZoo\Assets\Asset;
 
+use JBZoo\Assets\Exception;
 use JBZoo\Utils\Url;
 
 /**
@@ -39,13 +40,22 @@ abstract class File extends Asset
     /**
      * Find source in variants.
      *
-     * @return array
+     * @return string|array
+     * @throws Exception
      */
     protected function _findSource()
     {
         $path = $this->_manager->getPath();
+
         if ($path->isVirtual($this->_source)) {
-            return $path->get($this->_source);
+            $path = $path->get($this->_source);
+
+            $isStrictMode = $this->_manager->getParams()->get('strict_mode', false, 'bool');
+            if ($isStrictMode && !$path) {
+                throw new Exception("Asset file not found: {$this->_source}");
+            }
+
+            return $path;
         }
 
         if (Url::isAbsolute($this->_source)) {

@@ -50,8 +50,9 @@ class Manager
      * @var array
      */
     protected $_default = [
-        'debug' => false,
-        'less'  => [],
+        'debug'       => false,
+        'strict_mode' => false,
+        'less'        => [],
     ];
 
     /**
@@ -64,8 +65,8 @@ class Manager
     {
         $this->_params = new Data(array_merge($this->_default, $params));
 
-        $this->_path       = $path;
-        $this->_factory    = new Factory($this);
+        $this->_path = $path;
+        $this->_factory = new Factory($this);
         $this->_collection = new Collection();
     }
 
@@ -215,13 +216,13 @@ class Manager
             if (Asset::TYPE_COLLECTION === $source[0]) {
                 $source = $source[1];
             } else {
-                $source = array($source);
+                $source = [$source];
             }
 
             foreach ($source as $sourceItem) {
 
                 $type = $sourceItem[0];
-                $src  = $sourceItem[1];
+                $src = $sourceItem[1];
 
                 if ($src && !Arr::in($src, $result[$type])) {
                     $result[$type][] = $src;

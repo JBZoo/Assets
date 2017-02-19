@@ -35,8 +35,9 @@ class FactoryTest extends PHPUnitAssets
         isSame([], $params->get('less'));
 
         isSame([
-            'debug' => false,
-            'less'  => [],
+            'debug'       => false,
+            'strict_mode' => false,
+            'less'        => [],
         ], $params->getArrayCopy());
     }
 
