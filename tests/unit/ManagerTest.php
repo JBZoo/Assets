@@ -35,6 +35,7 @@ class ManagerTest extends PHPUnitAssets
                 Asset::TYPE_JSX_CODE => [],
                 Asset::TYPE_CSS_FILE => [],
                 Asset::TYPE_CSS_CODE => [],
+                Asset::TYPE_CALLBACK => [],
             ],
             $this->_manager->build()
         );

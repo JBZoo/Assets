@@ -204,6 +204,7 @@ class Manager
             Asset::TYPE_JSX_CODE => [],
             Asset::TYPE_CSS_FILE => [],
             Asset::TYPE_CSS_CODE => [],
+            Asset::TYPE_CALLBACK => [],
         ];
         foreach ($assets as $asset) {
 
