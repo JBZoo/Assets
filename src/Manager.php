@@ -205,10 +205,6 @@ class Manager
 
             $source = $asset->load($filters);
 
-            if (Asset::TYPE_CALLBACK === $source[0]) {
-                continue;
-            }
-
             if (Asset::TYPE_COLLECTION === $source[0]) {
                 $source = $source[1];
             } else {
