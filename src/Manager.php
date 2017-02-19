@@ -109,14 +109,9 @@ class Manager
         if ($source !== null) {
             $asset = $this->_factory->create($alias, $source, $dependencies, $options);
             $this->_collection->add($asset);
-
-        } else {
-            $asset = $this->_collection->get($alias);
         }
 
-        if ($asset) {
-            $this->_queued[$alias] = true;
-        }
+        $this->_queued[$alias] = true;
 
         return $this;
     }
