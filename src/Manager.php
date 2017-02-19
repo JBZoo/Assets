@@ -259,6 +259,8 @@ class Manager
 
                 if ($dep = $this->_collection->get($dependency)) {
                     $this->_resolveDependencies($dep, $resolved, $unresolved);
+                } else {
+                    throw new Exception("Undefined depends: $dependency");
                 }
             }
         }
