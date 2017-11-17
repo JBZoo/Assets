@@ -18,7 +18,7 @@
     ],
     "require"           : {
         "php"         : ">=5.4",
-        "jbzoo/utils" : "^1.6",
+        "jbzoo/utils" : "^1.6|^2.0",
         "jbzoo/path"  : "^1.2",
         "jbzoo/less"  : "^1.0",
         "jbzoo/data"  : "^1.3"
