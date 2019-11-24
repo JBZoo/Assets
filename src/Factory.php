@@ -6,11 +6,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\Assets;
@@ -43,7 +42,7 @@ class Factory
     /**
      * @var Manager
      */
-    protected $_manager;
+    protected $eMmanager;
 
     /**
      * Factory constructor.
@@ -51,15 +50,15 @@ class Factory
      */
     public function __construct(Manager $manager)
     {
-        $this->_manager = $manager;
+        $this->eMmanager = $manager;
     }
 
     /**
      * @return Manager
      */
-    public function getManager()
+    public function getManager(): Manager
     {
-        return $this->_manager;
+        return $this->eMmanager;
     }
 
     /**
@@ -69,12 +68,12 @@ class Factory
      * @param mixed        $source
      * @param string|array $dependencies
      * @param string|array $options
-     * @throws Exception
      * @return Asset
+     * @throws Exception
      */
-    public function create($alias, $source, $dependencies = [], $options = [])
+    public function create($alias, $source, $dependencies = [], $options = []): Asset
     {
-        $assetType = isset($options['type']) ? $options['type'] : '';
+        $assetType = $options['type'] ?? '';
 
         if (isset($this->_customTypes[$assetType])) {
             $assetType = $this->_customTypes[$assetType];
@@ -104,6 +103,7 @@ class Factory
 
         $className = __NAMESPACE__ . '\\Asset\\' . $assetType;
         if (class_exists($className)) {
+            /** @noinspection CallableParameterUseCaseInTypeContextInspection */
             $options = is_array($options) ? new Data($options) : $options;
             return new $className($this->getManager(), $alias, $source, $dependencies, $options);
         }
@@ -115,7 +115,7 @@ class Factory
      * @param string $type
      * @param string $className
      */
-    public function registerType($type, $className)
+    public function registerType($type, $className): void
     {
         $this->_customTypes[$type] = $className;
     }

@@ -6,11 +6,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\PHPUnit;
@@ -37,14 +36,14 @@ class ManagerTest extends PHPUnitAssets
                 Asset::TYPE_CSS_CODE => [],
                 Asset::TYPE_CALLBACK => [],
             ],
-            $this->_manager->build()
+            $this->manager->build()
         );
     }
 
     public function testRegisterNewAssets()
     {
-        $this->_manager->register('bootstrap', 'assets/css/libs/bootstrap.css');
-        $collection = $this->_manager->getCollection();
+        $this->manager->register('bootstrap', 'assets/css/libs/bootstrap.css');
+        $collection = $this->manager->getCollection();
 
         isClass('\JBZoo\Assets\Asset\CssFile', $collection->get('bootstrap'));
         isSame('bootstrap', $collection->get('bootstrap')->getAlias());
@@ -53,11 +52,11 @@ class ManagerTest extends PHPUnitAssets
 
     public function testRegisterLocalAssets()
     {
-        $this->_manager
+        $this->manager
             ->add('custom', 'assets/css/custom.css')
             ->register('bootstrap', 'assets/css/libs/bootstrap.css')
             ->add('bootstrap');
-        $collection = $this->_manager->getCollection();
+        $collection = $this->manager->getCollection();
 
         /** @var File $asset */
         $asset = $collection->get('bootstrap');
@@ -68,17 +67,17 @@ class ManagerTest extends PHPUnitAssets
 
     public function testUnRegisterAssets()
     {
-        $this->_manager
+        $this->manager
             ->add('custom', 'assets/css/custom.css')
             ->register('styles', 'assets/css/styles.css')
             ->register('template', 'assets/css/template.css')
             ->register('bootstrap', 'assets/css/libs/bootstrap.css');
 
-        $collection = $this->_manager->getCollection();
+        $collection = $this->manager->getCollection();
 
         isSame(4, $collection->count());
 
-        $this->_manager->unregister('styles');
+        $this->manager->unregister('styles');
         isSame(3, $collection->count());
         isNull($collection->get('styles'));
     }

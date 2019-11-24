@@ -6,15 +6,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\Assets;
 
+use Countable;
 use JBZoo\Assets\Asset\Asset;
 use JBZoo\Utils\Arr;
 
@@ -23,14 +23,14 @@ use JBZoo\Utils\Arr;
  *
  * @package JBZoo\Assets
  */
-class Collection implements \Countable
+class Collection implements Countable
 {
     /**
      * Holds registered assets.
      *
      * @var array
      */
-    protected $_assets = [];
+    protected $assets = [];
 
     /**
      * Collection constructor.
@@ -39,7 +39,7 @@ class Collection implements \Countable
      */
     public function __construct(array $assets = [])
     {
-        $this->_assets = $assets;
+        $this->assets = $assets;
     }
 
     /**
@@ -48,9 +48,9 @@ class Collection implements \Countable
      * @param Asset $asset
      * @return $this
      */
-    public function add(Asset $asset)
+    public function add(Asset $asset): self
     {
-        $this->_assets[$asset->getAlias()] = $asset;
+        $this->assets[$asset->getAlias()] = $asset;
         return $this;
     }
 
@@ -60,17 +60,17 @@ class Collection implements \Countable
      * @param $name
      * @return Asset|null
      */
-    public function get($name)
+    public function get($name): ?Asset
     {
-        return Arr::key($name, $this->_assets, true);
+        return Arr::key($name, $this->assets, true);
     }
 
     /**
      * @return array
      */
-    public function getAssets()
+    public function getAssets(): array
     {
-        return $this->_assets;
+        return $this->assets;
     }
 
     /**
@@ -79,13 +79,14 @@ class Collection implements \Countable
      * @param string|array $name
      * @return void
      */
-    public function remove($name)
+    public function remove($name): void
     {
         $names = (array)$name;
 
+        /** @noinspection SuspiciousLoopInspection */
         foreach ($names as $name) {
-            if (Arr::key($name, $this->_assets)) {
-                unset($this->_assets[$name]);
+            if (Arr::key($name, $this->assets)) {
+                unset($this->assets[$name]);
             }
         }
     }
@@ -95,8 +96,8 @@ class Collection implements \Countable
      *
      * @return int
      */
-    public function count()
+    public function count(): ?int
     {
-        return count($this->_assets);
+        return count($this->assets);
     }
 }

@@ -6,11 +6,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\PHPUnit;
@@ -26,7 +25,7 @@ class AssetCallbackTest extends PHPUnitAssets
 {
     public function testCreateAssetCallback()
     {
-        $asset = $this->_factory->create('test', function () {
+        $asset = $this->factory->create('test', function () {
         });
 
         isClass('JBZoo\Assets\Asset\Asset', $asset);
@@ -35,7 +34,7 @@ class AssetCallbackTest extends PHPUnitAssets
 
     public function testLoadCallback()
     {
-        $asset = $this->_factory->create('test', function () {
+        $asset = $this->factory->create('test', function () {
             return 42;
         });
 
@@ -48,11 +47,11 @@ class AssetCallbackTest extends PHPUnitAssets
     public function testAddCallback()
     {
         $vaiable = 0;
-        $this->_manager->add('func', function () use (&$vaiable) {
+        $this->manager->add('func', function () use (&$vaiable) {
             $vaiable++;
         });
 
-        $this->_manager->build();
+        $this->manager->build();
 
         isSame(1, $vaiable);
     }
@@ -61,13 +60,13 @@ class AssetCallbackTest extends PHPUnitAssets
     {
         $vaiable = 0;
 
-        $this->_manager->register('func', function () use (&$vaiable) {
+        $this->manager->register('func', function () use (&$vaiable) {
             $vaiable++;
         });
 
-        $this->_manager->add('func');
+        $this->manager->add('func');
 
-        $this->_manager->build();
+        $this->manager->build();
 
         isSame(1, $vaiable);
     }
@@ -76,7 +75,7 @@ class AssetCallbackTest extends PHPUnitAssets
     {
         $vaiable = 1;
 
-        $this->_manager->add(
+        $this->manager->add(
             'func',
             [
                 function () use (&$vaiable) {
@@ -91,7 +90,7 @@ class AssetCallbackTest extends PHPUnitAssets
             ]
         );
 
-        $this->_manager->build();
+        $this->manager->build();
 
         isSame(55.5, $vaiable);
     }

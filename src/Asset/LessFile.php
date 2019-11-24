@@ -6,11 +6,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\Assets\Asset;
@@ -23,20 +22,20 @@ use JBZoo\Less\Less;
  */
 class LessFile extends File
 {
-    protected $_type = Asset::TYPE_LESS_FILE;
+    protected $type = Asset::TYPE_LESS_FILE;
 
     /**
      * {@inheritdoc}
      */
     public function load(array $filters = [])
     {
-        $result   = parent::load($filters);
+        $result = parent::load($filters);
         $compiled = null;
 
         if ($result[1]) {
-            $options  = $this->_manager->getParams();
-            $root     = $this->_manager->getPath()->getRoot();
-            $less     = new Less($options->get('less'));
+            $options = $this->eManager->getParams();
+            $root = $this->eManager->getPath()->getRoot();
+            $less = new Less($options->get('less'));
             $compiled = $less->compile($result[1], $root);
         }
 

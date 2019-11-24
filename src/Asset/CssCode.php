@@ -6,11 +6,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\Assets\Asset;
@@ -30,12 +29,10 @@ class CssCode extends Asset
      */
     public function load(array $filters = [])
     {
-        $source = Str::trim($this->_source, true);
+        $source = Str::trim($this->source, true);
 
-        if (stripos($source, '<style') === 0) {
-            if (preg_match('#<style.*?>(.*?)</style>#ius', $source, $matches)) {
-                $source = $matches[1];
-            }
+        if ((stripos($source, '<style') === 0) && preg_match('#<style.*?>(.*?)</style>#ius', $source, $matches)) {
+            $source = $matches[1];
         }
 
         return [$this->_type, $source];

@@ -6,11 +6,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\PHPUnit;
@@ -26,11 +25,11 @@ class AssetLessFileTest extends PHPUnitAssets
 {
     public function testLessCompiler()
     {
-        $this->_manager->setParam('less', [
-            'cache_path' => $this->_cachePath,
+        $this->manager->setParam('less', [
+            'cache_path' => $this->cachePath,
         ]);
 
-        $asset = $this->_factory->create('test', 'assets:less/styles.less');
+        $asset = $this->factory->create('test', 'assets:less/styles.less');
 
         $result = $asset->load();
         isSame(Asset::TYPE_CSS_FILE, $result[0]); // Less => CSS
@@ -40,11 +39,11 @@ class AssetLessFileTest extends PHPUnitAssets
 
     public function testLessTryToFindUndefinedFile()
     {
-        $this->_manager->setParam('less', [
-            'cache_path' => $this->_cachePath,
+        $this->manager->setParam('less', [
+            'cache_path' => $this->cachePath,
         ]);
 
-        $asset = $this->_factory->create('test', 'assets:less/undefined.less');
+        $asset = $this->factory->create('test', 'assets:less/undefined.less');
 
         $result = $asset->load();
         isSame(Asset::TYPE_CSS_FILE, $result[0]);

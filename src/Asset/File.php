@@ -6,11 +6,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\Assets\Asset;
@@ -27,14 +26,14 @@ abstract class File extends Asset
     /**
      * @var string
      */
-    protected $_type = null;
+    protected $type;
 
     /**
      * {@inheritdoc}
      */
     public function load(array $filters = [])
     {
-        return [$this->_type, $this->_findSource()];
+        return [$this->type, $this->findSource()];
     }
 
     /**
@@ -42,28 +41,27 @@ abstract class File extends Asset
      *
      * @return string|array
      * @throws Exception
+     * @throws \JBZoo\Path\Exception
      */
-    protected function _findSource()
+    protected function findSource()
     {
-        $path = $this->_manager->getPath();
+        $path = $this->eManager->getPath();
 
-        if ($path->isVirtual($this->_source)) {
-            $path = $path->get($this->_source);
+        if ($path->isVirtual($this->source)) {
+            $path = $path->get($this->source);
 
-            $isStrictMode = $this->_manager->getParams()->get('strict_mode', false, 'bool');
+            $isStrictMode = $this->eManager->getParams()->get('strict_mode', false, 'bool');
             if ($isStrictMode && !$path) {
-                throw new Exception("Asset file not found: {$this->_source}");
+                throw new Exception("Asset file not found: {$this->source}");
             }
 
             return $path;
         }
 
-        if (Url::isAbsolute($this->_source)) {
-            return $this->_source;
+        if (Url::isAbsolute($this->source)) {
+            return $this->source;
         }
 
-        $fullPath = $path->get('root:' . $this->_source);
-
-        return $fullPath;
+        return $path->get('root:' . $this->source);
     }
 }

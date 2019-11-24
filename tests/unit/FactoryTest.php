@@ -6,11 +6,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\PHPUnit;
@@ -28,7 +27,7 @@ class FactoryTest extends PHPUnitAssets
 {
     public function testDefaultParams()
     {
-        $params = $this->_manager->getParams();
+        $params = $this->manager->getParams();
 
         isClass('JBZoo\Data\Data', $params);
         isFalse($params->get('debug'));
@@ -53,48 +52,47 @@ class FactoryTest extends PHPUnitAssets
         isSame(123456, $params->get('some_option'));
     }
 
-    /**
-     * @expectedException \JBZoo\Assets\Exception
-     */
     public function testCreateUndefinedAssetType()
     {
-        $this->_factory->create('test', 'path/to/my-file.undefined');
+        $this->expectException(\JBZoo\Assets\Exception::class);
+
+        $this->factory->create('test', 'path/to/my-file.undefined');
     }
 
     public function testCreateDifferentTypes()
     {
         // CSS File
-        $asset = $this->_factory->create('test', 'file.css');
+        $asset = $this->factory->create('test', 'file.css');
         isClass('JBZoo\Assets\Asset\Asset', $asset);
         isClass('JBZoo\Assets\Asset\File', $asset);
         isClass('JBZoo\Assets\Asset\CssFile', $asset);
 
         // JS File
-        $asset = $this->_factory->create('test', 'http://site.com/script.js?version=1');
+        $asset = $this->factory->create('test', 'http://site.com/script.js?version=1');
         isClass('JBZoo\Assets\Asset\Asset', $asset);
         isClass('JBZoo\Assets\Asset\File', $asset);
         isClass('JBZoo\Assets\Asset\JsFile', $asset);
 
         // Less File
-        $asset = $this->_factory->create('test', 'file.less');
+        $asset = $this->factory->create('test', 'file.less');
         isClass('JBZoo\Assets\Asset\Asset', $asset);
         isClass('JBZoo\Assets\Asset\File', $asset);
         isClass('JBZoo\Assets\Asset\LessFile', $asset);
 
         // JS Custom Code
-        $asset = $this->_factory->create('test', 'alert(1);', [], ['type' => Asset::TYPE_JS_CODE]);
+        $asset = $this->factory->create('test', 'alert(1);', [], ['type' => Asset::TYPE_JS_CODE]);
         isClass('JBZoo\Assets\Asset\Asset', $asset);
         isClass('JBZoo\Assets\Asset\JsCode', $asset);
 
         // CSS Custom Code
-        $asset = $this->_factory->create('test', 'div{display:block;}', [], ['type' => Asset::TYPE_CSS_CODE]);
+        $asset = $this->factory->create('test', 'div{display:block;}', [], ['type' => Asset::TYPE_CSS_CODE]);
         isClass('JBZoo\Assets\Asset\Asset', $asset);
         isClass('JBZoo\Assets\Asset\CssCode', $asset);
     }
 
     public function testCreateSimpleAssets()
     {
-        $asset = $this->_factory->create('test', 'path/to/my-file.css');
+        $asset = $this->factory->create('test', 'path/to/my-file.css');
 
         isSame('test', $asset->getAlias());
         isSame('path/to/my-file.css', $asset->getSource());
@@ -105,7 +103,7 @@ class FactoryTest extends PHPUnitAssets
 
     public function testCreateByDependenciesIsString()
     {
-        $asset = $this->_factory->create('test', '\path\to/my-file.JS', 'uikit');
+        $asset = $this->factory->create('test', '\path\to/my-file.JS', 'uikit');
 
         isSame('test', $asset->getAlias());
         isSame('\path\to/my-file.JS', $asset->getSource());
@@ -115,7 +113,7 @@ class FactoryTest extends PHPUnitAssets
 
     public function testCreateByDependenciesIsArray()
     {
-        $asset = $this->_factory->create('test', '\path\to/my-file.css', ['uikit', 'jquery-ui']);
+        $asset = $this->factory->create('test', '\path\to/my-file.css', ['uikit', 'jquery-ui']);
 
         isSame('test', $asset->getAlias());
         isSame('\path\to/my-file.css', $asset->getSource());

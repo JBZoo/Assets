@@ -6,14 +6,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\Assets\Asset;
+
+use JBZoo\Assets\Exception;
 
 /**
  * Class Collection
@@ -23,15 +24,16 @@ class Collection extends Asset
 {
     /**
      * {@inheritdoc}
+     * @throws Exception
      */
     public function load(array $filters = [])
     {
-        $factory = $this->_manager->getFactory();
+        $factory = $this->eManager->getFactory();
 
         $result = [];
-        foreach ($this->_source as $key => $source) {
-            $subAlias = $this->_alias . '-' . $key;
-            $asset    = $factory->create($subAlias, $source, $this->_dependencies, $this->_options);
+        foreach ($this->source as $key => $source) {
+            $subAlias = $this->alias . '-' . $key;
+            $asset = $factory->create($subAlias, $source, $this->dependencies, $this->options);
             $result[] = $asset->load($filters);
         }
 

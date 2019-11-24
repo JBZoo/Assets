@@ -6,11 +6,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\Assets\Asset;
@@ -25,50 +24,50 @@ use JBZoo\Path\Path;
  */
 abstract class Asset
 {
-    const TYPE_JS_FILE    = 'js';
-    const TYPE_JS_CODE    = 'js_code';
-    const TYPE_JSX_FILE   = 'jsx';
-    const TYPE_JSX_CODE   = 'jsx_code';
-    const TYPE_CSS_FILE   = 'css';
-    const TYPE_CSS_CODE   = 'css_code';
-    const TYPE_LESS_FILE  = 'less';
-    const TYPE_CALLBACK   = 'callback';
-    const TYPE_COLLECTION = 'collection';
+    public const TYPE_JS_FILE    = 'js';
+    public const TYPE_JS_CODE    = 'js_code';
+    public const TYPE_JSX_FILE   = 'jsx';
+    public const TYPE_JSX_CODE   = 'jsx_code';
+    public const TYPE_CSS_FILE   = 'css';
+    public const TYPE_CSS_CODE   = 'css_code';
+    public const TYPE_LESS_FILE  = 'less';
+    public const TYPE_CALLBACK   = 'callback';
+    public const TYPE_COLLECTION = 'collection';
 
     /**
      * @var string
      */
-    protected $_alias;
+    protected $alias;
 
     /**
      * @var string
      */
-    protected $_source;
+    protected $source;
 
     /**
      * @var array
      */
-    protected $_dependencies = [];
+    protected $dependencies = [];
 
     /**
      * @var array
      */
-    protected $_options = [];
+    protected $options = [];
 
     /**
      * @var Path
      */
-    protected $_path;
+    protected $path;
 
     /**
      * @var Data
      */
-    protected $_params;
+    protected $params;
 
     /**
      * @var Manager
      */
-    protected $_manager;
+    protected $eManager;
 
     /**
      * Asset constructor
@@ -81,11 +80,11 @@ abstract class Asset
      */
     public function __construct(Manager $manager, $alias, $source, $dependencies, Data $options)
     {
-        $this->_manager      = $manager;
-        $this->_alias        = $alias;
-        $this->_source       = $source;
-        $this->_dependencies = (array)$dependencies;
-        $this->_options      = $options;
+        $this->eManager = $manager;
+        $this->alias = $alias;
+        $this->source = $source;
+        $this->dependencies = (array)$dependencies;
+        $this->options = $options;
     }
 
     /**
@@ -93,9 +92,9 @@ abstract class Asset
      *
      * @return string
      */
-    public function getAlias()
+    public function getAlias(): string
     {
-        return $this->_alias;
+        return $this->alias;
     }
 
     /**
@@ -103,9 +102,9 @@ abstract class Asset
      *
      * @return array
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        return $this->_dependencies;
+        return $this->dependencies;
     }
 
     /**
@@ -113,9 +112,9 @@ abstract class Asset
      *
      * @return string
      */
-    public function getSource()
+    public function getSource(): string
     {
-        return $this->_source;
+        return $this->source;
     }
 
     /**
@@ -123,9 +122,9 @@ abstract class Asset
      *
      * @return Data
      */
-    public function getOptions()
+    public function getOptions(): Data
     {
-        return $this->_options;
+        return $this->options;
     }
 
     /**

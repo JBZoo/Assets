@@ -6,11 +6,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\PHPUnit;
@@ -28,7 +27,7 @@ class AssetJsxCodeTest extends PHPUnitAssets
     {
         $jsCode = '  alert(1);' . PHP_EOL;
 
-        $asset  = $this->_factory->create('test', $jsCode, [], ['type' => Asset::TYPE_JSX_CODE]);
+        $asset = $this->factory->create('test', $jsCode, [], ['type' => Asset::TYPE_JSX_CODE]);
         $result = $asset->load();
 
         isClass('JBZoo\Assets\Asset\JsxCode', $asset);

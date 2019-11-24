@@ -6,19 +6,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Path\Path;
 use JBZoo\Assets\Collection;
 use JBZoo\Assets\Factory;
 use JBZoo\Assets\Manager;
+use JBZoo\Path\Path;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -31,62 +30,62 @@ abstract class PHPUnitAssets extends PHPUnit
     /**
      * @var Manager
      */
-    protected $_manager;
+    protected $manager;
 
     /**
      * @var Factory
      */
-    protected $_factory;
+    protected $factory;
 
     /**
      * @var Collection
      */
-    protected $_collection;
+    protected $collection;
 
     /**
      * @var Path
      */
-    protected $_path;
+    protected $path;
 
     /**
      * @var Filesystem
      */
-    protected $_fs;
+    protected $fs;
 
     /**
      * @var string
      */
-    protected $_fixtPath;
+    protected $fixtPath;
 
     /**
      * @var string
      */
-    protected $_cachePath;
+    protected $cachePath;
 
     /**
      * Setup test data
      */
-    public function setUp()
+    protected function setUp(): void
     {
-        $_SERVER['HTTP_HOST']   = 'test.dev';
+        $_SERVER['HTTP_HOST'] = 'test.dev';
         $_SERVER['REQUEST_URI'] = '/request';
 
-        $this->_fixtPath  = PROJECT_ROOT . '/tests/fixtures';
-        $this->_cachePath = PROJECT_ROOT . '/build/cache';
+        $this->fixtPath = PROJECT_ROOT . '/tests/fixtures';
+        $this->cachePath = PROJECT_ROOT . '/build/cache';
 
         // cleanup
-        $this->_fs = new Filesystem();
-        $this->_fs->remove($this->_cachePath);
-        $this->_fs->mkdir($this->_cachePath);
+        $this->fs = new Filesystem();
+        $this->fs->remove($this->cachePath);
+        $this->fs->mkdir($this->cachePath);
 
         // Prepare lib
-        $this->_path = new Path();
-        $this->_path->setRoot($this->_fixtPath);
-        $this->_path->set('assets', 'root:assets');
+        $this->path = new Path();
+        $this->path->setRoot($this->fixtPath);
+        $this->path->set('assets', 'root:assets');
 
-        $this->_manager = new Manager($this->_path);
+        $this->manager = new Manager($this->path);
 
-        $this->_factory    = $this->_manager->getFactory();
-        $this->_collection = $this->_manager->getCollection();
+        $this->factory = $this->manager->getFactory();
+        $this->collection = $this->manager->getCollection();
     }
 }

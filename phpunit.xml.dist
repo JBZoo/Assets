@@ -8,7 +8,7 @@
 
     @package    Assets
     @license    MIT
-    @copyright  Copyright (C) JBZoo.com,  All rights reserved.
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
     @link       https://github.com/JBZoo/Assets
 -->
 <phpunit bootstrap="tests/autoload.php"
@@ -17,7 +17,6 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         syntaxCheck="true"
          stopOnError="false"
          stopOnFailure="false"
          stopOnIncomplete="false"

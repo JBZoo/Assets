@@ -6,11 +6,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\PHPUnit;
@@ -26,7 +25,7 @@ class AssetCssFileTest extends PHPUnitAssets
 {
     public function testCreateAssetLocalPathCSS()
     {
-        $asset = $this->_factory->create('test', 'assets/css/styles.css');
+        $asset = $this->factory->create('test', 'assets/css/styles.css');
         isClass('JBZoo\Assets\Asset\CssFile', $asset);
 
         $result = $asset->load();
@@ -36,7 +35,7 @@ class AssetCssFileTest extends PHPUnitAssets
 
     public function testCreateAssetExternalPathCSS()
     {
-        $asset = $this->_factory->create('test', 'https://site.com/styles.css?v=4242&var2=qwerty');
+        $asset = $this->factory->create('test', 'https://site.com/styles.css?v=4242&var2=qwerty');
         isClass('JBZoo\Assets\Asset\CssFile', $asset);
 
         $result = $asset->load();
@@ -47,19 +46,19 @@ class AssetCssFileTest extends PHPUnitAssets
     {
         $vpath = 'assets:css/styles.css';
 
-        $asset = $this->_factory->create('test', $vpath);
+        $asset = $this->factory->create('test', $vpath);
         isClass('JBZoo\Assets\Asset\CssFile', $asset);
 
         $result = $asset->load();
         isTrue($result[1]);
-        isSamePath($this->_path->get($vpath), $result[1]);
+        isSamePath($this->path->get($vpath), $result[1]);
     }
 
     public function testCreateUndefinedFile()
     {
         $vpath = 'assets:css/undefined.css';
 
-        $asset = $this->_factory->create('test', $vpath);
+        $asset = $this->factory->create('test', $vpath);
         isClass('JBZoo\Assets\Asset\CssFile', $asset);
 
         $result = $asset->load();

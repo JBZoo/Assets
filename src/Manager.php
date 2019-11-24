@@ -6,11 +6,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Assets
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/Assets
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package    Assets
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/Assets
  */
 
 namespace JBZoo\Assets;
@@ -29,27 +28,32 @@ class Manager
     /**
      * @var Factory
      */
-    protected $_factory;
+    protected $factory;
 
     /**
      * @var Collection
      */
-    protected $_collection;
+    protected $collection;
 
     /**
      * @var array
      */
-    protected $_queued = [];
+    protected $queued = [];
 
     /**
      * @var Path
      */
-    protected $_path;
+    protected $path;
+
+    /**
+     * @var Data
+     */
+    protected $params;
 
     /**
      * @var array
      */
-    protected $_default = [
+    protected $default = [
         'debug'       => false,
         'strict_mode' => false,
         'less'        => [],
@@ -63,36 +67,36 @@ class Manager
      */
     public function __construct(Path $path, $params = [])
     {
-        $this->_params = new Data(array_merge($this->_default, $params));
+        $this->params = new Data(array_merge($this->default, $params));
 
-        $this->_path = $path;
-        $this->_factory = new Factory($this);
-        $this->_collection = new Collection();
+        $this->path = $path;
+        $this->factory = new Factory($this);
+        $this->collection = new Collection();
     }
 
     /**
      * @return Data
      */
-    public function getParams()
+    public function getParams(): Data
     {
-        return $this->_params;
+        return $this->params;
     }
 
     /**
      * @param string $key
      * @param mixed  $value
      */
-    public function setParam($key, $value)
+    public function setParam($key, $value): void
     {
-        $this->_params->set($key, $value);
+        $this->params->set($key, $value);
     }
 
     /**
      * @return Path
      */
-    public function getPath()
+    public function getPath(): Path
     {
-        return $this->_path;
+        return $this->path;
     }
 
     /**
@@ -103,15 +107,16 @@ class Manager
      * @param string|array $dependencies
      * @param string|array $options
      * @return $this
+     * @throws Exception
      */
-    public function add($alias, $source = null, $dependencies = [], $options = [])
+    public function add($alias, $source = null, $dependencies = [], $options = []): self
     {
         if ($source !== null) {
-            $asset = $this->_factory->create($alias, $source, $dependencies, $options);
-            $this->_collection->add($asset);
+            $asset = $this->factory->create($alias, $source, $dependencies, $options);
+            $this->collection->add($asset);
         }
 
-        $this->_queued[$alias] = true;
+        $this->queued[$alias] = true;
 
         return $this;
     }
@@ -122,9 +127,9 @@ class Manager
      * @param string $alias
      * @return $this
      */
-    public function remove($alias)
+    public function remove($alias): self
     {
-        unset($this->_queued[$alias]);
+        unset($this->queued[$alias]);
         return $this;
     }
 
@@ -136,11 +141,12 @@ class Manager
      * @param array        $dependencies
      * @param string|array $options
      * @return $this
+     * @throws Exception
      */
-    public function register($alias, $source = null, $dependencies = [], $options = [])
+    public function register($alias, $source = null, $dependencies = [], $options = []): self
     {
-        $asset = $this->_factory->create($alias, $source, $dependencies, $options);
-        $this->_collection->add($asset);
+        $asset = $this->factory->create($alias, $source, $dependencies, $options);
+        $this->collection->add($asset);
 
         return $this;
     }
@@ -151,9 +157,9 @@ class Manager
      * @param string $alias
      * @return $this
      */
-    public function unregister($alias)
+    public function unregister($alias): self
     {
-        $this->_collection->remove($alias);
+        $this->collection->remove($alias);
         $this->remove($alias);
         return $this;
     }
@@ -163,9 +169,9 @@ class Manager
      *
      * @return Collection
      */
-    public function getCollection()
+    public function getCollection(): Collection
     {
-        return $this->_collection;
+        return $this->collection;
     }
 
     /**
@@ -173,9 +179,9 @@ class Manager
      *
      * @return Factory
      */
-    public function getFactory()
+    public function getFactory(): Factory
     {
-        return $this->_factory;
+        return $this->factory;
     }
 
     /**
@@ -183,12 +189,13 @@ class Manager
      *
      * @param array $filters
      * @return array
+     * @throws Exception
      */
-    public function build(array $filters = [])
+    public function build(array $filters = []): array
     {
         $assets = [];
-        foreach (array_keys($this->_queued) as $alias) {
-            $this->_resolveDependencies($this->_collection->get($alias), $assets);
+        foreach (array_keys($this->queued) as $alias) {
+            $this->resolveDependencies($this->collection->get($alias), $assets);
         }
 
         /** @var Asset $asset */
@@ -212,9 +219,7 @@ class Manager
             }
 
             foreach ($source as $sourceItem) {
-
-                $type = $sourceItem[0];
-                $src = $sourceItem[1];
+                [$type, $src] = $sourceItem;
 
                 if ($src && !Arr::in($src, $result[$type])) {
                     $result[$type][] = $src;
@@ -234,7 +239,7 @@ class Manager
      * @return Asset[]
      * @throws Exception
      */
-    protected function _resolveDependencies(Asset $asset, &$resolved = [], &$unresolved = [])
+    protected function resolveDependencies(Asset $asset, &$resolved = [], &$unresolved = []): array
     {
         $unresolved[$asset->getAlias()] = $asset;
 
@@ -249,8 +254,8 @@ class Manager
                     ));
                 }
 
-                if ($dep = $this->_collection->get($dependency)) {
-                    $this->_resolveDependencies($dep, $resolved, $unresolved);
+                if ($dep = $this->collection->get($dependency)) {
+                    $this->resolveDependencies($dep, $resolved, $unresolved);
                 } else {
                     throw new Exception("Undefined depends: $dependency");
                 }
