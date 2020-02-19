@@ -18,6 +18,8 @@ use JBZoo\Assets\Manager;
 use JBZoo\Data\Data;
 use JBZoo\Path\Path;
 
+use function JBZoo\Data\data;
+
 /**
  * Class Asset
  * @package JBZoo\Assets\Asset
@@ -40,7 +42,7 @@ abstract class Asset
     protected $alias;
 
     /**
-     * @var string
+     * @var string|array
      */
     protected $source;
 
@@ -84,7 +86,7 @@ abstract class Asset
         $this->alias = $alias;
         $this->source = $source;
         $this->dependencies = (array)$dependencies;
-        $this->options = $options;
+        $this->options = (array)$options;
     }
 
     /**
@@ -124,7 +126,7 @@ abstract class Asset
      */
     public function getOptions(): Data
     {
-        return $this->options;
+        return data($this->options);
     }
 
     /**

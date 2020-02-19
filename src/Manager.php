@@ -198,7 +198,6 @@ class Manager
             $this->resolveDependencies($this->collection->get($alias), $assets);
         }
 
-        /** @var Asset $asset */
         $result = [
             Asset::TYPE_JS_FILE  => [],
             Asset::TYPE_JS_CODE  => [],
@@ -208,8 +207,9 @@ class Manager
             Asset::TYPE_CSS_CODE => [],
             Asset::TYPE_CALLBACK => [],
         ];
-        foreach ($assets as $asset) {
 
+        /** @var Asset $asset */
+        foreach ($assets as $asset) {
             $source = $asset->load($filters);
 
             if (Asset::TYPE_COLLECTION === $source[0]) {
@@ -233,9 +233,9 @@ class Manager
     /**
      * Resolves asset dependencies.
      *
-     * @param Asset|null $asset
-     * @param Asset[]    $resolved
-     * @param Asset[]    $unresolved
+     * @param Asset   $asset
+     * @param Asset[] $resolved
+     * @param Asset[] $unresolved
      * @return Asset[]
      * @throws Exception
      */
@@ -245,7 +245,6 @@ class Manager
 
         foreach ($asset->getDependencies() as $dependency) {
             if (!Arr::key($dependency, $resolved)) {
-
                 if (isset($unresolved[$dependency])) {
                     throw new Exception(sprintf(
                         'Circular asset dependency "%s > %s" detected.',

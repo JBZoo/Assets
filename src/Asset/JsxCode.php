@@ -20,5 +20,8 @@ namespace JBZoo\Assets\Asset;
  */
 class JsxCode extends JsCode
 {
+    /**
+     * @var string
+     */
     protected $type = Asset::TYPE_JSX_CODE;
 }

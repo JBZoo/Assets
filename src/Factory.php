@@ -27,7 +27,7 @@ class Factory
     /**
      * @var array
      */
-    protected $_customTypes = [
+    protected $customTypes = [
         Asset::TYPE_CSS_CODE   => 'CssCode',
         Asset::TYPE_CSS_FILE   => 'CssFile',
         Asset::TYPE_JS_CODE    => 'JsCode',
@@ -42,7 +42,7 @@ class Factory
     /**
      * @var Manager
      */
-    protected $eMmanager;
+    protected $eManager;
 
     /**
      * Factory constructor.
@@ -50,7 +50,7 @@ class Factory
      */
     public function __construct(Manager $manager)
     {
-        $this->eMmanager = $manager;
+        $this->eManager = $manager;
     }
 
     /**
@@ -58,7 +58,7 @@ class Factory
      */
     public function getManager(): Manager
     {
-        return $this->eMmanager;
+        return $this->eManager;
     }
 
     /**
@@ -75,28 +75,22 @@ class Factory
     {
         $assetType = $options['type'] ?? '';
 
-        if (isset($this->_customTypes[$assetType])) {
-            $assetType = $this->_customTypes[$assetType];
-
+        if (isset($this->customTypes[$assetType])) {
+            $assetType = $this->customTypes[$assetType];
         } elseif (is_callable($source)) {
             $assetType = 'Callback';
-
         } elseif (is_string($source)) {
             $ext = strtolower(FS::ext($source));
 
             if ($ext === 'js') {
                 $assetType = 'JsFile';
-
             } elseif ($ext === 'css') {
                 $assetType = 'CssFile';
-
             } elseif ($ext === 'less') {
                 $assetType = 'LessFile';
-
             } elseif ($ext === 'jsx') {
                 $assetType = 'JsxFile';
             }
-
         } elseif (is_array($source)) {
             $assetType = 'Collection';
         }
@@ -117,6 +111,6 @@ class Factory
      */
     public function registerType($type, $className): void
     {
-        $this->_customTypes[$type] = $className;
+        $this->customTypes[$type] = $className;
     }
 }

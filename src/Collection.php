@@ -57,7 +57,7 @@ class Collection implements Countable
     /**
      * Gets asset from collection.
      *
-     * @param $name
+     * @param string $name
      * @return Asset|null
      */
     public function get($name): ?Asset

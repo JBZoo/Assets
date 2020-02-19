@@ -20,5 +20,8 @@ namespace JBZoo\Assets\Asset;
  */
 class JsFile extends File
 {
+    /**
+     * @var string
+     */
     protected $type = Asset::TYPE_JS_FILE;
 }

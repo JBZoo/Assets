@@ -21,7 +21,7 @@
         "php"         : ">=7.1",
         "jbzoo/utils" : "^3.0",
         "jbzoo/path"  : "^2.0",
-        "jbzoo/less"  : "^2.0",
+        "jbzoo/less"  : "^3.0",
         "jbzoo/data"  : "^3.0"
     },
 

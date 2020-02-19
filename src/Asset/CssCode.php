@@ -22,7 +22,10 @@ use JBZoo\Utils\Str;
  */
 class CssCode extends Asset
 {
-    protected $_type = Asset::TYPE_CSS_CODE;
+    /**
+     * @var string
+     */
+    protected $type = Asset::TYPE_CSS_CODE;
 
     /**
      * {@inheritdoc}
@@ -35,6 +38,6 @@ class CssCode extends Asset
             $source = $matches[1];
         }
 
-        return [$this->_type, $source];
+        return [$this->type, $source];
     }
 }

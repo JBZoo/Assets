@@ -20,5 +20,8 @@ namespace JBZoo\Assets\Asset;
  */
 class CssFile extends File
 {
+    /**
+     * @var string
+     */
     protected $type = Asset::TYPE_CSS_FILE;
 }

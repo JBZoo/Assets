@@ -22,6 +22,9 @@ use JBZoo\Less\Less;
  */
 class LessFile extends File
 {
+    /**
+     * @var string
+     */
     protected $type = Asset::TYPE_LESS_FILE;
 
     /**

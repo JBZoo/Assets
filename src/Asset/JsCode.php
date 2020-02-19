@@ -22,6 +22,9 @@ use JBZoo\Utils\Str;
  */
 class JsCode extends File
 {
+    /**
+     * @var string
+     */
     protected $type = Asset::TYPE_JS_CODE;
 
     /**

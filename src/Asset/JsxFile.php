@@ -20,5 +20,8 @@ namespace JBZoo\Assets\Asset;
  */
 class JsxFile extends File
 {
+    /**
+     * @var string
+     */
     protected $type = Asset::TYPE_JSX_FILE;
 }
