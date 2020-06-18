@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -14,7 +15,7 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Assets\Asset\Asset;
+use JBZoo\Assets\Asset\AbstractAsset;
 use JBZoo\Assets\Asset\File;
 
 /**
@@ -28,13 +29,13 @@ class ManagerTest extends PHPUnitAssets
     {
         isSame(
             [
-                Asset::TYPE_JS_FILE  => [],
-                Asset::TYPE_JS_CODE  => [],
-                Asset::TYPE_JSX_FILE => [],
-                Asset::TYPE_JSX_CODE => [],
-                Asset::TYPE_CSS_FILE => [],
-                Asset::TYPE_CSS_CODE => [],
-                Asset::TYPE_CALLBACK => [],
+                AbstractAsset::TYPE_JS_FILE  => [],
+                AbstractAsset::TYPE_JS_CODE  => [],
+                AbstractAsset::TYPE_JSX_FILE => [],
+                AbstractAsset::TYPE_JSX_CODE => [],
+                AbstractAsset::TYPE_CSS_FILE => [],
+                AbstractAsset::TYPE_CSS_CODE => [],
+                AbstractAsset::TYPE_CALLBACK => [],
             ],
             $this->manager->build()
         );

@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -20,7 +21,7 @@ use JBZoo\Assets\Exception;
  * Class Collection
  * @package JBZoo\Assets\Asset
  */
-class Collection extends Asset
+class Collection extends AbstractAsset
 {
     /**
      * {@inheritdoc}
@@ -37,6 +38,6 @@ class Collection extends Asset
             $result[] = $asset->load($filters);
         }
 
-        return [Asset::TYPE_COLLECTION, $result];
+        return [AbstractAsset::TYPE_COLLECTION, $result];
     }
 }

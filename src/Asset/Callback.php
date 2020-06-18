@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -18,7 +19,7 @@ namespace JBZoo\Assets\Asset;
  * Class Callback
  * @package JBZoo\Assets\Asset
  */
-class Callback extends Asset
+class Callback extends AbstractAsset
 {
     /**
      * @var callable
@@ -32,6 +33,6 @@ class Callback extends Asset
     {
         $result = call_user_func($this->source, $this, $this->params, $filters);
 
-        return [Asset::TYPE_CALLBACK, $result];
+        return [AbstractAsset::TYPE_CALLBACK, $result];
     }
 }

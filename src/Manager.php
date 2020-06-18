@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -14,7 +15,7 @@
 
 namespace JBZoo\Assets;
 
-use JBZoo\Assets\Asset\Asset;
+use JBZoo\Assets\Asset\AbstractAsset;
 use JBZoo\Data\Data;
 use JBZoo\Path\Path;
 use JBZoo\Utils\Arr;
@@ -199,20 +200,20 @@ class Manager
         }
 
         $result = [
-            Asset::TYPE_JS_FILE  => [],
-            Asset::TYPE_JS_CODE  => [],
-            Asset::TYPE_JSX_FILE => [],
-            Asset::TYPE_JSX_CODE => [],
-            Asset::TYPE_CSS_FILE => [],
-            Asset::TYPE_CSS_CODE => [],
-            Asset::TYPE_CALLBACK => [],
+            AbstractAsset::TYPE_JS_FILE  => [],
+            AbstractAsset::TYPE_JS_CODE  => [],
+            AbstractAsset::TYPE_JSX_FILE => [],
+            AbstractAsset::TYPE_JSX_CODE => [],
+            AbstractAsset::TYPE_CSS_FILE => [],
+            AbstractAsset::TYPE_CSS_CODE => [],
+            AbstractAsset::TYPE_CALLBACK => [],
         ];
 
-        /** @var Asset $asset */
+        /** @var AbstractAsset $asset */
         foreach ($assets as $asset) {
             $source = $asset->load($filters);
 
-            if (Asset::TYPE_COLLECTION === $source[0]) {
+            if (AbstractAsset::TYPE_COLLECTION === $source[0]) {
                 $source = $source[1];
             } else {
                 $source = [$source];
@@ -233,13 +234,13 @@ class Manager
     /**
      * Resolves asset dependencies.
      *
-     * @param Asset   $asset
-     * @param Asset[] $resolved
-     * @param Asset[] $unresolved
-     * @return Asset[]
+     * @param AbstractAsset   $asset
+     * @param AbstractAsset[] $resolved
+     * @param AbstractAsset[] $unresolved
+     * @return AbstractAsset[]
      * @throws Exception
      */
-    protected function resolveDependencies(Asset $asset, &$resolved = [], &$unresolved = []): array
+    protected function resolveDependencies(AbstractAsset $asset, &$resolved = [], &$unresolved = []): array
     {
         $unresolved[$asset->getAlias()] = $asset;
 

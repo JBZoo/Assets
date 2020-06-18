@@ -13,12 +13,13 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
-namespace JBZoo\Assets;
+namespace JBZoo\PHPUnit;
 
 /**
- * Class Exception
- * @package JBZoo\Assets
+ * Class UtilsCopyrightsTest
+ * @package JBZoo\PHPUnit
  */
-class Exception extends \RuntimeException
+class AssetsCopyrightsTest extends AbstractCodestyleTest
 {
+
 }

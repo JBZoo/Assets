@@ -13,12 +13,14 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
-namespace JBZoo\Assets;
+namespace JBZoo\PHPUnit;
 
 /**
- * Class Exception
- * @package JBZoo\Assets
+ * Class CodestyleReadmeTest
+ *
+ * @package JBZoo\PHPUnit
  */
-class Exception extends \RuntimeException
+class AssetsReadmeTest extends AbstractReadmeTest
 {
+    protected $packageName = 'Assets';
 }

@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -14,7 +15,7 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Assets\Asset\Asset;
+use JBZoo\Assets\Asset\AbstractAsset;
 use JBZoo\Assets\Manager;
 use JBZoo\Path\Path;
 use JBZoo\Utils\FS;
@@ -63,30 +64,30 @@ class FactoryTest extends PHPUnitAssets
     {
         // CSS File
         $asset = $this->factory->create('test', 'file.css');
-        isClass('JBZoo\Assets\Asset\Asset', $asset);
+        isClass('JBZoo\Assets\Asset\AbstractAsset', $asset);
         isClass('JBZoo\Assets\Asset\File', $asset);
         isClass('JBZoo\Assets\Asset\CssFile', $asset);
 
         // JS File
         $asset = $this->factory->create('test', 'http://site.com/script.js?version=1');
-        isClass('JBZoo\Assets\Asset\Asset', $asset);
+        isClass('JBZoo\Assets\Asset\AbstractAsset', $asset);
         isClass('JBZoo\Assets\Asset\File', $asset);
         isClass('JBZoo\Assets\Asset\JsFile', $asset);
 
         // Less File
         $asset = $this->factory->create('test', 'file.less');
-        isClass('JBZoo\Assets\Asset\Asset', $asset);
+        isClass('JBZoo\Assets\Asset\AbstractAsset', $asset);
         isClass('JBZoo\Assets\Asset\File', $asset);
         isClass('JBZoo\Assets\Asset\LessFile', $asset);
 
         // JS Custom Code
-        $asset = $this->factory->create('test', 'alert(1);', [], ['type' => Asset::TYPE_JS_CODE]);
-        isClass('JBZoo\Assets\Asset\Asset', $asset);
+        $asset = $this->factory->create('test', 'alert(1);', [], ['type' => AbstractAsset::TYPE_JS_CODE]);
+        isClass('JBZoo\Assets\Asset\AbstractAsset', $asset);
         isClass('JBZoo\Assets\Asset\JsCode', $asset);
 
         // CSS Custom Code
-        $asset = $this->factory->create('test', 'div{display:block;}', [], ['type' => Asset::TYPE_CSS_CODE]);
-        isClass('JBZoo\Assets\Asset\Asset', $asset);
+        $asset = $this->factory->create('test', 'div{display:block;}', [], ['type' => AbstractAsset::TYPE_CSS_CODE]);
+        isClass('JBZoo\Assets\Asset\AbstractAsset', $asset);
         isClass('JBZoo\Assets\Asset\CssCode', $asset);
     }
 

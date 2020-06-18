@@ -13,12 +13,10 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
-namespace JBZoo\Assets;
+$default = include __DIR__ . '/../vendor/jbzoo/codestyle/src/phan/default.php';
 
-/**
- * Class Exception
- * @package JBZoo\Assets
- */
-class Exception extends \RuntimeException
-{
-}
+return array_merge($default, [
+    'directory_list' => [
+        'src',
+    ]
+]);

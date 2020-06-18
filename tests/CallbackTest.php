@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -14,21 +15,21 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Assets\Asset\Asset;
+use JBZoo\Assets\Asset\AbstractAsset;
 
 /**
  * Class AssetCallbackTest
  * @package JBZoo\PHPUnit
  * @SuppressWarnings(PHPMD.Superglobals)
  */
-class AssetCallbackTest extends PHPUnitAssets
+class CallbackTest extends PHPUnitAssets
 {
     public function testCreateAssetCallback()
     {
         $asset = $this->factory->create('test', function () {
         });
 
-        isClass('JBZoo\Assets\Asset\Asset', $asset);
+        isClass('JBZoo\Assets\Asset\AbstractAsset', $asset);
         isClass('JBZoo\Assets\Asset\Callback', $asset);
     }
 
@@ -40,7 +41,7 @@ class AssetCallbackTest extends PHPUnitAssets
 
         $result = $asset->load();
 
-        isSame(Asset::TYPE_CALLBACK, $result[0]);
+        isSame(AbstractAsset::TYPE_CALLBACK, $result[0]);
         isSame(42, $result[1]);
     }
 

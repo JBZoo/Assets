@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -14,14 +15,14 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Assets\Asset\Asset;
+use JBZoo\Assets\Asset\AbstractAsset;
 
 /**
  * Class AssetCollectionTest
  * @package JBZoo\PHPUnit
  * @SuppressWarnings(PHPMD.Superglobals)
  */
-class AssetCollectionTest extends PHPUnitAssets
+class CollectionTest extends PHPUnitAssets
 {
     public function testCreateAssetCollection()
     {
@@ -47,8 +48,8 @@ class AssetCollectionTest extends PHPUnitAssets
         $this->manager->add('external', '//yandes.st/script.js?v=42', 'test-style');
 
         $result = $this->manager->build();
-        $css = $result[Asset::TYPE_CSS_FILE];
-        $js = $result[Asset::TYPE_JS_FILE];
+        $css = $result[AbstractAsset::TYPE_CSS_FILE];
+        $js = $result[AbstractAsset::TYPE_JS_FILE];
 
         // Check CSS
         isSamePath(PROJECT_ROOT . '/build/cache/tests_fixtures_assets_less_styles_less.css', $css[0]);

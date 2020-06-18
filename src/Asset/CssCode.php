@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -20,12 +21,12 @@ use JBZoo\Utils\Str;
  * Class CssCode
  * @package JBZoo\Assets\Asset
  */
-class CssCode extends Asset
+class CssCode extends AbstractAsset
 {
     /**
      * @var string
      */
-    protected $type = Asset::TYPE_CSS_CODE;
+    protected $type = AbstractAsset::TYPE_CSS_CODE;
 
     /**
      * {@inheritdoc}

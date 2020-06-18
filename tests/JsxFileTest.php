@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -14,14 +15,14 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Assets\Asset\Asset;
+use JBZoo\Assets\Asset\AbstractAsset;
 
 /**
  * Class AssetJsxFileTest
  * @package JBZoo\PHPUnit
  * @SuppressWarnings(PHPMD.Superglobals)
  */
-class AssetJsxFileTest extends PHPUnitAssets
+class JsxFileTest extends PHPUnitAssets
 {
     public function testCreateAssetLocalPathJSX()
     {
@@ -29,7 +30,7 @@ class AssetJsxFileTest extends PHPUnitAssets
         isClass('JBZoo\Assets\Asset\JsxFile', $asset);
 
         $result = $asset->load();
-        isSame(Asset::TYPE_JSX_FILE, $result[0]);
+        isSame(AbstractAsset::TYPE_JSX_FILE, $result[0]);
         isSamePath(PROJECT_TESTS . '/fixtures/assets/jsx/react-component.jsx', $result[1]);
     }
 }

@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -21,10 +22,10 @@ use JBZoo\Path\Path;
 use function JBZoo\Data\data;
 
 /**
- * Class Asset
+ * Class AbstractAsset
  * @package JBZoo\Assets\Asset
  */
-abstract class Asset
+abstract class AbstractAsset
 {
     public const TYPE_JS_FILE    = 'js';
     public const TYPE_JS_CODE    = 'js_code';

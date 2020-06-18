@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -14,24 +15,24 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Assets\Asset\Asset;
+use JBZoo\Assets\Asset\AbstractAsset;
 
 /**
  * Class AssetJsCodeTest
  * @package JBZoo\PHPUnit
  * @SuppressWarnings(PHPMD.Superglobals)
  */
-class AssetJsCodeTest extends PHPUnitAssets
+class JsCodeTest extends PHPUnitAssets
 {
     public function testCreateAssetJsCode()
     {
         $jsCode = '  alert(1);' . PHP_EOL;
 
-        $asset = $this->factory->create('test', $jsCode, [], ['type' => Asset::TYPE_JS_CODE]);
+        $asset = $this->factory->create('test', $jsCode, [], ['type' => AbstractAsset::TYPE_JS_CODE]);
         $result = $asset->load();
 
         isClass('JBZoo\Assets\Asset\JsCode', $asset);
-        isSame(Asset::TYPE_JS_CODE, $result[0]);
+        isSame(AbstractAsset::TYPE_JS_CODE, $result[0]);
         isSame('alert(1);', $result[1]);
     }
 
@@ -41,10 +42,10 @@ class AssetJsCodeTest extends PHPUnitAssets
         $draftJsCode = PHP_EOL . $jsCode . PHP_EOL;
         $jsCodeTagged = ' <script>' . $draftJsCode . '</script> ';
 
-        $asset = $this->factory->create('test', $jsCodeTagged, [], ['type' => Asset::TYPE_JS_CODE]);
+        $asset = $this->factory->create('test', $jsCodeTagged, [], ['type' => AbstractAsset::TYPE_JS_CODE]);
         $result = $asset->load();
 
-        isSame(Asset::TYPE_JS_CODE, $result[0]);
+        isSame(AbstractAsset::TYPE_JS_CODE, $result[0]);
         isSame($draftJsCode, $result[1]);
     }
 
@@ -54,10 +55,10 @@ class AssetJsCodeTest extends PHPUnitAssets
         $draftJsCode = ' ' . PHP_EOL . $jsCode . PHP_EOL . ' ';
         $jsCodeTagged = ' <Script type="text/javascript">' . $draftJsCode . '</ScripT> ';
 
-        $asset = $this->factory->create('test', $jsCodeTagged, [], ['type' => Asset::TYPE_JS_CODE]);
+        $asset = $this->factory->create('test', $jsCodeTagged, [], ['type' => AbstractAsset::TYPE_JS_CODE]);
         $result = $asset->load();
 
-        isSame(Asset::TYPE_JS_CODE, $result[0]);
+        isSame(AbstractAsset::TYPE_JS_CODE, $result[0]);
         isSame($draftJsCode, $result[1]);
     }
 }

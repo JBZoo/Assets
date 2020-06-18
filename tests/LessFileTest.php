@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -14,14 +15,14 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\Assets\Asset\Asset;
+use JBZoo\Assets\Asset\AbstractAsset;
 
 /**
  * Class AssetLessFileTest
  * @package JBZoo\PHPUnit
  * @SuppressWarnings(PHPMD.Superglobals)
  */
-class AssetLessFileTest extends PHPUnitAssets
+class LessFileTest extends PHPUnitAssets
 {
     public function testLessCompiler()
     {
@@ -32,7 +33,7 @@ class AssetLessFileTest extends PHPUnitAssets
         $asset = $this->factory->create('test', 'assets:less/styles.less');
 
         $result = $asset->load();
-        isSame(Asset::TYPE_CSS_FILE, $result[0]); // Less => CSS
+        isSame(AbstractAsset::TYPE_CSS_FILE, $result[0]); // Less => CSS
         isSamePath(PROJECT_ROOT . '/build/cache/tests_fixtures_assets_less_styles_less.css', $result[1]);
         isContain('.myClass-block', file_get_contents($result[1]));
     }
@@ -46,7 +47,7 @@ class AssetLessFileTest extends PHPUnitAssets
         $asset = $this->factory->create('test', 'assets:less/undefined.less');
 
         $result = $asset->load();
-        isSame(Asset::TYPE_CSS_FILE, $result[0]);
+        isSame(AbstractAsset::TYPE_CSS_FILE, $result[0]);
         isFalse($result[1]);
     }
 }

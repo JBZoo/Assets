@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -14,7 +15,7 @@
 
 namespace JBZoo\Assets;
 
-use JBZoo\Assets\Asset\Asset;
+use JBZoo\Assets\Asset\AbstractAsset;
 use JBZoo\Data\Data;
 use JBZoo\Utils\FS;
 
@@ -28,15 +29,15 @@ class Factory
      * @var array
      */
     protected $customTypes = [
-        Asset::TYPE_CSS_CODE   => 'CssCode',
-        Asset::TYPE_CSS_FILE   => 'CssFile',
-        Asset::TYPE_JS_CODE    => 'JsCode',
-        Asset::TYPE_JS_FILE    => 'JsFile',
-        Asset::TYPE_JSX_CODE   => 'JsxCode',
-        Asset::TYPE_JSX_FILE   => 'JsxFile',
-        Asset::TYPE_LESS_FILE  => 'LessFile',
-        Asset::TYPE_CALLBACK   => 'Callback',
-        Asset::TYPE_COLLECTION => 'Collection',
+        AbstractAsset::TYPE_CSS_CODE   => 'CssCode',
+        AbstractAsset::TYPE_CSS_FILE   => 'CssFile',
+        AbstractAsset::TYPE_JS_CODE    => 'JsCode',
+        AbstractAsset::TYPE_JS_FILE    => 'JsFile',
+        AbstractAsset::TYPE_JSX_CODE   => 'JsxCode',
+        AbstractAsset::TYPE_JSX_FILE   => 'JsxFile',
+        AbstractAsset::TYPE_LESS_FILE  => 'LessFile',
+        AbstractAsset::TYPE_CALLBACK   => 'Callback',
+        AbstractAsset::TYPE_COLLECTION => 'Collection',
     ];
 
     /**
@@ -68,10 +69,11 @@ class Factory
      * @param mixed        $source
      * @param string|array $dependencies
      * @param string|array $options
-     * @return Asset
+     * @return AbstractAsset
      * @throws Exception
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function create($alias, $source, $dependencies = [], $options = []): Asset
+    public function create($alias, $source, $dependencies = [], $options = []): AbstractAsset
     {
         $assetType = $options['type'] ?? '';
 

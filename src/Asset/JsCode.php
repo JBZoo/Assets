@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -25,7 +26,7 @@ class JsCode extends File
     /**
      * @var string
      */
-    protected $type = Asset::TYPE_JS_CODE;
+    protected $type = AbstractAsset::TYPE_JS_CODE;
 
     /**
      * {@inheritdoc}

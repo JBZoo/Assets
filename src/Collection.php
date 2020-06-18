@@ -1,8 +1,9 @@
 <?php
+
 /**
- * JBZoo Assets
+ * JBZoo Toolbox - Assets
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
@@ -15,7 +16,7 @@
 namespace JBZoo\Assets;
 
 use Countable;
-use JBZoo\Assets\Asset\Asset;
+use JBZoo\Assets\Asset\AbstractAsset;
 use JBZoo\Utils\Arr;
 
 /**
@@ -45,10 +46,10 @@ class Collection implements Countable
     /**
      * Adds asset to collection.
      *
-     * @param Asset $asset
+     * @param AbstractAsset $asset
      * @return $this
      */
-    public function add(Asset $asset): self
+    public function add(AbstractAsset $asset): self
     {
         $this->assets[$asset->getAlias()] = $asset;
         return $this;
@@ -58,9 +59,9 @@ class Collection implements Countable
      * Gets asset from collection.
      *
      * @param string $name
-     * @return Asset|null
+     * @return AbstractAsset|null
      */
-    public function get($name): ?Asset
+    public function get($name): ?AbstractAsset
     {
         return Arr::key($name, $this->assets, true);
     }
