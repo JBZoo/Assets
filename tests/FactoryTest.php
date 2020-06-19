@@ -65,19 +65,19 @@ class FactoryTest extends PHPUnitAssets
         // CSS File
         $asset = $this->factory->create('test', 'file.css');
         isClass('JBZoo\Assets\Asset\AbstractAsset', $asset);
-        isClass('JBZoo\Assets\Asset\File', $asset);
+        isClass('JBZoo\Assets\Asset\AbstractFile', $asset);
         isClass('JBZoo\Assets\Asset\CssFile', $asset);
 
         // JS File
         $asset = $this->factory->create('test', 'http://site.com/script.js?version=1');
         isClass('JBZoo\Assets\Asset\AbstractAsset', $asset);
-        isClass('JBZoo\Assets\Asset\File', $asset);
+        isClass('JBZoo\Assets\Asset\AbstractFile', $asset);
         isClass('JBZoo\Assets\Asset\JsFile', $asset);
 
         // Less File
         $asset = $this->factory->create('test', 'file.less');
         isClass('JBZoo\Assets\Asset\AbstractAsset', $asset);
-        isClass('JBZoo\Assets\Asset\File', $asset);
+        isClass('JBZoo\Assets\Asset\AbstractFile', $asset);
         isClass('JBZoo\Assets\Asset\LessFile', $asset);
 
         // JS Custom Code

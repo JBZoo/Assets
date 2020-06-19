@@ -16,7 +16,7 @@
 namespace JBZoo\PHPUnit;
 
 use JBZoo\Assets\Asset\AbstractAsset;
-use JBZoo\Assets\Asset\File;
+use JBZoo\Assets\Asset\AbstractFile;
 
 /**
  * Class ManagerTest
@@ -59,7 +59,7 @@ class ManagerTest extends PHPUnitAssets
             ->add('bootstrap');
         $collection = $this->manager->getCollection();
 
-        /** @var File $asset */
+        /** @var AbstractFile $asset */
         $asset = $collection->get('bootstrap');
 
         isSame('bootstrap', $asset->getAlias());

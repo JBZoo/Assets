@@ -18,5 +18,10 @@ $default = include __DIR__ . '/../vendor/jbzoo/codestyle/src/phan/default.php';
 return array_merge($default, [
     'directory_list' => [
         'src',
+
+        'vendor/jbzoo/data',
+        'vendor/jbzoo/path',
+        'vendor/jbzoo/utils',
+        'vendor/jbzoo/less',
     ]
 ]);

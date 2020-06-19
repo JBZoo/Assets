@@ -27,11 +27,11 @@ class Callback extends AbstractAsset
     protected $source;
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function load(array $filters = [])
+    public function load()
     {
-        $result = call_user_func($this->source, $this, $this->params, $filters);
+        $result = call_user_func($this->source, $this);
 
         return [AbstractAsset::TYPE_CALLBACK, $result];
     }

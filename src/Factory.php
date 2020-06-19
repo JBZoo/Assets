@@ -72,10 +72,15 @@ class Factory
      * @return AbstractAsset
      * @throws Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
      */
     public function create($alias, $source, $dependencies = [], $options = []): AbstractAsset
     {
-        $assetType = $options['type'] ?? '';
+        $assetType = '';
+        if (is_array($options)) {
+            $assetType = $options['type'] ?? '';
+        }
 
         if (isset($this->customTypes[$assetType])) {
             $assetType = $this->customTypes[$assetType];

@@ -17,7 +17,6 @@ namespace JBZoo\Assets\Asset;
 
 use JBZoo\Assets\Manager;
 use JBZoo\Data\Data;
-use JBZoo\Path\Path;
 
 use function JBZoo\Data\data;
 
@@ -58,16 +57,6 @@ abstract class AbstractAsset
     protected $options = [];
 
     /**
-     * @var Path
-     */
-    protected $path;
-
-    /**
-     * @var Data
-     */
-    protected $params;
-
-    /**
      * @var Manager
      */
     protected $eManager;
@@ -75,11 +64,11 @@ abstract class AbstractAsset
     /**
      * Asset constructor
      *
-     * @param Manager $manager
-     * @param string  $alias
-     * @param mixed   $source
-     * @param array   $dependencies
-     * @param Data    $options
+     * @param Manager      $manager
+     * @param string       $alias
+     * @param string|array $source
+     * @param array        $dependencies
+     * @param Data         $options
      */
     public function __construct(Manager $manager, $alias, $source, $dependencies, Data $options)
     {
@@ -111,11 +100,9 @@ abstract class AbstractAsset
     }
 
     /**
-     * Gets the source.
-     *
-     * @return string
+     * @return string|array
      */
-    public function getSource(): string
+    public function getSource()
     {
         return $this->source;
     }
@@ -131,8 +118,7 @@ abstract class AbstractAsset
     }
 
     /**
-     * @param array $filters
      * @return array
      */
-    abstract public function load(array $filters = []);
+    abstract public function load();
 }

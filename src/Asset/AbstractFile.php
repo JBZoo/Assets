@@ -22,30 +22,31 @@ use JBZoo\Utils\Url;
  * Class File
  * @package JBZoo\Assets\Asset
  */
-abstract class File extends AbstractAsset
+abstract class AbstractFile extends AbstractAsset
 {
-    /**
-     * @var string
-     */
-    protected $type;
+    public const TYPE = 'abstract';
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function load(array $filters = [])
+    public function load()
     {
-        return [$this->type, $this->findSource()];
+        return [static::TYPE, $this->findSource()];
     }
 
     /**
      * Find source in variants.
      *
-     * @return string|array
+     * @return string|null
      * @throws Exception
      * @throws \JBZoo\Path\Exception
      */
-    protected function findSource()
+    protected function findSource(): ?string
     {
+        if (!is_string($this->source)) {
+            throw new Exception('Source must be string type');
+        }
+
         $path = $this->eManager->getPath();
 
         if ($path->isVirtual($this->source)) {

@@ -21,19 +21,16 @@ use JBZoo\Less\Less;
  * Class LessFile
  * @package JBZoo\Assets\Asset
  */
-class LessFile extends File
+class LessFile extends AbstractFile
 {
-    /**
-     * @var string
-     */
-    protected $type = AbstractAsset::TYPE_LESS_FILE;
+    public const TYPE = AbstractAsset::TYPE_LESS_FILE;
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function load(array $filters = [])
+    public function load()
     {
-        $result = parent::load($filters);
+        $result = parent::load();
         $compiled = null;
 
         if ($result[1]) {

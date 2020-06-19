@@ -15,13 +15,13 @@
 
 namespace JBZoo\Assets\Asset;
 
-use JBZoo\Utils\Str;
+use JBZoo\Assets\Exception;
 
 /**
  * Class JsCode
  * @package JBZoo\Assets\Asset
  */
-class JsCode extends File
+class JsCode extends AbstractFile
 {
     /**
      * @var string
@@ -29,11 +29,15 @@ class JsCode extends File
     protected $type = AbstractAsset::TYPE_JS_CODE;
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function load(array $filters = [])
+    public function load()
     {
-        $source = Str::trim($this->source, true);
+        if (!is_string($this->source)) {
+            throw new Exception('Source must be string type');
+        }
+
+        $source = trim($this->source);
 
         if ((stripos($source, '<script') === 0) && preg_match('#<script.*?>(.*?)</script>#ius', $source, $matches)) {
             $source = $matches[1];

@@ -24,18 +24,21 @@ use JBZoo\Assets\Exception;
 class Collection extends AbstractAsset
 {
     /**
-     * {@inheritdoc}
-     * @throws Exception
+     * @return array
      */
-    public function load(array $filters = [])
+    public function load()
     {
         $factory = $this->eManager->getFactory();
 
         $result = [];
-        foreach ($this->source as $key => $source) {
-            $subAlias = $this->alias . '-' . $key;
-            $asset = $factory->create($subAlias, $source, $this->dependencies, $this->options);
-            $result[] = $asset->load($filters);
+        if (is_array($this->source)) {
+            foreach ($this->source as $key => $source) {
+                $subAlias = $this->alias . '-' . $key;
+                $asset = $factory->create($subAlias, $source, $this->dependencies, $this->options);
+                $result[] = $asset->load();
+            }
+        } else {
+            throw new Exception("Source must be array. Current value: {$this->source}");
         }
 
         return [AbstractAsset::TYPE_COLLECTION, $result];

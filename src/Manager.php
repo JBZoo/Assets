@@ -188,11 +188,10 @@ class Manager
     /**
      * Build assets.
      *
-     * @param array $filters
      * @return array
      * @throws Exception
      */
-    public function build(array $filters = []): array
+    public function build(): array
     {
         $assets = [];
         foreach (array_keys($this->queued) as $alias) {
@@ -211,7 +210,7 @@ class Manager
 
         /** @var AbstractAsset $asset */
         foreach ($assets as $asset) {
-            $source = $asset->load($filters);
+            $source = $asset->load();
 
             if (AbstractAsset::TYPE_COLLECTION === $source[0]) {
                 $source = $source[1];
@@ -234,18 +233,22 @@ class Manager
     /**
      * Resolves asset dependencies.
      *
-     * @param AbstractAsset   $asset
-     * @param AbstractAsset[] $resolved
-     * @param AbstractAsset[] $unresolved
+     * @param AbstractAsset|null $asset
+     * @param AbstractAsset[]    $resolved
+     * @param AbstractAsset[]    $unresolved
      * @return AbstractAsset[]
      * @throws Exception
      */
-    protected function resolveDependencies(AbstractAsset $asset, &$resolved = [], &$unresolved = []): array
+    protected function resolveDependencies(?AbstractAsset $asset, &$resolved = [], &$unresolved = []): array
     {
+        if (!$asset) {
+            return $resolved;
+        }
+
         $unresolved[$asset->getAlias()] = $asset;
 
         foreach ($asset->getDependencies() as $dependency) {
-            if (!Arr::key($dependency, $resolved)) {
+            if (!array_key_exists($dependency, $resolved)) {
                 if (isset($unresolved[$dependency])) {
                     throw new Exception(sprintf(
                         'Circular asset dependency "%s > %s" detected.',

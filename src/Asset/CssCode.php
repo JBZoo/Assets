@@ -15,7 +15,7 @@
 
 namespace JBZoo\Assets\Asset;
 
-use JBZoo\Utils\Str;
+use JBZoo\Assets\Exception;
 
 /**
  * Class CssCode
@@ -29,11 +29,15 @@ class CssCode extends AbstractAsset
     protected $type = AbstractAsset::TYPE_CSS_CODE;
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function load(array $filters = [])
+    public function load()
     {
-        $source = Str::trim($this->source, true);
+        if (!is_string($this->source)) {
+            throw new Exception('Source must be string type');
+        }
+
+        $source = trim($this->source);
 
         if ((stripos($source, '<style') === 0) && preg_match('#<style.*?>(.*?)</style>#ius', $source, $matches)) {
             $source = $matches[1];

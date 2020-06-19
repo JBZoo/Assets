@@ -19,10 +19,7 @@ namespace JBZoo\Assets\Asset;
  * Class JsFile
  * @package JBZoo\Assets\Asset
  */
-class JsFile extends File
+class JsFile extends AbstractFile
 {
-    /**
-     * @var string
-     */
-    protected $type = AbstractAsset::TYPE_JS_FILE;
+    public const TYPE = AbstractAsset::TYPE_JS_FILE;
 }

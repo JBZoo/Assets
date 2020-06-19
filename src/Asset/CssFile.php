@@ -19,10 +19,7 @@ namespace JBZoo\Assets\Asset;
  * Class CssFile
  * @package JBZoo\Assets\Asset
  */
-class CssFile extends File
+class CssFile extends AbstractFile
 {
-    /**
-     * @var string
-     */
-    protected $type = AbstractAsset::TYPE_CSS_FILE;
+    public const TYPE = AbstractAsset::TYPE_CSS_FILE;
 }
