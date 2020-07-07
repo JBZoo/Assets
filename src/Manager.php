@@ -87,7 +87,7 @@ class Manager
      * @param string $key
      * @param mixed  $value
      */
-    public function setParam($key, $value): void
+    public function setParam(string $key, $value): void
     {
         $this->params->set($key, $value);
     }
@@ -103,14 +103,14 @@ class Manager
     /**
      * Adds a registered asset or a new asset to the queue.
      *
-     * @param string       $alias
-     * @param string|null  $source
-     * @param string|array $dependencies
-     * @param string|array $options
+     * @param string               $alias
+     * @param string|callable|null $source
+     * @param string|array         $dependencies
+     * @param array                $options
      * @return $this
      * @throws Exception
      */
-    public function add($alias, $source = null, $dependencies = [], $options = []): self
+    public function add(string $alias, $source = null, $dependencies = [], array $options = []): self
     {
         if ($source !== null) {
             $asset = $this->factory->create($alias, $source, $dependencies, $options);
@@ -128,7 +128,7 @@ class Manager
      * @param string $alias
      * @return $this
      */
-    public function remove($alias): self
+    public function remove(string $alias): self
     {
         unset($this->queued[$alias]);
         return $this;
@@ -137,14 +137,14 @@ class Manager
     /**
      * Registers an asset.
      *
-     * @param string       $alias
-     * @param null|string  $source
-     * @param array        $dependencies
-     * @param string|array $options
+     * @param string               $alias
+     * @param string|callable|null $source
+     * @param array|string         $dependencies
+     * @param array                $options
      * @return $this
      * @throws Exception
      */
-    public function register($alias, $source = null, $dependencies = [], $options = []): self
+    public function register(string $alias, $source = null, $dependencies = [], array $options = []): self
     {
         $asset = $this->factory->create($alias, $source, $dependencies, $options);
         $this->collection->add($asset);
@@ -158,7 +158,7 @@ class Manager
      * @param string $alias
      * @return $this
      */
-    public function unregister($alias): self
+    public function unregister(string $alias): self
     {
         $this->collection->remove($alias);
         $this->remove($alias);

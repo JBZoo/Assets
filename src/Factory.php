@@ -68,19 +68,16 @@ class Factory
      * @param string       $alias
      * @param mixed        $source
      * @param string|array $dependencies
-     * @param string|array $options
+     * @param array        $options
      * @return AbstractAsset
      * @throws Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @psalm-suppress MoreSpecificReturnType
      * @psalm-suppress LessSpecificReturnStatement
      */
-    public function create($alias, $source, $dependencies = [], $options = []): AbstractAsset
+    public function create(string $alias, $source, $dependencies = [], array $options = []): AbstractAsset
     {
-        $assetType = '';
-        if (is_array($options)) {
-            $assetType = $options['type'] ?? '';
-        }
+        $assetType = $options['type'] ?? '';
 
         if (isset($this->customTypes[$assetType])) {
             $assetType = $this->customTypes[$assetType];
@@ -105,7 +102,7 @@ class Factory
         $className = __NAMESPACE__ . '\\Asset\\' . $assetType;
         if (class_exists($className)) {
             /** @noinspection CallableParameterUseCaseInTypeContextInspection */
-            $options = is_array($options) ? new Data($options) : $options;
+            $options = new Data($options);
             return new $className($this->getManager(), $alias, $source, $dependencies, $options);
         }
 
@@ -116,7 +113,7 @@ class Factory
      * @param string $type
      * @param string $className
      */
-    public function registerType($type, $className): void
+    public function registerType(string $type, string $className): void
     {
         $this->customTypes[$type] = $className;
     }

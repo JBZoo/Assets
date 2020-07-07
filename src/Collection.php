@@ -60,7 +60,7 @@ class Collection implements Countable
      * @param string $name
      * @return AbstractAsset|null
      */
-    public function get($name): ?AbstractAsset
+    public function get(string $name): ?AbstractAsset
     {
         return $this->assets[$name] ?? null;
     }
