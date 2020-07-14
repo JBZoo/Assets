@@ -17,7 +17,7 @@
     ],
 
     "require"           : {
-        "php"         : ">=7.2",
+        "php"         : "^7.2",
         "jbzoo/utils" : "^4.0.0",
         "jbzoo/path"  : "^3.0.0",
         "jbzoo/less"  : "^4.0.0",
@@ -25,7 +25,7 @@
     },
 
     "require-dev"       : {
-        "jbzoo/toolbox-dev"  : "^2.0.0",
+        "jbzoo/toolbox-dev"  : "^2.1.0",
         "symfony/filesystem" : "^4.4|^5.0"
     },
 
@@ -48,7 +48,7 @@
 
     "extra"             : {
         "branch-alias" : {
-            "dev-master" : "3.0.x-dev"
+            "dev-master" : "4.x-dev"
         }
     }
 }
