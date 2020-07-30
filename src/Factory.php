@@ -72,6 +72,7 @@ class Factory
      * @return AbstractAsset
      * @throws Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
      * @psalm-suppress MoreSpecificReturnType
      * @psalm-suppress LessSpecificReturnStatement
      */
