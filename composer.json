@@ -18,14 +18,14 @@
 
     "require"           : {
         "php"         : "^7.2",
-        "jbzoo/utils" : "^4.0.0",
-        "jbzoo/path"  : "^3.0.0",
-        "jbzoo/less"  : "^4.0.0",
-        "jbzoo/data"  : "^4.0.0"
+        "jbzoo/utils" : "^4.1.2",
+        "jbzoo/path"  : "^3.0.1",
+        "jbzoo/less"  : "^4.0.2",
+        "jbzoo/data"  : "^4.0.1"
     },
 
     "require-dev"       : {
-        "jbzoo/toolbox-dev"  : "^2.1.0",
+        "jbzoo/toolbox-dev"  : "^2.3.1",
         "symfony/filesystem" : "^4.4|^5.0"
     },
 
