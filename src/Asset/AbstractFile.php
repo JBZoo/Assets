@@ -19,7 +19,7 @@ use JBZoo\Assets\Exception;
 use JBZoo\Utils\Url;
 
 /**
- * Class File
+ * Class AbstractFile
  * @package JBZoo\Assets\Asset
  */
 abstract class AbstractFile extends AbstractAsset

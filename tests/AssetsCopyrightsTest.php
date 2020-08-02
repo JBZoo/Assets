@@ -19,7 +19,7 @@ namespace JBZoo\PHPUnit;
  * Class UtilsCopyrightsTest
  * @package JBZoo\PHPUnit
  */
-class AssetsCopyrightsTest extends AbstractCodestyleTest
+class AssetsCopyrightsTest extends AbstractCopyrightTest
 {
-
+    protected $packageName = "Assets";
 }
