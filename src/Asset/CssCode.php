@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\Assets\Asset;
 
 use JBZoo\Assets\Exception;
@@ -21,7 +23,7 @@ use JBZoo\Assets\Exception;
  * Class CssCode
  * @package JBZoo\Assets\Asset
  */
-class CssCode extends AbstractAsset
+final class CssCode extends AbstractAsset
 {
     /**
      * @var string
@@ -31,15 +33,15 @@ class CssCode extends AbstractAsset
     /**
      * @inheritDoc
      */
-    public function load()
+    public function load(): array
     {
-        if (!is_string($this->source)) {
+        if (!\is_string($this->source)) {
             throw new Exception('Source must be string type');
         }
 
-        $source = trim($this->source);
+        $source = \trim($this->source);
 
-        if ((stripos($source, '<style') === 0) && preg_match('#<style.*?>(.*?)</style>#ius', $source, $matches)) {
+        if ((\stripos($source, '<style') === 0) && \preg_match('#<style.*?>(.*?)</style>#ius', $source, $matches)) {
             $source = $matches[1];
         }
 

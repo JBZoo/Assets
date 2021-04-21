@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\Assets;
 
 use JBZoo\Assets\Asset\AbstractAsset;
@@ -24,7 +26,7 @@ use JBZoo\Utils\Arr;
  * Class Manager
  * @package JBZoo\Assets
  */
-class Manager
+final class Manager
 {
     /**
      * @var Factory
@@ -68,7 +70,7 @@ class Manager
      */
     public function __construct(Path $path, $params = [])
     {
-        $this->params = new Data(array_merge($this->default, $params));
+        $this->params = new Data(\array_merge($this->default, $params));
 
         $this->path = $path;
         $this->factory = new Factory($this);
@@ -194,7 +196,7 @@ class Manager
     public function build(): array
     {
         $assets = [];
-        foreach (array_keys($this->queued) as $alias) {
+        foreach (\array_keys($this->queued) as $alias) {
             $this->resolveDependencies($this->collection->get($alias), $assets);
         }
 
@@ -248,9 +250,9 @@ class Manager
         $unresolved[$asset->getAlias()] = $asset;
 
         foreach ($asset->getDependencies() as $dependency) {
-            if (!array_key_exists($dependency, $resolved)) {
+            if (!\array_key_exists($dependency, $resolved)) {
                 if (isset($unresolved[$dependency])) {
-                    throw new Exception(sprintf(
+                    throw new Exception(\sprintf(
                         'Circular asset dependency "%s > %s" detected.',
                         $asset->getAlias(),
                         $dependency

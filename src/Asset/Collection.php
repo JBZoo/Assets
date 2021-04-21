@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\Assets\Asset;
 
 use JBZoo\Assets\Exception;
@@ -21,17 +23,17 @@ use JBZoo\Assets\Exception;
  * Class Collection
  * @package JBZoo\Assets\Asset
  */
-class Collection extends AbstractAsset
+final class Collection extends AbstractAsset
 {
     /**
      * @return array
      */
-    public function load()
+    public function load(): array
     {
         $factory = $this->eManager->getFactory();
 
         $result = [];
-        if (is_array($this->source)) {
+        if (\is_array($this->source)) {
             foreach ($this->source as $key => $source) {
                 $subAlias = $this->alias . '-' . $key;
                 $asset = $factory->create($subAlias, $source, $this->dependencies, $this->options);

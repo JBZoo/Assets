@@ -13,13 +13,15 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\Assets\Asset;
 
 /**
  * Class JsFile
  * @package JBZoo\Assets\Asset
  */
-class JsFile extends AbstractFile
+final class JsFile extends AbstractFile
 {
     public const TYPE = AbstractAsset::TYPE_JS_FILE;
 }

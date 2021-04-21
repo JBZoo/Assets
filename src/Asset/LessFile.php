@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\Assets\Asset;
 
 use JBZoo\Less\Less;
@@ -21,14 +23,14 @@ use JBZoo\Less\Less;
  * Class LessFile
  * @package JBZoo\Assets\Asset
  */
-class LessFile extends AbstractFile
+final class LessFile extends AbstractFile
 {
     public const TYPE = AbstractAsset::TYPE_LESS_FILE;
 
     /**
      * @inheritDoc
      */
-    public function load()
+    public function load(): array
     {
         $result = parent::load();
         $compiled = null;

@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\Assets\Asset;
 
 use JBZoo\Assets\Manager;
@@ -120,5 +122,5 @@ abstract class AbstractAsset
     /**
      * @return array
      */
-    abstract public function load();
+    abstract public function load(): array;
 }

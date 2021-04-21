@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
+declare(strict_types=1);
+
 use function JBZoo\PHPUnit\isSame;
 
 if (!defined('ROOT_PATH')) { // for PHPUnit process isolation
