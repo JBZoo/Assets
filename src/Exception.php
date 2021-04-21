@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\Assets;
 
 /**

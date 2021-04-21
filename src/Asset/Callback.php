@@ -13,13 +13,15 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\Assets\Asset;
 
 /**
  * Class Callback
  * @package JBZoo\Assets\Asset
  */
-class Callback extends AbstractAsset
+final class Callback extends AbstractAsset
 {
     /**
      * @var callable
@@ -29,9 +31,9 @@ class Callback extends AbstractAsset
     /**
      * @inheritDoc
      */
-    public function load()
+    public function load(): array
     {
-        $result = call_user_func($this->source, $this);
+        $result = \call_user_func($this->source, $this);
 
         return [AbstractAsset::TYPE_CALLBACK, $result];
     }

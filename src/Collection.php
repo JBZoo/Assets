@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\Assets;
 
 use Countable;
@@ -23,7 +25,7 @@ use JBZoo\Assets\Asset\AbstractAsset;
  *
  * @package JBZoo\Assets
  */
-class Collection implements Countable
+final class Collection implements Countable
 {
     /**
      * Holds registered assets.
@@ -85,7 +87,7 @@ class Collection implements Countable
 
         /** @noinspection SuspiciousLoopInspection */
         foreach ($names as $name) {
-            if (array_key_exists($name, $this->assets)) {
+            if (\array_key_exists($name, $this->assets)) {
                 unset($this->assets[$name]);
             }
         }
@@ -98,6 +100,6 @@ class Collection implements Countable
      */
     public function count(): int
     {
-        return count($this->assets);
+        return \count($this->assets);
     }
 }

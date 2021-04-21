@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\Assets;
 
 use JBZoo\Assets\Asset\AbstractAsset;
@@ -23,7 +25,7 @@ use JBZoo\Utils\FS;
  * Class Factory
  * @package JBZoo\Assets
  */
-class Factory
+final class Factory
 {
     /**
      * @var array
@@ -82,10 +84,10 @@ class Factory
 
         if (isset($this->customTypes[$assetType])) {
             $assetType = $this->customTypes[$assetType];
-        } elseif (is_callable($source)) {
+        } elseif (\is_callable($source)) {
             $assetType = 'Callback';
-        } elseif (is_string($source)) {
-            $ext = strtolower(FS::ext($source));
+        } elseif (\is_string($source)) {
+            $ext = \strtolower(FS::ext($source));
 
             if ($ext === 'js') {
                 $assetType = 'JsFile';
@@ -96,18 +98,18 @@ class Factory
             } elseif ($ext === 'jsx') {
                 $assetType = 'JsxFile';
             }
-        } elseif (is_array($source)) {
+        } elseif (\is_array($source)) {
             $assetType = 'Collection';
         }
 
         $className = __NAMESPACE__ . '\\Asset\\' . $assetType;
-        if (class_exists($className)) {
+        if (\class_exists($className)) {
             /** @noinspection CallableParameterUseCaseInTypeContextInspection */
             $options = new Data($options);
             return new $className($this->getManager(), $alias, $source, $dependencies, $options);
         }
 
-        throw new Exception('Undefined asset type: ' . print_r($source, true));
+        throw new Exception('Undefined asset type: ' . \print_r($source, true));
     }
 
     /**

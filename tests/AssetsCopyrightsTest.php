@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\PHPUnit;
 
 /**
@@ -22,4 +24,5 @@ namespace JBZoo\PHPUnit;
 class AssetsCopyrightsTest extends AbstractCopyrightTest
 {
     protected $packageName = "Assets";
+    protected $isPhpStrictType = true;
 }

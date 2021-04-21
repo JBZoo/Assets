@@ -13,13 +13,15 @@
  * @link       https://github.com/JBZoo/Assets
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\Assets\Asset;
 
 /**
  * Class JsxCode
  * @package JBZoo\Assets\Asset
  */
-class JsxCode extends JsCode
+final class JsxCode extends JsCode
 {
     /**
      * @var string
