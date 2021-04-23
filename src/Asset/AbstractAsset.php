@@ -69,10 +69,10 @@ abstract class AbstractAsset
      * @param Manager      $manager
      * @param string       $alias
      * @param string|array $source
-     * @param array        $dependencies
+     * @param array|string $dependencies
      * @param Data         $options
      */
-    public function __construct(Manager $manager, $alias, $source, $dependencies, Data $options)
+    public function __construct(Manager $manager, string $alias, $source, $dependencies, Data $options)
     {
         $this->eManager = $manager;
         $this->alias = $alias;

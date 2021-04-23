@@ -25,6 +25,7 @@ final class Callback extends AbstractAsset
 {
     /**
      * @var callable
+     * @psalm-suppress NonInvariantDocblockPropertyType
      */
     protected $source;
 
