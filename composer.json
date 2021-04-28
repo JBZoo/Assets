@@ -1,10 +1,10 @@
 {
-    "name"              : "jbzoo/assets",
-    "type"              : "library",
-    "description"       : "Manage any asset files (js, css, less) and their depending + compressing and merging",
-    "license"           : "MIT",
-    "keywords"          : ["javascript", "js", "css", "less", "assets", "compress"],
-    "authors"           : [
+    "name"         : "jbzoo/assets",
+    "type"         : "library",
+    "description"  : "Manage any asset files (js, css, less) and their depending + compressing and merging",
+    "license"      : "MIT",
+    "keywords"     : ["javascript", "js", "css", "less", "assets", "compress"],
+    "authors"      : [
         {
             "name"  : "Denis Smetannikov",
             "email" : "admin@jbzoo.com",
@@ -16,38 +16,35 @@
         }
     ],
 
-    "require"           : {
+    "require"      : {
         "php"         : ">=7.2",
 
-        "jbzoo/utils" : "^4.4.0",
-        "jbzoo/path"  : "^3.1.0",
-        "jbzoo/less"  : "^4.1.0",
-        "jbzoo/data"  : "^4.2.1"
+        "jbzoo/utils" : "^4.5.0",
+        "jbzoo/path"  : "^3.2.0",
+        "jbzoo/less"  : "^4.2.0",
+        "jbzoo/data"  : "^4.3.0"
     },
 
-    "require-dev"       : {
-        "jbzoo/toolbox-dev"  : "^2.11.0",
+    "require-dev"  : {
+        "jbzoo/toolbox-dev"  : "^2.13.1",
         "symfony/filesystem" : "^5.2.3"
     },
 
-    "autoload"          : {
+    "autoload"     : {
         "psr-4" : {
             "JBZoo\\Assets\\" : "src"
         }
     },
 
-    "minimum-stability" : "dev",
-    "prefer-stable"     : true,
-
-    "autoload-dev"      : {
+    "autoload-dev" : {
         "classmap" : ["tests"]
     },
 
-    "config"            : {
+    "config"       : {
         "optimize-autoloader" : true
     },
 
-    "extra"             : {
+    "extra"        : {
         "branch-alias" : {
             "dev-master" : "4.x-dev"
         }
