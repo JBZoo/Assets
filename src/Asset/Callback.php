@@ -17,6 +17,8 @@ declare(strict_types=1);
 
 namespace JBZoo\Assets\Asset;
 
+use JBZoo\Assets\Exception;
+
 /**
  * Class Callback
  * @package JBZoo\Assets\Asset
@@ -24,7 +26,6 @@ namespace JBZoo\Assets\Asset;
 final class Callback extends AbstractAsset
 {
     /**
-     * @var callable
      * @psalm-suppress NonInvariantDocblockPropertyType
      */
     protected $source;
@@ -34,6 +35,10 @@ final class Callback extends AbstractAsset
      */
     public function load(): array
     {
+        if (!\is_callable($this->source)) {
+            throw new Exception("Source must have callable type");
+        }
+
         $result = \call_user_func($this->source, $this);
 
         return [AbstractAsset::TYPE_CALLBACK, $result];

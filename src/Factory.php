@@ -75,8 +75,6 @@ final class Factory
      * @throws Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
-     * @psalm-suppress MoreSpecificReturnType
-     * @psalm-suppress LessSpecificReturnStatement
      */
     public function create(string $alias, $source, $dependencies = [], array $options = []): AbstractAsset
     {
@@ -106,7 +104,10 @@ final class Factory
         if (\class_exists($className)) {
             /** @noinspection CallableParameterUseCaseInTypeContextInspection */
             $options = new Data($options);
-            return new $className($this->getManager(), $alias, $source, $dependencies, $options);
+
+            /** @var AbstractAsset $asset */
+            $asset = new $className($this->getManager(), $alias, $source, $dependencies, $options);
+            return $asset;
         }
 
         throw new Exception('Undefined asset type: ' . \print_r($source, true));
