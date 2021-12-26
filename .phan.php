@@ -28,6 +28,4 @@ $config = array_merge($default, [
     ]
 ]);
 
-$config['plugins'][] = 'NotFullyQualifiedUsagePlugin';
-
 return $config;
