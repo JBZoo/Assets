@@ -53,7 +53,7 @@ class JsFileTest extends PHPUnitAssets
         isClass('JBZoo\Assets\Asset\JsFile', $asset);
 
         $result = $asset->load();
-        isTrue($result[1]);
+        isTrue((bool)$result[1]);
         isSamePath($this->path->get($vpath), $result[1]);
     }
 
@@ -65,7 +65,7 @@ class JsFileTest extends PHPUnitAssets
         isClass('JBZoo\Assets\Asset\JsFile', $asset);
 
         $result = $asset->load();
-        isFalse($result[1]);
+        isFalse((bool)$result[1]);
     }
 
     public function testCreateUndefinedFileStrictMode()

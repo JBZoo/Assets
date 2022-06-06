@@ -32,7 +32,7 @@ final class Collection implements Countable
      *
      * @var AbstractAsset[]
      */
-    protected $assets = [];
+    protected array $assets = [];
 
     /**
      * Collection constructor.

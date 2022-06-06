@@ -50,6 +50,6 @@ class LessFileTest extends PHPUnitAssets
 
         $result = $asset->load();
         isSame(AbstractAsset::TYPE_CSS_FILE, $result[0]);
-        isFalse($result[1]);
+        isFalse((bool)$result[1]);
     }
 }

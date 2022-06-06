@@ -17,17 +17,17 @@
     ],
 
     "require"      : {
-        "php"         : ">=7.2",
+        "php"         : ">=7.4",
 
-        "jbzoo/utils" : "^4.5.0",
-        "jbzoo/path"  : "^3.2.0",
-        "jbzoo/less"  : "^4.2.0",
-        "jbzoo/data"  : "^4.3.0"
+        "jbzoo/utils" : "^4.5|^5.0",
+        "jbzoo/path"  : "^4.0",
+        "jbzoo/less"  : "^5.0",
+        "jbzoo/data"  : "^4.3|^5.0"
     },
 
     "require-dev"  : {
-        "jbzoo/toolbox-dev"  : "^3.2.0",
-        "symfony/filesystem" : "^5.2.3"
+        "jbzoo/toolbox-dev"  : "^3.2|^4.0.1",
+        "symfony/filesystem" : ">=5.2.3"
     },
 
     "autoload"     : {

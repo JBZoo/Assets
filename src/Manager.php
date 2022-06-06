@@ -31,32 +31,32 @@ final class Manager
     /**
      * @var Factory
      */
-    protected $factory;
+    protected Factory $factory;
 
     /**
      * @var Collection
      */
-    protected $collection;
+    protected Collection $collection;
 
     /**
      * @var array
      */
-    protected $queued = [];
+    protected array $queued = [];
 
     /**
      * @var Path
      */
-    protected $path;
+    protected Path $path;
 
     /**
      * @var Data
      */
-    protected $params;
+    protected Data $params;
 
     /**
      * @var array
      */
-    protected $default = [
+    protected array $default = [
         'debug'       => false,
         'strict_mode' => false,
         'less'        => [],
@@ -68,7 +68,7 @@ final class Manager
      * @param Path  $path
      * @param array $params
      */
-    public function __construct(Path $path, $params = [])
+    public function __construct(Path $path, array $params = [])
     {
         $this->params = new Data(\array_merge($this->default, $params));
 
@@ -241,7 +241,7 @@ final class Manager
      * @return AbstractAsset[]
      * @throws Exception
      */
-    protected function resolveDependencies(?AbstractAsset $asset, &$resolved = [], &$unresolved = []): array
+    protected function resolveDependencies(?AbstractAsset $asset, array &$resolved = [], array &$unresolved = []): array
     {
         if (!$asset) {
             return $resolved;

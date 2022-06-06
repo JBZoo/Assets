@@ -26,5 +26,5 @@ final class JsxCode extends JsCode
     /**
      * @var string
      */
-    protected $type = AbstractAsset::TYPE_JSX_CODE;
+    protected string $type = AbstractAsset::TYPE_JSX_CODE;
 }

@@ -33,37 +33,37 @@ abstract class PHPUnitAssets extends PHPUnit
     /**
      * @var Manager
      */
-    protected $manager;
+    protected Manager $manager;
 
     /**
      * @var Factory
      */
-    protected $factory;
+    protected Factory $factory;
 
     /**
      * @var Collection
      */
-    protected $collection;
+    protected Collection $collection;
 
     /**
      * @var Path
      */
-    protected $path;
+    protected Path $path;
 
     /**
      * @var Filesystem
      */
-    protected $fs;
+    protected Filesystem $fs;
 
     /**
      * @var string
      */
-    protected $fixtPath;
+    protected string $fixtPath;
 
     /**
      * @var string
      */
-    protected $cachePath;
+    protected string $cachePath;
 
     /**
      * Setup test data
