@@ -24,12 +24,5 @@ namespace JBZoo\PHPUnit;
  */
 class AssetsReadmeTest extends AbstractReadmeTest
 {
-    protected $packageName = 'Assets';
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->params['strict_types'] = true;
-        $this->params['travis'] = false;
-    }
+    protected string $packageName = 'Assets';
 }

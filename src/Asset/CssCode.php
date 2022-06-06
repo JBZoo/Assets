@@ -28,7 +28,7 @@ final class CssCode extends AbstractAsset
     /**
      * @var string
      */
-    protected $type = AbstractAsset::TYPE_CSS_CODE;
+    protected string $type = AbstractAsset::TYPE_CSS_CODE;
 
     /**
      * @inheritDoc

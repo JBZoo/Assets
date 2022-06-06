@@ -30,7 +30,7 @@ final class Factory
     /**
      * @var array
      */
-    protected $customTypes = [
+    protected array $customTypes = [
         AbstractAsset::TYPE_CSS_CODE   => 'CssCode',
         AbstractAsset::TYPE_CSS_FILE   => 'CssFile',
         AbstractAsset::TYPE_JS_CODE    => 'JsCode',
@@ -45,7 +45,7 @@ final class Factory
     /**
      * @var Manager
      */
-    protected $eManager;
+    protected Manager $eManager;
 
     /**
      * Factory constructor.

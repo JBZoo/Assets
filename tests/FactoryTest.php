@@ -33,7 +33,7 @@ class FactoryTest extends PHPUnitAssets
         $params = $this->manager->getParams();
 
         isClass('JBZoo\Data\Data', $params);
-        isFalse($params->get('debug'));
+        isFalse((bool)$params->get('debug'));
         isSame([], $params->get('less'));
 
         isSame([
@@ -51,7 +51,7 @@ class FactoryTest extends PHPUnitAssets
         ]);
 
         $params = $manager->getParams();
-        isTrue($params->get('debug'));
+        isTrue((bool)$params->get('debug'));
         isSame(123456, $params->get('some_option'));
     }
 

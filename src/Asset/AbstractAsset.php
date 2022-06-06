@@ -41,7 +41,7 @@ abstract class AbstractAsset
     /**
      * @var string
      */
-    protected $alias;
+    protected string $alias;
 
     /**
      * @var string|array
@@ -51,17 +51,17 @@ abstract class AbstractAsset
     /**
      * @var array
      */
-    protected $dependencies = [];
+    protected array $dependencies = [];
 
     /**
      * @var array
      */
-    protected $options = [];
+    protected array $options = [];
 
     /**
      * @var Manager
      */
-    protected $eManager;
+    protected Manager $eManager;
 
     /**
      * Asset constructor

@@ -28,7 +28,7 @@ class JsCode extends AbstractFile
     /**
      * @var string
      */
-    protected $type = AbstractAsset::TYPE_JS_CODE;
+    protected string $type = AbstractAsset::TYPE_JS_CODE;
 
     /**
      * @inheritDoc
