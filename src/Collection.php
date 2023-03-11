@@ -19,25 +19,15 @@ namespace JBZoo\Assets;
 use Countable;
 use JBZoo\Assets\Asset\AbstractAsset;
 
-/**
- * Class Collection
- *
- * @package JBZoo\Assets
- */
-final class Collection implements Countable
+final class Collection implements \Countable
 {
     /**
      * Holds registered assets.
      *
      * @var AbstractAsset[]
      */
-    protected array $assets = [];
+    private array $assets = [];
 
-    /**
-     * Collection constructor.
-     *
-     * @param array $assets
-     */
     public function __construct(array $assets = [])
     {
         $this->assets = $assets;
@@ -46,29 +36,23 @@ final class Collection implements Countable
     /**
      * Adds asset to collection.
      *
-     * @param AbstractAsset $asset
      * @return $this
      */
     public function add(AbstractAsset $asset): self
     {
         $this->assets[$asset->getAlias()] = $asset;
+
         return $this;
     }
 
     /**
      * Gets asset from collection.
-     *
-     * @param string $name
-     * @return AbstractAsset|null
      */
     public function get(string $name): ?AbstractAsset
     {
         return $this->assets[$name] ?? null;
     }
 
-    /**
-     * @return array
-     */
     public function getAssets(): array
     {
         return $this->assets;
@@ -77,8 +61,7 @@ final class Collection implements Countable
     /**
      * Removes assets from collection.
      *
-     * @param string|array $name
-     * @return void
+     * @param array|string $name
      */
     public function remove($name): void
     {
@@ -94,8 +77,6 @@ final class Collection implements Countable
 
     /**
      * Countable interface implementation.
-     *
-     * @return int
      */
     public function count(): int
     {

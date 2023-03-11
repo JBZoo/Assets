@@ -19,17 +19,15 @@ namespace JBZoo\PHPUnit;
 use JBZoo\Assets\Asset\AbstractAsset;
 
 /**
- * Class AssetJsxCodeTest
- * @package JBZoo\PHPUnit
  * @SuppressWarnings(PHPMD.Superglobals)
  */
 class JsxCodeTest extends PHPUnitAssets
 {
-    public function testCreateAssetJsCode()
+    public function testCreateAssetJsCode(): void
     {
-        $jsCode = '  alert(1);' . PHP_EOL;
+        $jsCode = '  alert(1);' . \PHP_EOL;
 
-        $asset = $this->factory->create('test', $jsCode, [], ['type' => AbstractAsset::TYPE_JSX_CODE]);
+        $asset  = $this->factory->create('test', $jsCode, [], ['type' => AbstractAsset::TYPE_JSX_CODE]);
         $result = $asset->load();
 
         isClass('JBZoo\Assets\Asset\JsxCode', $asset);

@@ -20,13 +20,11 @@ use JBZoo\Assets\Asset\AbstractAsset;
 use JBZoo\Assets\Asset\AbstractFile;
 
 /**
- * Class ManagerTest
- * @package JBZoo\PHPUnit
  * @SuppressWarnings(PHPMD.Superglobals)
  */
 class ManagerTest extends PHPUnitAssets
 {
-    public function testEmptyBuild()
+    public function testEmptyBuild(): void
     {
         isSame(
             [
@@ -38,11 +36,11 @@ class ManagerTest extends PHPUnitAssets
                 AbstractAsset::TYPE_CSS_CODE => [],
                 AbstractAsset::TYPE_CALLBACK => [],
             ],
-            $this->manager->build()
+            $this->manager->build(),
         );
     }
 
-    public function testRegisterNewAssets()
+    public function testRegisterNewAssets(): void
     {
         $this->manager->register('bootstrap', 'assets/css/libs/bootstrap.css');
         $collection = $this->manager->getCollection();
@@ -52,7 +50,7 @@ class ManagerTest extends PHPUnitAssets
         isSame(1, $collection->count());
     }
 
-    public function testRegisterLocalAssets()
+    public function testRegisterLocalAssets(): void
     {
         $this->manager
             ->add('custom', 'assets/css/custom.css')
@@ -67,7 +65,7 @@ class ManagerTest extends PHPUnitAssets
         isSame(2, $collection->count());
     }
 
-    public function testUnRegisterAssets()
+    public function testUnRegisterAssets(): void
     {
         $this->manager
             ->add('custom', 'assets/css/custom.css')
@@ -83,5 +81,4 @@ class ManagerTest extends PHPUnitAssets
         isSame(3, $collection->count());
         isNull($collection->get('styles'));
     }
-
 }

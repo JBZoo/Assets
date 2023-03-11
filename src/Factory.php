@@ -20,16 +20,9 @@ use JBZoo\Assets\Asset\AbstractAsset;
 use JBZoo\Data\Data;
 use JBZoo\Utils\FS;
 
-/**
- * Class Factory
- * @package JBZoo\Assets
- */
 final class Factory
 {
-    /**
-     * @var array
-     */
-    protected array $customTypes = [
+    private array $customTypes = [
         AbstractAsset::TYPE_CSS_CODE   => 'CssCode',
         AbstractAsset::TYPE_CSS_FILE   => 'CssFile',
         AbstractAsset::TYPE_JS_CODE    => 'JsCode',
@@ -41,23 +34,13 @@ final class Factory
         AbstractAsset::TYPE_COLLECTION => 'Collection',
     ];
 
-    /**
-     * @var Manager
-     */
-    protected Manager $eManager;
+    private Manager $eManager;
 
-    /**
-     * Factory constructor.
-     * @param Manager $manager
-     */
     public function __construct(Manager $manager)
     {
         $this->eManager = $manager;
     }
 
-    /**
-     * @return Manager
-     */
     public function getManager(): Manager
     {
         return $this->eManager;
@@ -66,11 +49,8 @@ final class Factory
     /**
      * Create asset instance.
      *
-     * @param string       $alias
-     * @param mixed        $source
-     * @param string|array $dependencies
-     * @param array        $options
-     * @return AbstractAsset
+     * @param  mixed        $source
+     * @param  array|string $dependencies
      * @throws Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
@@ -105,17 +85,12 @@ final class Factory
             $options = new Data($options);
 
             /** @var AbstractAsset $asset */
-            $asset = new $className($this->getManager(), $alias, $source, $dependencies, $options);
-            return $asset;
+            return new $className($this->getManager(), $alias, $source, $dependencies, $options);
         }
 
         throw new Exception('Undefined asset type: ' . \print_r($source, true));
     }
 
-    /**
-     * @param string $type
-     * @param string $className
-     */
     public function registerType(string $type, string $className): void
     {
         $this->customTypes[$type] = $className;

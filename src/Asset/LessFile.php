@@ -18,26 +18,22 @@ namespace JBZoo\Assets\Asset;
 
 use JBZoo\Less\Less;
 
-/**
- * Class LessFile
- * @package JBZoo\Assets\Asset
- */
 final class LessFile extends AbstractFile
 {
     public const TYPE = AbstractAsset::TYPE_LESS_FILE;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function load(): array
     {
-        $result = parent::load();
+        $result   = parent::load();
         $compiled = null;
 
         if ($result[1]) {
-            $options = $this->eManager->getParams();
-            $root = $this->eManager->getPath()->getRoot();
-            $less = new Less($options->get('less'));
+            $options  = $this->eManager->getParams();
+            $root     = $this->eManager->getPath()->getRoot();
+            $less     = new Less($options->get('less'));
             $compiled = $less->compile($result[1], $root);
         }
 

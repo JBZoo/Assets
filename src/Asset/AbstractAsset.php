@@ -21,10 +21,6 @@ use JBZoo\Data\Data;
 
 use function JBZoo\Data\data;
 
-/**
- * Class AbstractAsset
- * @package JBZoo\Assets\Asset
- */
 abstract class AbstractAsset
 {
     public const TYPE_JS_FILE    = 'js';
@@ -37,53 +33,34 @@ abstract class AbstractAsset
     public const TYPE_CALLBACK   = 'callback';
     public const TYPE_COLLECTION = 'collection';
 
-    /**
-     * @var string
-     */
     protected string $alias;
 
-    /**
-     * @var string|array
-     */
+    /** @var array|string */
     protected $source;
 
-    /**
-     * @var array
-     */
     protected array $dependencies = [];
 
-    /**
-     * @var array
-     */
     protected array $options = [];
 
-    /**
-     * @var Manager
-     */
     protected Manager $eManager;
 
+    abstract public function load(): array;
+
     /**
-     * Asset constructor
-     *
-     * @param Manager      $manager
-     * @param string       $alias
-     * @param string|array $source
+     * @param array|string $source
      * @param array|string $dependencies
-     * @param Data         $options
      */
     public function __construct(Manager $manager, string $alias, $source, $dependencies, Data $options)
     {
-        $this->eManager = $manager;
-        $this->alias = $alias;
-        $this->source = $source;
+        $this->eManager     = $manager;
+        $this->alias        = $alias;
+        $this->source       = $source;
         $this->dependencies = (array)$dependencies;
-        $this->options = (array)$options;
+        $this->options      = (array)$options;
     }
 
     /**
      * Gets the name.
-     *
-     * @return string
      */
     public function getAlias(): string
     {
@@ -92,8 +69,6 @@ abstract class AbstractAsset
 
     /**
      * Gets the dependencies.
-     *
-     * @return array
      */
     public function getDependencies(): array
     {
@@ -101,7 +76,7 @@ abstract class AbstractAsset
     }
 
     /**
-     * @return string|array
+     * @return array|string
      */
     public function getSource()
     {
@@ -110,16 +85,9 @@ abstract class AbstractAsset
 
     /**
      * Gets the type.
-     *
-     * @return Data
      */
     public function getOptions(): Data
     {
         return data($this->options);
     }
-
-    /**
-     * @return array
-     */
-    abstract public function load(): array;
 }

@@ -21,13 +21,9 @@ use JBZoo\Assets\Manager;
 use JBZoo\Path\Path;
 use JBZoo\Utils\FS;
 
-/**
- * Class FactoryTest
- * @package JBZoo\PHPUnit
- */
 class FactoryTest extends PHPUnitAssets
 {
-    public function testDefaultParams()
+    public function testDefaultParams(): void
     {
         $params = $this->manager->getParams();
 
@@ -42,7 +38,7 @@ class FactoryTest extends PHPUnitAssets
         ], $params->getArrayCopy());
     }
 
-    public function testReloadParams()
+    public function testReloadParams(): void
     {
         $manager = new Manager(new Path(), [
             'debug'       => true,
@@ -54,14 +50,14 @@ class FactoryTest extends PHPUnitAssets
         isSame(123456, $params->get('some_option'));
     }
 
-    public function testCreateUndefinedAssetType()
+    public function testCreateUndefinedAssetType(): void
     {
         $this->expectException(\JBZoo\Assets\Exception::class);
 
         $this->factory->create('test', 'path/to/my-file.undefined');
     }
 
-    public function testCreateDifferentTypes()
+    public function testCreateDifferentTypes(): void
     {
         // CSS File
         $asset = $this->factory->create('test', 'file.css');
@@ -92,7 +88,7 @@ class FactoryTest extends PHPUnitAssets
         isClass('JBZoo\Assets\Asset\CssCode', $asset);
     }
 
-    public function testCreateSimpleAssets()
+    public function testCreateSimpleAssets(): void
     {
         $asset = $this->factory->create('test', 'path/to/my-file.css');
 
@@ -102,8 +98,7 @@ class FactoryTest extends PHPUnitAssets
         isSame([], $asset->getOptions()->getArrayCopy());
     }
 
-
-    public function testCreateByDependenciesIsString()
+    public function testCreateByDependenciesIsString(): void
     {
         $asset = $this->factory->create('test', '\path\to/my-file.JS', 'uikit');
 
@@ -113,7 +108,7 @@ class FactoryTest extends PHPUnitAssets
         isSame([], $asset->getOptions()->getArrayCopy());
     }
 
-    public function testCreateByDependenciesIsArray()
+    public function testCreateByDependenciesIsArray(): void
     {
         $asset = $this->factory->create('test', '\path\to/my-file.css', ['uikit', 'jquery-ui']);
 
@@ -123,7 +118,7 @@ class FactoryTest extends PHPUnitAssets
         isSame([], $asset->getOptions()->getArrayCopy());
     }
 
-    public function testGetRoot()
+    public function testGetRoot(): void
     {
         $dir = __DIR__;
 
@@ -133,7 +128,7 @@ class FactoryTest extends PHPUnitAssets
 
         isSame(
             FS::clean($dir),
-            FS::clean($manager->getPath()->getRoot())
+            FS::clean($manager->getPath()->getRoot()),
         );
     }
 }

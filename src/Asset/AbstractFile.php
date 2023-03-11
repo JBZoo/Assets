@@ -19,16 +19,12 @@ namespace JBZoo\Assets\Asset;
 use JBZoo\Assets\Exception;
 use JBZoo\Utils\Url;
 
-/**
- * Class AbstractFile
- * @package JBZoo\Assets\Asset
- */
 abstract class AbstractFile extends AbstractAsset
 {
     public const TYPE = 'abstract';
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function load(): array
     {
@@ -38,7 +34,6 @@ abstract class AbstractFile extends AbstractAsset
     /**
      * Find source in variants.
      *
-     * @return string|null
      * @throws Exception
      * @throws \JBZoo\Path\Exception
      */

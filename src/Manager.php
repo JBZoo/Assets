@@ -21,81 +21,46 @@ use JBZoo\Data\Data;
 use JBZoo\Path\Path;
 use JBZoo\Utils\Arr;
 
-/**
- * Class Manager
- * @package JBZoo\Assets
- */
 final class Manager
 {
-    /**
-     * @var Factory
-     */
-    protected Factory $factory;
+    private Factory $factory;
 
-    /**
-     * @var Collection
-     */
-    protected Collection $collection;
+    private Collection $collection;
 
-    /**
-     * @var array
-     */
-    protected array $queued = [];
+    private array $queued = [];
 
-    /**
-     * @var Path
-     */
-    protected Path $path;
+    private Path $path;
 
-    /**
-     * @var Data
-     */
-    protected Data $params;
+    private Data $params;
 
-    /**
-     * @var array
-     */
-    protected array $default = [
+    private array $default = [
         'debug'       => false,
         'strict_mode' => false,
         'less'        => [],
     ];
 
-    /**
-     * Manager constructor.
-     *
-     * @param Path  $path
-     * @param array $params
-     */
     public function __construct(Path $path, array $params = [])
     {
         $this->params = new Data(\array_merge($this->default, $params));
 
-        $this->path = $path;
-        $this->factory = new Factory($this);
+        $this->path       = $path;
+        $this->factory    = new Factory($this);
         $this->collection = new Collection();
     }
 
-    /**
-     * @return Data
-     */
     public function getParams(): Data
     {
         return $this->params;
     }
 
     /**
-     * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function setParam(string $key, $value): void
     {
         $this->params->set($key, $value);
     }
 
-    /**
-     * @return Path
-     */
     public function getPath(): Path
     {
         return $this->path;
@@ -104,10 +69,8 @@ final class Manager
     /**
      * Adds a registered asset or a new asset to the queue.
      *
-     * @param string               $alias
-     * @param string|callable|null $source
-     * @param string|array         $dependencies
-     * @param array                $options
+     * @param  null|callable|string $source
+     * @param  array|string         $dependencies
      * @return $this
      * @throws Exception
      */
@@ -126,22 +89,20 @@ final class Manager
     /**
      * Removes an asset from the queue.
      *
-     * @param string $alias
      * @return $this
      */
     public function remove(string $alias): self
     {
         unset($this->queued[$alias]);
+
         return $this;
     }
 
     /**
      * Registers an asset.
      *
-     * @param string               $alias
-     * @param string|callable|null $source
-     * @param array|string         $dependencies
-     * @param array                $options
+     * @param  null|callable|string $source
+     * @param  array|string         $dependencies
      * @return $this
      * @throws Exception
      */
@@ -156,20 +117,18 @@ final class Manager
     /**
      * Unregisters an asset from collection.
      *
-     * @param string $alias
      * @return $this
      */
     public function unregister(string $alias): self
     {
         $this->collection->remove($alias);
         $this->remove($alias);
+
         return $this;
     }
 
     /**
      * Get asset collections.
-     *
-     * @return Collection
      */
     public function getCollection(): Collection
     {
@@ -178,8 +137,6 @@ final class Manager
 
     /**
      * Get asset collections.
-     *
-     * @return Factory
      */
     public function getFactory(): Factory
     {
@@ -189,12 +146,12 @@ final class Manager
     /**
      * Build assets.
      *
-     * @return array
      * @throws Exception
      */
     public function build(): array
     {
         $assets = [];
+
         foreach (\array_keys($this->queued) as $alias) {
             $this->resolveDependencies($this->collection->get($alias), $assets);
         }
@@ -213,7 +170,7 @@ final class Manager
         foreach ($assets as $asset) {
             $source = $asset->load();
 
-            if (AbstractAsset::TYPE_COLLECTION === $source[0]) {
+            if ($source[0] === AbstractAsset::TYPE_COLLECTION) {
                 $source = $source[1];
             } else {
                 $source = [$source];
@@ -234,13 +191,12 @@ final class Manager
     /**
      * Resolves asset dependencies.
      *
-     * @param AbstractAsset|null $asset
-     * @param AbstractAsset[]    $resolved
-     * @param AbstractAsset[]    $unresolved
+     * @param  AbstractAsset[] $resolved
+     * @param  AbstractAsset[] $unresolved
      * @return AbstractAsset[]
      * @throws Exception
      */
-    protected function resolveDependencies(?AbstractAsset $asset, array &$resolved = [], array &$unresolved = []): array
+    private function resolveDependencies(?AbstractAsset $asset, array &$resolved = [], array &$unresolved = []): array
     {
         if (!$asset) {
             return $resolved;
@@ -254,14 +210,14 @@ final class Manager
                     throw new Exception(\sprintf(
                         'Circular asset dependency "%s > %s" detected.',
                         $asset->getAlias(),
-                        $dependency
+                        $dependency,
                     ));
                 }
 
                 if ($dep = $this->collection->get($dependency)) {
                     $this->resolveDependencies($dep, $resolved, $unresolved);
                 } else {
-                    throw new Exception("Undefined depends: $dependency");
+                    throw new Exception("Undefined depends: {$dependency}");
                 }
             }
         }

@@ -16,10 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\Assets\Asset;
 
-/**
- * Class CssFile
- * @package JBZoo\Assets\Asset
- */
 final class CssFile extends AbstractFile
 {
     public const TYPE = AbstractAsset::TYPE_CSS_FILE;

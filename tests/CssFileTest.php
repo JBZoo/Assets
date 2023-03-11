@@ -19,13 +19,11 @@ namespace JBZoo\PHPUnit;
 use JBZoo\Assets\Asset\AbstractAsset;
 
 /**
- * Class AssetCssFileTest
- * @package JBZoo\PHPUnit
  * @SuppressWarnings(PHPMD.Superglobals)
  */
 class CssFileTest extends PHPUnitAssets
 {
-    public function testCreateAssetLocalPathCSS()
+    public function testCreateAssetLocalPathCSS(): void
     {
         $asset = $this->factory->create('test', 'assets/css/styles.css');
         isClass('JBZoo\Assets\Asset\CssFile', $asset);
@@ -35,7 +33,7 @@ class CssFileTest extends PHPUnitAssets
         isSamePath(PROJECT_TESTS . '/fixtures/assets/css/styles.css', $result[1]);
     }
 
-    public function testCreateAssetExternalPathCSS()
+    public function testCreateAssetExternalPathCSS(): void
     {
         $asset = $this->factory->create('test', 'https://site.com/styles.css?v=4242&var2=qwerty');
         isClass('JBZoo\Assets\Asset\CssFile', $asset);
@@ -44,7 +42,7 @@ class CssFileTest extends PHPUnitAssets
         isSamePath('https://site.com/styles.css?v=4242&var2=qwerty', $result[1]);
     }
 
-    public function testCreateAssetVirtalPathCSS()
+    public function testCreateAssetVirtalPathCSS(): void
     {
         $vpath = 'assets:css/styles.css';
 
@@ -56,7 +54,7 @@ class CssFileTest extends PHPUnitAssets
         isSamePath($this->path->get($vpath), $result[1]);
     }
 
-    public function testCreateUndefinedFile()
+    public function testCreateUndefinedFile(): void
     {
         $vpath = 'assets:css/undefined.css';
 

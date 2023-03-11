@@ -18,15 +18,8 @@ namespace JBZoo\Assets\Asset;
 
 use JBZoo\Assets\Exception;
 
-/**
- * Class Collection
- * @package JBZoo\Assets\Asset
- */
 final class Collection extends AbstractAsset
 {
-    /**
-     * @return array
-     */
     public function load(): array
     {
         $factory = $this->eManager->getFactory();
@@ -35,7 +28,7 @@ final class Collection extends AbstractAsset
         if (\is_array($this->source)) {
             foreach ($this->source as $key => $source) {
                 $subAlias = $this->alias . '-' . $key;
-                $asset = $factory->create($subAlias, $source, $this->dependencies, $this->options);
+                $asset    = $factory->create($subAlias, $source, $this->dependencies, $this->options);
                 $result[] = $asset->load();
             }
         } else {

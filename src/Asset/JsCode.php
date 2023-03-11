@@ -18,19 +18,12 @@ namespace JBZoo\Assets\Asset;
 
 use JBZoo\Assets\Exception;
 
-/**
- * Class JsCode
- * @package JBZoo\Assets\Asset
- */
 class JsCode extends AbstractFile
 {
-    /**
-     * @var string
-     */
     protected string $type = AbstractAsset::TYPE_JS_CODE;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function load(): array
     {

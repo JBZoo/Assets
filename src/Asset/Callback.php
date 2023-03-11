@@ -18,24 +18,18 @@ namespace JBZoo\Assets\Asset;
 
 use JBZoo\Assets\Exception;
 
-/**
- * Class Callback
- * @package JBZoo\Assets\Asset
- */
 final class Callback extends AbstractAsset
 {
-    /**
-     * @psalm-suppress NonInvariantDocblockPropertyType
-     */
+    /** @psalm-suppress NonInvariantDocblockPropertyType */
     protected $source;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function load(): array
     {
         if (!\is_callable($this->source)) {
-            throw new Exception("Source must have callable type");
+            throw new Exception('Source must have callable type');
         }
 
         $result = \call_user_func($this->source, $this);

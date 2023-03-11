@@ -18,15 +18,8 @@ namespace Custom\Assets;
 
 use JBZoo\Assets\Filter\Filter;
 
-/**
- * Class CustomFilter
- * @package Custom\Assets
- */
 class CustomFilter extends Filter
 {
-    /**
-     * @return null
-     */
     public function process()
     {
         return null;

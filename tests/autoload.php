@@ -16,24 +16,22 @@ declare(strict_types=1);
 
 use function JBZoo\PHPUnit\isSame;
 
-if (!defined('ROOT_PATH')) { // for PHPUnit process isolation
-    define('ROOT_PATH', realpath('.'));
+if (!\defined('ROOT_PATH')) { // for PHPUnit process isolation
+    \define('ROOT_PATH', \realpath('.'));
 }
 
 // main autoload
-if ($autoload = realpath('./vendor/autoload.php')) {
+if ($autoload = \realpath('./vendor/autoload.php')) {
     require_once $autoload;
 } else {
-    echo 'Please execute "composer update" !' . PHP_EOL;
+    echo 'Please execute "composer update" !' . \PHP_EOL;
     exit(1);
 }
 
 /**
- * @param             $excpected
- * @param             $actual
- * @param string|null $message
+ * @param null|string $message
  */
-function isSamePath($excpected, $actual, string $message = '')
+function isSamePath($excpected, $actual, string $message = ''): void
 {
     isSame($excpected, $actual, $message);
 }

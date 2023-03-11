@@ -18,19 +18,12 @@ namespace JBZoo\Assets\Asset;
 
 use JBZoo\Assets\Exception;
 
-/**
- * Class CssCode
- * @package JBZoo\Assets\Asset
- */
 final class CssCode extends AbstractAsset
 {
-    /**
-     * @var string
-     */
     protected string $type = AbstractAsset::TYPE_CSS_CODE;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function load(): array
     {

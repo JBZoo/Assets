@@ -16,6 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
-final class PathPhpStormProxyTest extends \JBZoo\Codestyle\PHPUnit\AbstractPhpStormProxyTest
+final class AssetsPhpStormProxyTest extends \JBZoo\Codestyle\PHPUnit\AbstractPhpStormProxyTest
 {
 }

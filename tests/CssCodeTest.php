@@ -19,17 +19,15 @@ namespace JBZoo\PHPUnit;
 use JBZoo\Assets\Asset\AbstractAsset;
 
 /**
- * Class AssetCssCodeTest
- * @package JBZoo\PHPUnit
  * @SuppressWarnings(PHPMD.Superglobals)
  */
 class CssCodeTest extends PHPUnitAssets
 {
-    public function testCreateAssetCssCode()
+    public function testCreateAssetCssCode(): void
     {
-        $cssCode = '  div{color:red;}' . PHP_EOL;
+        $cssCode = '  div{color:red;}' . \PHP_EOL;
 
-        $asset = $this->factory->create('test', $cssCode, [], ['type' => AbstractAsset::TYPE_CSS_CODE]);
+        $asset  = $this->factory->create('test', $cssCode, [], ['type' => AbstractAsset::TYPE_CSS_CODE]);
         $result = $asset->load();
 
         isClass('JBZoo\Assets\Asset\CssCode', $asset);
@@ -37,26 +35,26 @@ class CssCodeTest extends PHPUnitAssets
         isSame('div{color:red;}', $result[1]);
     }
 
-    public function testCreateAssetCssCodeWithTags()
+    public function testCreateAssetCssCodeWithTags(): void
     {
-        $cssCode = 'div{color:red;}';
-        $draftCssCode = PHP_EOL . $cssCode . ' ' . PHP_EOL;
+        $cssCode       = 'div{color:red;}';
+        $draftCssCode  = \PHP_EOL . $cssCode . ' ' . \PHP_EOL;
         $cssCodeTagged = ' <Style>' . $draftCssCode . '</StylE> ';
 
-        $asset = $this->factory->create('test', $cssCodeTagged, [], ['type' => AbstractAsset::TYPE_CSS_CODE]);
+        $asset  = $this->factory->create('test', $cssCodeTagged, [], ['type' => AbstractAsset::TYPE_CSS_CODE]);
         $result = $asset->load();
 
         isSame(AbstractAsset::TYPE_CSS_CODE, $result[0]);
         isSame($draftCssCode, $result[1]);
     }
 
-    public function testCreateAssetCssCodeWithTagsAndAttrs()
+    public function testCreateAssetCssCodeWithTagsAndAttrs(): void
     {
-        $cssCode = 'div{color:red;}';
-        $draftCssCode = '   ' . PHP_EOL . $cssCode . ' ' . PHP_EOL . ' ';
+        $cssCode       = 'div{color:red;}';
+        $draftCssCode  = '   ' . \PHP_EOL . $cssCode . ' ' . \PHP_EOL . ' ';
         $cssCodeTagged = ' <Style someattr="123">' . $draftCssCode . '</StylE> ';
 
-        $asset = $this->factory->create('test', $cssCodeTagged, [], ['type' => AbstractAsset::TYPE_CSS_CODE]);
+        $asset  = $this->factory->create('test', $cssCodeTagged, [], ['type' => AbstractAsset::TYPE_CSS_CODE]);
         $result = $asset->load();
 
         isSame(AbstractAsset::TYPE_CSS_CODE, $result[0]);

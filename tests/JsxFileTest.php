@@ -19,13 +19,11 @@ namespace JBZoo\PHPUnit;
 use JBZoo\Assets\Asset\AbstractAsset;
 
 /**
- * Class AssetJsxFileTest
- * @package JBZoo\PHPUnit
  * @SuppressWarnings(PHPMD.Superglobals)
  */
 class JsxFileTest extends PHPUnitAssets
 {
-    public function testCreateAssetLocalPathJSX()
+    public function testCreateAssetLocalPathJSX(): void
     {
         $asset = $this->factory->create('test', 'assets/jsx/react-component.jsx');
         isClass('JBZoo\Assets\Asset\JsxFile', $asset);

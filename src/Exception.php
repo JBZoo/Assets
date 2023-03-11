@@ -16,10 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\Assets;
 
-/**
- * Class Exception
- * @package JBZoo\Assets
- */
 class Exception extends \RuntimeException
 {
 }

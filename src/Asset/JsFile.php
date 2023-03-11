@@ -16,10 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\Assets\Asset;
 
-/**
- * Class JsFile
- * @package JBZoo\Assets\Asset
- */
 final class JsFile extends AbstractFile
 {
     public const TYPE = AbstractAsset::TYPE_JS_FILE;
