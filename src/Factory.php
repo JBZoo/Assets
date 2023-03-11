@@ -1,16 +1,15 @@
 <?php
 
 /**
- * JBZoo Toolbox - Assets
+ * JBZoo Toolbox - Assets.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    Assets
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/Assets
+ * @see        https://github.com/JBZoo/Assets
  */
 
 declare(strict_types=1);
@@ -18,19 +17,20 @@ declare(strict_types=1);
 namespace JBZoo\Assets;
 
 use JBZoo\Assets\Asset\AbstractAsset;
+use JBZoo\Assets\Asset\Callback as AssetCallback;
+use JBZoo\Assets\Asset\Collection as AssetCollection;
+use JBZoo\Assets\Asset\CssFile;
+use JBZoo\Assets\Asset\JsFile;
+use JBZoo\Assets\Asset\JsxFile;
+use JBZoo\Assets\Asset\LessFile;
 use JBZoo\Data\Data;
 use JBZoo\Utils\FS;
 
-/**
- * Class Factory
- * @package JBZoo\Assets
- */
 final class Factory
 {
-    /**
-     * @var array
-     */
-    protected array $customTypes = [
+    private Manager $eManager;
+
+    private array $customTypes = [
         AbstractAsset::TYPE_CSS_CODE   => 'CssCode',
         AbstractAsset::TYPE_CSS_FILE   => 'CssFile',
         AbstractAsset::TYPE_JS_CODE    => 'JsCode',
@@ -42,23 +42,11 @@ final class Factory
         AbstractAsset::TYPE_COLLECTION => 'Collection',
     ];
 
-    /**
-     * @var Manager
-     */
-    protected Manager $eManager;
-
-    /**
-     * Factory constructor.
-     * @param Manager $manager
-     */
     public function __construct(Manager $manager)
     {
         $this->eManager = $manager;
     }
 
-    /**
-     * @return Manager
-     */
     public function getManager(): Manager
     {
         return $this->eManager;
@@ -66,57 +54,54 @@ final class Factory
 
     /**
      * Create asset instance.
-     *
-     * @param string       $alias
-     * @param mixed        $source
-     * @param string|array $dependencies
-     * @param array        $options
-     * @return AbstractAsset
-     * @throws Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
+     * @suppress PhanUndeclaredClass
      */
-    public function create(string $alias, $source, $dependencies = [], array $options = []): AbstractAsset
-    {
+    public function create(
+        string $alias,
+        \Closure|array|string $source,
+        array|string $dependencies = [],
+        array $options = [],
+    ): AbstractAsset {
         $assetType = $options['type'] ?? '';
 
         if (isset($this->customTypes[$assetType])) {
             $assetType = $this->customTypes[$assetType];
         } elseif (\is_callable($source)) {
-            $assetType = 'Callback';
+            $assetType = AssetCallback::class;
         } elseif (\is_string($source)) {
             $ext = \strtolower(FS::ext($source));
 
             if ($ext === 'js') {
-                $assetType = 'JsFile';
+                $assetType = JsFile::class;
             } elseif ($ext === 'css') {
-                $assetType = 'CssFile';
+                $assetType = CssFile::class;
             } elseif ($ext === 'less') {
-                $assetType = 'LessFile';
+                $assetType = LessFile::class;
             } elseif ($ext === 'jsx') {
-                $assetType = 'JsxFile';
+                $assetType = JsxFile::class;
             }
-        } elseif (\is_array($source)) {
-            $assetType = 'Collection';
+        } else {
+            $assetType = AssetCollection::class;
         }
 
-        $className = __NAMESPACE__ . '\\Asset\\' . $assetType;
-        if (\class_exists($className)) {
-            /** @noinspection CallableParameterUseCaseInTypeContextInspection */
-            $options = new Data($options);
+        $options = new Data($options);
 
-            /** @var AbstractAsset $asset */
-            $asset = new $className($this->getManager(), $alias, $source, $dependencies, $options);
-            return $asset;
+        if (\class_exists($assetType)) {
+            /** @var AbstractAsset $assetType */
+            return new $assetType($this->getManager(), $alias, $source, $dependencies, $options);
         }
 
-        throw new Exception('Undefined asset type: ' . \print_r($source, true));
+        $fallbackClassName = __NAMESPACE__ . '\\Asset\\' . $assetType;
+        if (\class_exists($fallbackClassName)) {
+            /** @var AbstractAsset $fallbackClassName */
+            return new $fallbackClassName($this->getManager(), $alias, $source, $dependencies, $options);
+        }
+
+        throw new Exception('Undefined asset type: ' . $assetType . '; Source: ' . \print_r($source, true));
     }
 
-    /**
-     * @param string $type
-     * @param string $className
-     */
     public function registerType(string $type, string $className): void
     {
         $this->customTypes[$type] = $className;

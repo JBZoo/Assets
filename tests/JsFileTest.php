@@ -1,16 +1,15 @@
 <?php
 
 /**
- * JBZoo Toolbox - Assets
+ * JBZoo Toolbox - Assets.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    Assets
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/Assets
+ * @see        https://github.com/JBZoo/Assets
  */
 
 declare(strict_types=1);
@@ -20,13 +19,11 @@ namespace JBZoo\PHPUnit;
 use JBZoo\Assets\Asset\AbstractAsset;
 
 /**
- * Class AssetJsFileTest
- * @package JBZoo\PHPUnit
  * @SuppressWarnings(PHPMD.Superglobals)
  */
 class JsFileTest extends PHPUnitAssets
 {
-    public function testCreateAssetLocalPathJS()
+    public function testCreateAssetLocalPathJS(): void
     {
         $asset = $this->factory->create('test', 'assets/js/jquery.js');
         isClass('JBZoo\Assets\Asset\JsFile', $asset);
@@ -36,7 +33,7 @@ class JsFileTest extends PHPUnitAssets
         isSamePath(PROJECT_TESTS . '/fixtures/assets/js/jquery.js', $result[1]);
     }
 
-    public function testCreateAssetExternalPathJS()
+    public function testCreateAssetExternalPathJS(): void
     {
         $asset = $this->factory->create('test', 'https://site.com/script.js?v=42');
         isClass('JBZoo\Assets\Asset\JsFile', $asset);
@@ -45,7 +42,7 @@ class JsFileTest extends PHPUnitAssets
         isSamePath('https://site.com/script.js?v=42', $result[1]);
     }
 
-    public function testCreateAssetVirtalPathJS()
+    public function testCreateAssetVirtalPathJS(): void
     {
         $vpath = 'assets:js/script.js';
 
@@ -57,7 +54,7 @@ class JsFileTest extends PHPUnitAssets
         isSamePath($this->path->get($vpath), $result[1]);
     }
 
-    public function testCreateUndefinedFile()
+    public function testCreateUndefinedFile(): void
     {
         $vpath = 'assets:js/undefined.js';
 
@@ -68,7 +65,7 @@ class JsFileTest extends PHPUnitAssets
         isFalse((bool)$result[1]);
     }
 
-    public function testCreateUndefinedFileStrictMode()
+    public function testCreateUndefinedFileStrictMode(): void
     {
         $this->expectException(\JBZoo\Assets\Exception::class);
 

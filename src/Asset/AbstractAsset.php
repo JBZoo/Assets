@@ -1,16 +1,15 @@
 <?php
 
 /**
- * JBZoo Toolbox - Assets
+ * JBZoo Toolbox - Assets.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    Assets
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/Assets
+ * @see        https://github.com/JBZoo/Assets
  */
 
 declare(strict_types=1);
@@ -22,10 +21,6 @@ use JBZoo\Data\Data;
 
 use function JBZoo\Data\data;
 
-/**
- * Class AbstractAsset
- * @package JBZoo\Assets\Asset
- */
 abstract class AbstractAsset
 {
     public const TYPE_JS_FILE    = 'js';
@@ -38,53 +33,30 @@ abstract class AbstractAsset
     public const TYPE_CALLBACK   = 'callback';
     public const TYPE_COLLECTION = 'collection';
 
-    /**
-     * @var string
-     */
-    protected string $alias;
+    protected string                $alias;
+    protected string|array|\Closure $source;
+    protected array                 $dependencies = [];
+    protected array                 $options      = [];
+    protected Manager               $eManager;
 
-    /**
-     * @var string|array
-     */
-    protected $source;
+    abstract public function load(): array;
 
-    /**
-     * @var array
-     */
-    protected array $dependencies = [];
-
-    /**
-     * @var array
-     */
-    protected array $options = [];
-
-    /**
-     * @var Manager
-     */
-    protected Manager $eManager;
-
-    /**
-     * Asset constructor
-     *
-     * @param Manager      $manager
-     * @param string       $alias
-     * @param string|array $source
-     * @param array|string $dependencies
-     * @param Data         $options
-     */
-    public function __construct(Manager $manager, string $alias, $source, $dependencies, Data $options)
-    {
-        $this->eManager = $manager;
-        $this->alias = $alias;
-        $this->source = $source;
+    public function __construct(
+        Manager $manager,
+        string $alias,
+        array|string|\Closure $source,
+        array|string $dependencies,
+        Data $options,
+    ) {
+        $this->eManager     = $manager;
+        $this->alias        = $alias;
+        $this->source       = $source;
         $this->dependencies = (array)$dependencies;
-        $this->options = (array)$options;
+        $this->options      = (array)$options;
     }
 
     /**
      * Gets the name.
-     *
-     * @return string
      */
     public function getAlias(): string
     {
@@ -93,34 +65,22 @@ abstract class AbstractAsset
 
     /**
      * Gets the dependencies.
-     *
-     * @return array
      */
     public function getDependencies(): array
     {
         return $this->dependencies;
     }
 
-    /**
-     * @return string|array
-     */
-    public function getSource()
+    public function getSource(): array|string|\Closure
     {
         return $this->source;
     }
 
     /**
      * Gets the type.
-     *
-     * @return Data
      */
     public function getOptions(): Data
     {
         return data($this->options);
     }
-
-    /**
-     * @return array
-     */
-    abstract public function load(): array;
 }

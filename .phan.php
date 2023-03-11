@@ -1,23 +1,22 @@
 <?php
 
 /**
- * JBZoo Toolbox - Assets
+ * JBZoo Toolbox - Assets.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    Assets
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/Assets
+ * @see        https://github.com/JBZoo/Assets
  */
 
 declare(strict_types=1);
 
-$default = include __DIR__ . '/vendor/jbzoo/codestyle/src/phan/default.php';
+$default = include __DIR__ . '/vendor/jbzoo/codestyle/src/phan.php';
 
-$config = array_merge($default, [
+return \array_merge($default, [
     'directory_list' => [
         'src',
 
@@ -25,7 +24,5 @@ $config = array_merge($default, [
         'vendor/jbzoo/path',
         'vendor/jbzoo/utils',
         'vendor/jbzoo/less',
-    ]
+    ],
 ]);
-
-return $config;
