@@ -28,9 +28,6 @@ if ($autoload = \realpath('./vendor/autoload.php')) {
     exit(1);
 }
 
-/**
- * @param null|string $message
- */
 function isSamePath($excpected, $actual, string $message = ''): void
 {
     isSame($excpected, $actual, $message);
