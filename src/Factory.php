@@ -56,12 +56,13 @@ final class Factory
      * Create asset instance.
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
+     * @suppress PhanUndeclaredClass
      */
     public function create(
         string $alias,
-        mixed $source,
+        \Closure|array|string $source,
         array|string $dependencies = [],
-        array $options = []
+        array $options = [],
     ): AbstractAsset {
         $assetType = $options['type'] ?? '';
 
@@ -81,7 +82,7 @@ final class Factory
             } elseif ($ext === 'jsx') {
                 $assetType = JsxFile::class;
             }
-        } elseif (\is_array($source)) {
+        } else {
             $assetType = AssetCollection::class;
         }
 

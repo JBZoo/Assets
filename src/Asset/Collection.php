@@ -20,6 +20,9 @@ use JBZoo\Assets\Exception;
 
 final class Collection extends AbstractAsset
 {
+    /**
+     * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
+     */
     public function load(): array
     {
         $factory = $this->eManager->getFactory();
@@ -32,7 +35,7 @@ final class Collection extends AbstractAsset
                 $result[] = $asset->load();
             }
         } else {
-            throw new Exception("Source must be array. Current value: {$this->source}");
+            throw new Exception('Source must be array. Current value: ' . \print_r($this->source, true));
         }
 
         return [AbstractAsset::TYPE_COLLECTION, $result];

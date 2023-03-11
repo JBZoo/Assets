@@ -19,7 +19,6 @@ namespace JBZoo\Assets;
 use JBZoo\Assets\Asset\AbstractAsset;
 use JBZoo\Data\Data;
 use JBZoo\Path\Path;
-use JBZoo\Utils\Arr;
 
 final class Manager
 {
@@ -39,8 +38,8 @@ final class Manager
     {
         $this->params = new Data(\array_merge($this->default, $params));
 
-        $this->path = $path;
-        $this->factory = new Factory($this);
+        $this->path       = $path;
+        $this->factory    = new Factory($this);
         $this->collection = new Collection();
     }
 
@@ -64,11 +63,10 @@ final class Manager
      */
     public function add(
         string $alias,
-        array|callable|string $source = null,
+        \Closure|array|string $source = null,
         array|string $dependencies = [],
-        array $options = []
-    ): self
-    {
+        array $options = [],
+    ): self {
         if ($source !== null) {
             $asset = $this->factory->create($alias, $source, $dependencies, $options);
             $this->collection->add($asset);
@@ -94,9 +92,9 @@ final class Manager
      */
     public function register(
         string $alias,
-        array|callable|string $source = null,
+        \Closure|array|string $source,
         array|string $dependencies = [],
-        array $options = []
+        array $options = [],
     ): self {
         $asset = $this->factory->create($alias, $source, $dependencies, $options);
         $this->collection->add($asset);
@@ -133,6 +131,7 @@ final class Manager
 
     /**
      * Build assets.
+     * @suppress PhanPossiblyUndeclaredVariable
      */
     public function build(): array
     {
@@ -165,7 +164,13 @@ final class Manager
             foreach ($source as $sourceItem) {
                 [$type, $src] = $sourceItem;
 
-                if ($src && !Arr::in($src, $result[$type])) {
+                if (
+                    $src !== null
+                    && $src !== ''
+                    && $type !== null
+                    && $type !== ''
+                    && !\in_array($src, $result[$type], true)
+                ) {
                     $result[$type][] = $src;
                 }
             }
@@ -176,13 +181,13 @@ final class Manager
 
     /**
      * Resolves asset dependencies.
-     * @param AbstractAsset[] $resolved
-     * @param AbstractAsset[] $unresolved
+     * @param  AbstractAsset[] $resolved
+     * @param  AbstractAsset[] $unresolved
      * @return AbstractAsset[]
      */
     private function resolveDependencies(?AbstractAsset $asset, array &$resolved = [], array &$unresolved = []): array
     {
-        if (!$asset) {
+        if ($asset === null) {
             return $resolved;
         }
 
@@ -196,11 +201,12 @@ final class Manager
                             'Circular asset dependency "%s > %s" detected.',
                             $asset->getAlias(),
                             $dependency,
-                        )
+                        ),
                     );
                 }
 
-                if ($dep = $this->collection->get($dependency)) {
+                $dep = $this->collection->get($dependency);
+                if ($dep !== null) {
                     $this->resolveDependencies($dep, $resolved, $unresolved);
                 } else {
                     throw new Exception("Undefined depends: {$dependency}");

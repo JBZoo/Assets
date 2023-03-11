@@ -42,8 +42,8 @@ abstract class AbstractFile extends AbstractAsset
         if ($path->isVirtual($this->source)) {
             $path = $path->get($this->source);
 
-            $isStrictMode = $this->eManager->getParams()->get('strict_mode', false, 'bool');
-            if ($isStrictMode && !$path) {
+            $isStrictMode = $this->eManager->getParams()->getBool('strict_mode');
+            if ($isStrictMode && ($path === null || $path === '')) {
                 throw new Exception("Asset file not found: {$this->source}");
             }
 

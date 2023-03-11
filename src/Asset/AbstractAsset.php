@@ -46,13 +46,13 @@ abstract class AbstractAsset
         string $alias,
         array|string|\Closure $source,
         array|string $dependencies,
-        Data $options
+        Data $options,
     ) {
-        $this->eManager = $manager;
-        $this->alias = $alias;
-        $this->source = $source;
+        $this->eManager     = $manager;
+        $this->alias        = $alias;
+        $this->source       = $source;
         $this->dependencies = (array)$dependencies;
-        $this->options = (array)$options;
+        $this->options      = (array)$options;
     }
 
     /**
@@ -71,10 +71,7 @@ abstract class AbstractAsset
         return $this->dependencies;
     }
 
-    /**
-     * @return array|string
-     */
-    public function getSource()
+    public function getSource(): array|string|\Closure
     {
         return $this->source;
     }

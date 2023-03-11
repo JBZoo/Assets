@@ -30,7 +30,8 @@ class JsCode extends AbstractFile
 
         $source = \trim($this->source);
 
-        if ((\stripos($source, '<script') === 0)
+        if (
+            \stripos($source, '<script') === 0
             && \preg_match('#<script.*?>(.*?)</script>#ius', $source, $matches) > 0
         ) {
             $source = $matches[1];

@@ -30,7 +30,8 @@ final class CssCode extends AbstractAsset
 
         $source = \trim($this->source);
 
-        if ((\stripos($source, '<style') === 0)
+        if (
+            \stripos($source, '<style') === 0
             && \preg_match('#<style.*?>(.*?)</style>#ius', $source, $matches) > 0
         ) {
             $source = $matches[1];

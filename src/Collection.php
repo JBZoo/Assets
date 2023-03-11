@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace JBZoo\Assets;
 
-use Countable;
 use JBZoo\Assets\Asset\AbstractAsset;
 
 final class Collection implements \Countable
@@ -58,9 +57,9 @@ final class Collection implements \Countable
     /**
      * Removes assets from collection.
      */
-    public function remove(array|string $name): void
+    public function remove(array|string $namesToRemove): void
     {
-        $names = (array)$name;
+        $names = (array)$namesToRemove;
 
         foreach ($names as $name) {
             if (\array_key_exists($name, $this->assets)) {
