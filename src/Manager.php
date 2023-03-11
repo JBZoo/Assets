@@ -23,15 +23,11 @@ use JBZoo\Utils\Arr;
 
 final class Manager
 {
-    private Factory $factory;
-
+    private Factory    $factory;
     private Collection $collection;
-
-    private array $queued = [];
-
-    private Path $path;
-
-    private Data $params;
+    private array      $queued = [];
+    private Path       $path;
+    private Data       $params;
 
     private array $default = [
         'debug'       => false,
@@ -43,8 +39,8 @@ final class Manager
     {
         $this->params = new Data(\array_merge($this->default, $params));
 
-        $this->path       = $path;
-        $this->factory    = new Factory($this);
+        $this->path = $path;
+        $this->factory = new Factory($this);
         $this->collection = new Collection();
     }
 
@@ -53,10 +49,7 @@ final class Manager
         return $this->params;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function setParam(string $key, $value): void
+    public function setParam(string $key, mixed $value): void
     {
         $this->params->set($key, $value);
     }
@@ -68,13 +61,13 @@ final class Manager
 
     /**
      * Adds a registered asset or a new asset to the queue.
-     *
-     * @param  null|callable|string $source
-     * @param  array|string         $dependencies
-     * @return $this
-     * @throws Exception
      */
-    public function add(string $alias, $source = null, $dependencies = [], array $options = []): self
+    public function add(
+        string $alias,
+        array|callable|string $source = null,
+        array|string $dependencies = [],
+        array $options = []
+    ): self
     {
         if ($source !== null) {
             $asset = $this->factory->create($alias, $source, $dependencies, $options);
@@ -88,8 +81,6 @@ final class Manager
 
     /**
      * Removes an asset from the queue.
-     *
-     * @return $this
      */
     public function remove(string $alias): self
     {
@@ -100,14 +91,13 @@ final class Manager
 
     /**
      * Registers an asset.
-     *
-     * @param  null|callable|string $source
-     * @param  array|string         $dependencies
-     * @return $this
-     * @throws Exception
      */
-    public function register(string $alias, $source = null, $dependencies = [], array $options = []): self
-    {
+    public function register(
+        string $alias,
+        array|callable|string $source = null,
+        array|string $dependencies = [],
+        array $options = []
+    ): self {
         $asset = $this->factory->create($alias, $source, $dependencies, $options);
         $this->collection->add($asset);
 
@@ -116,8 +106,6 @@ final class Manager
 
     /**
      * Unregisters an asset from collection.
-     *
-     * @return $this
      */
     public function unregister(string $alias): self
     {
@@ -145,8 +133,6 @@ final class Manager
 
     /**
      * Build assets.
-     *
-     * @throws Exception
      */
     public function build(): array
     {
@@ -190,11 +176,9 @@ final class Manager
 
     /**
      * Resolves asset dependencies.
-     *
-     * @param  AbstractAsset[] $resolved
-     * @param  AbstractAsset[] $unresolved
+     * @param AbstractAsset[] $resolved
+     * @param AbstractAsset[] $unresolved
      * @return AbstractAsset[]
-     * @throws Exception
      */
     private function resolveDependencies(?AbstractAsset $asset, array &$resolved = [], array &$unresolved = []): array
     {
@@ -207,11 +191,13 @@ final class Manager
         foreach ($asset->getDependencies() as $dependency) {
             if (!\array_key_exists($dependency, $resolved)) {
                 if (isset($unresolved[$dependency])) {
-                    throw new Exception(\sprintf(
-                        'Circular asset dependency "%s > %s" detected.',
-                        $asset->getAlias(),
-                        $dependency,
-                    ));
+                    throw new Exception(
+                        \sprintf(
+                            'Circular asset dependency "%s > %s" detected.',
+                            $asset->getAlias(),
+                            $dependency,
+                        )
+                    );
                 }
 
                 if ($dep = $this->collection->get($dependency)) {

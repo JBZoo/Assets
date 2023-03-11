@@ -17,11 +17,19 @@ declare(strict_types=1);
 namespace JBZoo\Assets;
 
 use JBZoo\Assets\Asset\AbstractAsset;
+use JBZoo\Assets\Asset\Callback as AssetCallback;
+use JBZoo\Assets\Asset\Collection as AssetCollection;
+use JBZoo\Assets\Asset\CssFile;
+use JBZoo\Assets\Asset\JsFile;
+use JBZoo\Assets\Asset\JsxFile;
+use JBZoo\Assets\Asset\LessFile;
 use JBZoo\Data\Data;
 use JBZoo\Utils\FS;
 
 final class Factory
 {
+    private Manager $eManager;
+
     private array $customTypes = [
         AbstractAsset::TYPE_CSS_CODE   => 'CssCode',
         AbstractAsset::TYPE_CSS_FILE   => 'CssFile',
@@ -33,8 +41,6 @@ final class Factory
         AbstractAsset::TYPE_CALLBACK   => 'Callback',
         AbstractAsset::TYPE_COLLECTION => 'Collection',
     ];
-
-    private Manager $eManager;
 
     public function __construct(Manager $manager)
     {
@@ -48,47 +54,51 @@ final class Factory
 
     /**
      * Create asset instance.
-     *
-     * @param  mixed        $source
-     * @param  array|string $dependencies
-     * @throws Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
      */
-    public function create(string $alias, $source, $dependencies = [], array $options = []): AbstractAsset
-    {
+    public function create(
+        string $alias,
+        mixed $source,
+        array|string $dependencies = [],
+        array $options = []
+    ): AbstractAsset {
         $assetType = $options['type'] ?? '';
 
         if (isset($this->customTypes[$assetType])) {
             $assetType = $this->customTypes[$assetType];
         } elseif (\is_callable($source)) {
-            $assetType = 'Callback';
+            $assetType = AssetCallback::class;
         } elseif (\is_string($source)) {
             $ext = \strtolower(FS::ext($source));
 
             if ($ext === 'js') {
-                $assetType = 'JsFile';
+                $assetType = JsFile::class;
             } elseif ($ext === 'css') {
-                $assetType = 'CssFile';
+                $assetType = CssFile::class;
             } elseif ($ext === 'less') {
-                $assetType = 'LessFile';
+                $assetType = LessFile::class;
             } elseif ($ext === 'jsx') {
-                $assetType = 'JsxFile';
+                $assetType = JsxFile::class;
             }
         } elseif (\is_array($source)) {
-            $assetType = 'Collection';
+            $assetType = AssetCollection::class;
         }
 
-        $className = __NAMESPACE__ . '\\Asset\\' . $assetType;
-        if (\class_exists($className)) {
-            /** @noinspection CallableParameterUseCaseInTypeContextInspection */
-            $options = new Data($options);
+        $options = new Data($options);
 
-            /** @var AbstractAsset $asset */
-            return new $className($this->getManager(), $alias, $source, $dependencies, $options);
+        if (\class_exists($assetType)) {
+            /** @var AbstractAsset $assetType */
+            return new $assetType($this->getManager(), $alias, $source, $dependencies, $options);
         }
 
-        throw new Exception('Undefined asset type: ' . \print_r($source, true));
+        $fallbackClassName = __NAMESPACE__ . '\\Asset\\' . $assetType;
+        if (\class_exists($fallbackClassName)) {
+            /** @var AbstractAsset $fallbackClassName */
+            return new $fallbackClassName($this->getManager(), $alias, $source, $dependencies, $options);
+        }
+
+        throw new Exception('Undefined asset type: ' . $assetType . '; Source: ' . \print_r($source, true));
     }
 
     public function registerType(string $type, string $className): void

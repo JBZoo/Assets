@@ -22,9 +22,6 @@ class JsCode extends AbstractFile
 {
     protected string $type = AbstractAsset::TYPE_JS_CODE;
 
-    /**
-     * {@inheritDoc}
-     */
     public function load(): array
     {
         if (!\is_string($this->source)) {
@@ -33,7 +30,9 @@ class JsCode extends AbstractFile
 
         $source = \trim($this->source);
 
-        if ((\stripos($source, '<script') === 0) && \preg_match('#<script.*?>(.*?)</script>#ius', $source, $matches)) {
+        if ((\stripos($source, '<script') === 0)
+            && \preg_match('#<script.*?>(.*?)</script>#ius', $source, $matches) > 0
+        ) {
             $source = $matches[1];
         }
 

@@ -23,10 +23,9 @@ final class Collection implements \Countable
 {
     /**
      * Holds registered assets.
-     *
      * @var AbstractAsset[]
      */
-    private array $assets = [];
+    private array $assets;
 
     public function __construct(array $assets = [])
     {
@@ -35,8 +34,6 @@ final class Collection implements \Countable
 
     /**
      * Adds asset to collection.
-     *
-     * @return $this
      */
     public function add(AbstractAsset $asset): self
     {
@@ -60,14 +57,11 @@ final class Collection implements \Countable
 
     /**
      * Removes assets from collection.
-     *
-     * @param array|string $name
      */
-    public function remove($name): void
+    public function remove(array|string $name): void
     {
         $names = (array)$name;
 
-        /** @noinspection SuspiciousLoopInspection */
         foreach ($names as $name) {
             if (\array_key_exists($name, $this->assets)) {
                 unset($this->assets[$name]);

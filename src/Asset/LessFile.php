@@ -22,9 +22,6 @@ final class LessFile extends AbstractFile
 {
     public const TYPE = AbstractAsset::TYPE_LESS_FILE;
 
-    /**
-     * {@inheritDoc}
-     */
     public function load(): array
     {
         $result   = parent::load();

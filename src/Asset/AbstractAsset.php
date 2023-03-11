@@ -33,30 +33,26 @@ abstract class AbstractAsset
     public const TYPE_CALLBACK   = 'callback';
     public const TYPE_COLLECTION = 'collection';
 
-    protected string $alias;
-
-    /** @var array|string */
-    protected $source;
-
-    protected array $dependencies = [];
-
-    protected array $options = [];
-
-    protected Manager $eManager;
+    protected string                $alias;
+    protected string|array|\Closure $source;
+    protected array                 $dependencies = [];
+    protected array                 $options      = [];
+    protected Manager               $eManager;
 
     abstract public function load(): array;
 
-    /**
-     * @param array|string $source
-     * @param array|string $dependencies
-     */
-    public function __construct(Manager $manager, string $alias, $source, $dependencies, Data $options)
-    {
-        $this->eManager     = $manager;
-        $this->alias        = $alias;
-        $this->source       = $source;
+    public function __construct(
+        Manager $manager,
+        string $alias,
+        array|string|\Closure $source,
+        array|string $dependencies,
+        Data $options
+    ) {
+        $this->eManager = $manager;
+        $this->alias = $alias;
+        $this->source = $source;
         $this->dependencies = (array)$dependencies;
-        $this->options      = (array)$options;
+        $this->options = (array)$options;
     }
 
     /**

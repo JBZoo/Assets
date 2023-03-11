@@ -23,9 +23,6 @@ abstract class AbstractFile extends AbstractAsset
 {
     public const TYPE = 'abstract';
 
-    /**
-     * {@inheritDoc}
-     */
     public function load(): array
     {
         return [static::TYPE, $this->findSource()];
@@ -33,9 +30,6 @@ abstract class AbstractFile extends AbstractAsset
 
     /**
      * Find source in variants.
-     *
-     * @throws Exception
-     * @throws \JBZoo\Path\Exception
      */
     protected function findSource(): ?string
     {

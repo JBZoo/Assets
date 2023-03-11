@@ -20,12 +20,8 @@ use JBZoo\Assets\Exception;
 
 final class Callback extends AbstractAsset
 {
-    /** @psalm-suppress NonInvariantDocblockPropertyType */
-    protected $source;
+    protected string|array|\Closure $source;
 
-    /**
-     * {@inheritDoc}
-     */
     public function load(): array
     {
         if (!\is_callable($this->source)) {
