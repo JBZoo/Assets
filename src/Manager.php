@@ -63,7 +63,7 @@ final class Manager
      */
     public function add(
         string $alias,
-        \Closure|array|string $source = null,
+        \Closure|array|string|null $source = null,
         array|string $dependencies = [],
         array $options = [],
     ): self {
