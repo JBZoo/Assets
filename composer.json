@@ -30,14 +30,14 @@
     "require"           : {
         "php"         : "^8.1",
 
-        "jbzoo/utils" : "7.x-dev",
-        "jbzoo/path"  : "7.x-dev",
-        "jbzoo/less"  : "7.x-dev",
-        "jbzoo/data"  : "7.x-dev"
+        "jbzoo/utils" : "^7.0",
+        "jbzoo/path"  : "^7.0",
+        "jbzoo/less"  : "^7.0",
+        "jbzoo/data"  : "^7.0"
     },
 
     "require-dev"       : {
-        "jbzoo/toolbox-dev"  : "7.x-dev",
+        "jbzoo/toolbox-dev"  : "^7.0",
         "symfony/filesystem" : ">=5.2.3"
     },
 
