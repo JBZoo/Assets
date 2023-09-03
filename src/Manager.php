@@ -17,16 +17,17 @@ declare(strict_types=1);
 namespace JBZoo\Assets;
 
 use JBZoo\Assets\Asset\AbstractAsset;
+use JBZoo\Data\AbstractData;
 use JBZoo\Data\Data;
 use JBZoo\Path\Path;
 
 final class Manager
 {
-    private Factory    $factory;
-    private Collection $collection;
-    private array      $queued = [];
-    private Path       $path;
-    private Data       $params;
+    private Factory      $factory;
+    private Collection   $collection;
+    private array        $queued = [];
+    private Path         $path;
+    private AbstractData $params;
 
     private array $default = [
         'debug'       => false,
@@ -43,14 +44,14 @@ final class Manager
         $this->collection = new Collection();
     }
 
-    public function getParams(): Data
+    public function getParams(): AbstractData
     {
         return $this->params;
     }
 
     public function setParam(string $key, mixed $value): void
     {
-        $this->params->set($key, $value);
+        $this->params = $this->params->set($key, $value);
     }
 
     public function getPath(): Path
