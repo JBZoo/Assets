@@ -52,7 +52,7 @@ abstract class AbstractAsset
         $this->alias        = $alias;
         $this->source       = $source;
         $this->dependencies = (array)$dependencies;
-        $this->options      = (array)$options;
+        $this->options      = $options->getArrayCopy();
     }
 
     /**
