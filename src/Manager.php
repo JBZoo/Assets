@@ -50,7 +50,7 @@ final class Manager
 
     public function setParam(string $key, mixed $value): void
     {
-        $this->params->set($key, $value);
+        $this->params = $this->params->set($key, $value);
     }
 
     public function getPath(): Path
