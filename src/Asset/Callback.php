@@ -20,7 +20,7 @@ use JBZoo\Assets\Exception;
 
 final class Callback extends AbstractAsset
 {
-    protected string|array|\Closure $source;
+    protected array|\Closure|string $source;
 
     public function load(): array
     {

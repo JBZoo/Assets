@@ -34,7 +34,7 @@ abstract class AbstractAsset
     public const TYPE_COLLECTION = 'collection';
 
     protected string                $alias;
-    protected string|array|\Closure $source;
+    protected array|\Closure|string $source;
     protected array                 $dependencies = [];
     protected array                 $options      = [];
     protected Manager               $eManager;
@@ -44,7 +44,7 @@ abstract class AbstractAsset
     public function __construct(
         Manager $manager,
         string $alias,
-        array|string|\Closure $source,
+        array|\Closure|string $source,
         array|string $dependencies,
         Data $options,
     ) {
@@ -71,7 +71,7 @@ abstract class AbstractAsset
         return $this->dependencies;
     }
 
-    public function getSource(): array|string|\Closure
+    public function getSource(): array|\Closure|string
     {
         return $this->source;
     }

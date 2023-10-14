@@ -60,7 +60,7 @@ final class Factory
      */
     public function create(
         string $alias,
-        \Closure|array|string $source,
+        array|\Closure|string $source,
         array|string $dependencies = [],
         array $options = [],
     ): AbstractAsset {
