@@ -64,7 +64,7 @@ final class Manager
      */
     public function add(
         string $alias,
-        \Closure|array|string|null $source = null,
+        null|array|\Closure|string $source = null,
         array|string $dependencies = [],
         array $options = [],
     ): self {
@@ -93,7 +93,7 @@ final class Manager
      */
     public function register(
         string $alias,
-        \Closure|array|string $source,
+        array|\Closure|string $source,
         array|string $dependencies = [],
         array $options = [],
     ): self {
