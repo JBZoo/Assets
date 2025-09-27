@@ -18,6 +18,9 @@ namespace JBZoo\Assets\Asset;
 
 use JBZoo\Assets\Exception;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 final class CssCode extends AbstractAsset
 {
     protected string $type = AbstractAsset::TYPE_CSS_CODE;

@@ -29,15 +29,13 @@ final class Manager
     private Path         $path;
     private AbstractData $params;
 
-    private array $default = [
-        'debug'       => false,
-        'strict_mode' => false,
-        'less'        => [],
-    ];
-
     public function __construct(Path $path, array $params = [])
     {
-        $this->params = new Data(\array_merge($this->default, $params));
+        $this->params = new Data(\array_merge([
+            'debug'       => false,
+            'strict_mode' => false,
+            'less'        => [],
+        ], $params));
 
         $this->path       = $path;
         $this->factory    = new Factory($this);
@@ -64,7 +62,7 @@ final class Manager
      */
     public function add(
         string $alias,
-        null|array|\Closure|string $source = null,
+        array|\Closure|string|null $source = null,
         array|string $dependencies = [],
         array $options = [],
     ): self {
@@ -132,7 +130,6 @@ final class Manager
 
     /**
      * Build assets.
-     * @suppress PhanPossiblyUndeclaredVariable
      */
     public function build(): array
     {
@@ -152,7 +149,6 @@ final class Manager
             AbstractAsset::TYPE_CALLBACK => [],
         ];
 
-        /** @var AbstractAsset $asset */
         foreach ($assets as $asset) {
             $source = $asset->load();
 
@@ -182,14 +178,13 @@ final class Manager
 
     /**
      * Resolves asset dependencies.
-     * @param  AbstractAsset[] $resolved
-     * @param  AbstractAsset[] $unresolved
-     * @return AbstractAsset[]
+     * @param AbstractAsset[] $resolved
+     * @param AbstractAsset[] $unresolved
      */
-    private function resolveDependencies(?AbstractAsset $asset, array &$resolved = [], array &$unresolved = []): array
+    private function resolveDependencies(?AbstractAsset $asset, array &$resolved = [], array &$unresolved = []): void
     {
         if ($asset === null) {
-            return $resolved;
+            return;
         }
 
         $unresolved[$asset->getAlias()] = $asset;
@@ -217,7 +212,5 @@ final class Manager
 
         $resolved[$asset->getAlias()] = $asset;
         unset($unresolved[$asset->getAlias()]);
-
-        return $resolved;
     }
 }

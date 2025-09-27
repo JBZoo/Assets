@@ -57,6 +57,7 @@ final class Factory
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
      * @suppress PhanUndeclaredClass
+     * @psalm-suppress UnsafeInstantiation
      */
     public function create(
         string $alias,
@@ -89,13 +90,13 @@ final class Factory
         $options = new Data($options);
 
         if (\class_exists($assetType)) {
-            /** @var AbstractAsset $assetType */
+            /** @var class-string<AbstractAsset> $assetType */
             return new $assetType($this->getManager(), $alias, $source, $dependencies, $options);
         }
 
-        $fallbackClassName = __NAMESPACE__ . '\\Asset\\' . $assetType;
+        $fallbackClassName = __NAMESPACE__ . '\Asset\\' . $assetType;
         if (\class_exists($fallbackClassName)) {
-            /** @var AbstractAsset $fallbackClassName */
+            /** @var class-string<AbstractAsset> $fallbackClassName */
             return new $fallbackClassName($this->getManager(), $alias, $source, $dependencies, $options);
         }
 
