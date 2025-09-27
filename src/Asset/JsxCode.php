@@ -16,6 +16,9 @@ declare(strict_types=1);
 
 namespace JBZoo\Assets\Asset;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 final class JsxCode extends JsCode
 {
     protected string $type = AbstractAsset::TYPE_JSX_CODE;

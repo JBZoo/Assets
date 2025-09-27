@@ -28,17 +28,17 @@
     "prefer-stable"     : true,
 
     "require"           : {
-        "php"         : "^8.1",
+        "php"         : "^8.2",
 
-        "jbzoo/utils" : "^7.1",
-        "jbzoo/path"  : "^7.0",
-        "jbzoo/less"  : "^7.0",
-        "jbzoo/data"  : "^7.1"
+        "jbzoo/utils" : "^7.3",
+        "jbzoo/path"  : "^7.0.1",
+        "jbzoo/less"  : "^7.0.1",
+        "jbzoo/data"  : "^7.2"
     },
 
     "require-dev"       : {
-        "jbzoo/toolbox-dev"  : "^7.1",
-        "symfony/filesystem" : ">=6.4.0"
+        "jbzoo/toolbox-dev"  : "^7.2",
+        "symfony/filesystem" : ">=7.3.2"
     },
 
     "autoload"          : {
