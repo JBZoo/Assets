@@ -21,7 +21,7 @@ use JBZoo\Utils\Url;
 
 abstract class AbstractFile extends AbstractAsset
 {
-    public const TYPE = 'abstract';
+    public const string TYPE = 'abstract';
 
     public function load(): array
     {
