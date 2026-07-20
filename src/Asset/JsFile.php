@@ -18,5 +18,5 @@ namespace JBZoo\Assets\Asset;
 
 final class JsFile extends AbstractFile
 {
-    public const TYPE = AbstractAsset::TYPE_JS_FILE;
+    public const string TYPE = AbstractAsset::TYPE_JS_FILE;
 }

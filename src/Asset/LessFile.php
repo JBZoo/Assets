@@ -20,7 +20,7 @@ use JBZoo\Less\Less;
 
 final class LessFile extends AbstractFile
 {
-    public const TYPE = AbstractAsset::TYPE_LESS_FILE;
+    public const string TYPE = AbstractAsset::TYPE_LESS_FILE;
 
     public function load(): array
     {

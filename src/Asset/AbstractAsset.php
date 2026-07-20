@@ -23,15 +23,15 @@ use function JBZoo\Data\data;
 
 abstract class AbstractAsset
 {
-    public const TYPE_JS_FILE    = 'js';
-    public const TYPE_JS_CODE    = 'js_code';
-    public const TYPE_JSX_FILE   = 'jsx';
-    public const TYPE_JSX_CODE   = 'jsx_code';
-    public const TYPE_CSS_FILE   = 'css';
-    public const TYPE_CSS_CODE   = 'css_code';
-    public const TYPE_LESS_FILE  = 'less';
-    public const TYPE_CALLBACK   = 'callback';
-    public const TYPE_COLLECTION = 'collection';
+    public const string TYPE_JS_FILE    = 'js';
+    public const string TYPE_JS_CODE    = 'js_code';
+    public const string TYPE_JSX_FILE   = 'jsx';
+    public const string TYPE_JSX_CODE   = 'jsx_code';
+    public const string TYPE_CSS_FILE   = 'css';
+    public const string TYPE_CSS_CODE   = 'css_code';
+    public const string TYPE_LESS_FILE  = 'less';
+    public const string TYPE_CALLBACK   = 'callback';
+    public const string TYPE_COLLECTION = 'collection';
 
     protected string                $alias;
     protected array|\Closure|string $source;

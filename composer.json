@@ -28,17 +28,17 @@
     "prefer-stable"     : true,
 
     "require"           : {
-        "php"         : "^8.2",
+        "php"         : "^8.3",
 
-        "jbzoo/utils" : "^7.3",
-        "jbzoo/path"  : "^7.0.1",
-        "jbzoo/less"  : "^7.0.1",
-        "jbzoo/data"  : "^7.2"
+        "jbzoo/utils" : "^8.0",
+        "jbzoo/path"  : "^8.0",
+        "jbzoo/less"  : "^8.0",
+        "jbzoo/data"  : "^8.0"
     },
 
     "require-dev"       : {
-        "jbzoo/toolbox-dev"  : "^7.2",
-        "symfony/filesystem" : ">=7.3.2"
+        "jbzoo/toolbox-dev"  : "^8.0",
+        "symfony/filesystem" : ">=7.3.4"
     },
 
     "autoload"          : {
@@ -56,7 +56,7 @@
 
     "extra"             : {
         "branch-alias" : {
-            "dev-master" : "7.x-dev"
+            "dev-master" : "8.x-dev"
         }
     }
 }
