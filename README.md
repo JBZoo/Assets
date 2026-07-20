@@ -340,7 +340,7 @@ try {
 
 ## Requirements
 
-- PHP 8.2 or higher
+- PHP 8.3 or higher
 - JBZoo Utils package
 - JBZoo Path package
 - JBZoo Data package
